@@ -1,0 +1,27 @@
+{
+  "generator-react-firebase": {
+    "promptValues": {
+      "githubUser": "thanhhai1999",
+      "includeRedux": true,
+      "includeFirestore": true,
+      "otherFeatures": [
+        "Continuous Integration config",
+        "Firebase Cloud Messaging",
+        "Firebase Functions (with ESNext support)",
+        "Tests for Firebase Functions (Mocha/Chai or Jest)",
+        "Firebase Analytics",
+        "Error Tracking (Sentry.io)",
+        "Client Side Error Reporting (Stackdriver)"
+      ],
+      "functionsTestTool": "mocha",
+      "typescriptCloudFunctions": true,
+      "firebaseKey": "AAAAvLnKaAE:APA91bGLXLGck7sLNzvDWdOdD2N08WUGxJKY_sjEgf9ykrxMHNM48Kq1S8aATQzstFHP1tqSNnJkTXhNMsIL7c8aZCttjvxWVliGLT0ZlLdy1eYzsKjgLD2w8bN6e9qVQ-_EfcbddrHp\t",
+      "firebaseProjectId": "staye-32717",
+      "messagingSenderId": "810570901505",
+      "appId": "1:810570901505:web:aeac2d4d36747766b0f800",
+      "measurementId": "",
+      "firebasePublicVapidKey": "",
+      "ciProvider": "githubActions"
+    }
+  }
+}

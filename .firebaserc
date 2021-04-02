@@ -1,0 +1,7 @@
+{
+  "projects": {
+    "default": "staye-32717",
+    "master": "staye-32717",
+    "prod": "staye-32717"
+  }
+}
