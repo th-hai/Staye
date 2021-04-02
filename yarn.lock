@@ -7445,11 +7445,6 @@ ignore@^5.1.1, ignore@^5.1.4:
   resolved "https://registry.yarnpkg.com/ignore/-/ignore-5.1.8.tgz#f150a8b50a34289b33e22f5889abd4d8016f0e57"
   integrity sha512-BMpfD7PpiETpBl/A6S498BaIJ6Y/ABT93ETbby2fP00v4EbvPBXWEoaR1UBPKs3iR53pJY7EtZk5KACI57i1Uw==
 
-immer@3.2.0:
-  version "3.2.0"
-  resolved "https://registry.yarnpkg.com/immer/-/immer-3.2.0.tgz#53686471e9dd2b070e0fb5500c6fdecd3a99375f"
-  integrity sha512-+a2R8z9eELHst6aht++nzVzJ8LJ+Hsg49qttfg9Kc/vmoxEdPXw5/rV6+4DYWGgnq+B36KbLr4OTaGtS9mDjtg==
-
 immer@8.0.1:
   version "8.0.1"
   resolved "https://registry.yarnpkg.com/immer/-/immer-8.0.1.tgz#9c73db683e2b3975c424fb0572af5889877ae656"
@@ -12108,13 +12103,13 @@ redux-auth-wrapper@^2.1.0:
     prop-types "^15.5.0"
     query-string "^5.1.1"
 
-redux-firestore@^0.11.0:
-  version "0.11.0"
-  resolved "https://registry.yarnpkg.com/redux-firestore/-/redux-firestore-0.11.0.tgz#d4f63ec2c1334d2898884f928eaa51bbd29d446d"
-  integrity sha512-acIp0thyVtVsmowI7IAOJzW4EcsmMDYXpxlIjSu1lUF+pmqh2HXKeTB1q/RHpICI5eYFVUuo4f5mpM+Zm6Vuhg==
+redux-firestore@^0.15.0:
+  version "0.15.0"
+  resolved "https://registry.yarnpkg.com/redux-firestore/-/redux-firestore-0.15.0.tgz#643280ed5dad84bc38ad64eb17155c88d703988f"
+  integrity sha512-t93CL6UIoycpg/zIQy7ZkZkvX0IUjlOLG9xtCrcStydoNijzv8rAMzEJmLxHh1RKzsQ8RBH4G556/zlxR1dXcA==
   dependencies:
-    immer "3.2.0"
-    lodash "^4.17.15"
+    immer "8.0.1"
+    lodash "^4.17.20"
     reduce-reducers "^1.0.4"
 
 redux-thunk@^2.3.0:
