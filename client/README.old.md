@@ -1,1 +1,0 @@
-This folder is for client side, please implement all the features in here!
