@@ -16,6 +16,7 @@ export default function NotFound() {
       <H1>
         <FormattedMessage {...messages.header} />
       </H1>
+     
     </article>
   );
 }
