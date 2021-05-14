@@ -10,6 +10,9 @@ const categorySchema = mongoose.Schema(
     },
     description: {
       type: String,
+    },
+    thumbnail: {
+      type: String
     }
   }
 );
@@ -17,6 +20,17 @@ const categorySchema = mongoose.Schema(
 // add plugin that converts mongoose to json
 categorySchema.plugin(toJSON);
 categorySchema.plugin(paginate);
+
+/**
+ * Check if category is taken
+ * @param {string} name - The category name
+ * @param {ObjectId} [excludeCategoryId] - The id of the category to be excluded
+ * @returns {Promise<boolean>}
+ */
+ categorySchema.statics.isCategoryTaken = async function (name, excludeCategoryId) {
+  const category = await this.findOne({ name, _id: { $ne: excludeCategoryId } });
+  return !!category;
+};
 
 /**
  * @typedef Category
