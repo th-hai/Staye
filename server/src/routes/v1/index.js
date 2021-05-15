@@ -5,6 +5,7 @@ const roomRoute = require('./room.route');
 const locationRoute = require('./location.route');
 const bookingRoute = require('./booking.route');
 const categoryRoute = require('./category.route');
+const amenityRoute = require('./amenity.route');
 const docsRoute = require('./docs.route');
 const config = require('../../config/config');
 
@@ -34,6 +35,10 @@ const defaultRoutes = [
   {
     path: '/categories',
     route: categoryRoute,
+  },
+  {
+    path: '/amenities',
+    route: amenityRoute,
   },
 ];
 

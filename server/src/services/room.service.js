@@ -8,9 +8,9 @@ const ApiError = require('../utils/ApiError');
  * @returns {Promise<Room>}
  */
 const createRoom = async (roomBody) => {
-//   if (await Room.isRoomNameTaken(roomBody.name)) {
-//     throw new ApiError(httpStatus.BAD_REQUEST, 'Name is already taken');
-//   }
+  if (await Room.isRoomNameTaken(roomBody.name)) {
+    throw new ApiError(httpStatus.BAD_REQUEST, 'Name is already taken');
+  }
   const room = await Room.create(roomBody);
   return room;
 };

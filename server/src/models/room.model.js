@@ -33,9 +33,9 @@ const roomSchema = mongoose.Schema(
       type: Number,
       required: true
     },
-    services: [{
+    amenities: [{
       type: mongoose.Schema.Types.ObjectId,
-      ref: 'Service'
+      ref: 'Amenity'
     }],
     roomCategory: {
       type: mongoose.Schema.Types.ObjectId,
@@ -67,6 +67,17 @@ const roomSchema = mongoose.Schema(
 // add plugin that converts mongoose to json
 roomSchema.plugin(toJSON);
 roomSchema.plugin(paginate);
+
+/**
+ * Check if room is taken
+ * @param {string} name - The room name
+ * @param {ObjectId} [excludeRoomId] - The id of the room to be excluded
+ * @returns {Promise<boolean>}
+ */
+ roomSchema.statics.isRoomNameTaken = async function (name, excludeRoomId) {
+  const room = await this.findOne({ name, _id: { $ne: excludeRoomId } });
+  return !!room;
+};
 
 /**
  * @typedef Room
