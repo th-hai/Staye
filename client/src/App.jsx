@@ -1,18 +1,18 @@
 import React from 'react'
 import { Switch, Route } from 'react-router-dom'
 import { connect } from 'react-redux'
-import { Button } from 'antd'
 
-import './App.css'
+import MainLayout from './app/components/Layout/MainLayout'
 
 const App = ({ loading }) => {
   return (
     <>
       <Switch>
-        <Route path="/">
-          <h1 className="text-red-500">Hi there</h1>
-          {!loading && <Button>Btn</Button>}
+        <Route path="/" component={MainLayout}>
         </Route>
+        <MainLayout>
+
+        </MainLayout>
       </Switch>
     </>
   )
