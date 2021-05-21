@@ -1,3 +1,9 @@
-/* @tailwind base; */
+@tailwind base;
+
 @tailwind components;
+
 @tailwind utilities;
+
+.content-area {
+    minHeight: calc(100vh - theme('spacing.48'));
+  }

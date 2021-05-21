@@ -6,16 +6,16 @@ import { Layout } from 'antd'
 import Footer from '../Footer'
 
 const MainLayout = ({ children }) => {
-  const mainContent = window.innerHeight - 200
+  const mainContent = window.innerHeight - 160
   return (
     <div className="w-full h-screen font-sans no-underline">
       <div className="w-full">
         <TopNav />
       </div>
-      <div style={{ minHeight: mainContent }}>{children}</div>
-      <div>
+      <div className="content-area min-h-screen">{children}</div>
+      <>
         <Footer />
-      </div>
+      </>
     </div>
   )
 }
