@@ -1,23 +1,25 @@
 import React from 'react'
 import { Switch, Route } from 'react-router-dom'
 import { connect } from 'react-redux'
+import { Button } from 'antd'
 
+import './App.css'
 import MainLayout from './app/components/Layout/MainLayout'
+import RoomList from './app/containers/RoomList'
 
-const App = ({ loading }) => {
+
+const App = () => {
   return (
     <>
       <Switch>
-        <Route path="/" component={MainLayout}>
+        <Route path="/">
+          <MainLayout>
+            <Route path="/" component={RoomList} />
+          </MainLayout>
         </Route>
-        <MainLayout>
-
-        </MainLayout>
       </Switch>
     </>
   )
 }
 
-export default connect(state => ({
-  loading: state.common.loading
-}))(App)
+export default App

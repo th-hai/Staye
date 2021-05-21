@@ -1,11 +1,11 @@
 import axios from 'axios';
 import { getJwt } from './authUtils';
-
 const getDefaultConfig = () => {
   const jwt = getJwt();
+  const BASE_URL = process.env.REACT_APP_API_ENDPOINT
   const authorizationHeader = jwt ? { Authorization: `Bearer ${jwt}` } : {};
   return {
-    baseURL: process.env.API_ENDPOINT,
+    baseURL: BASE_URL,
     headers: {
       'Content-Type': 'application/json',
       ...authorizationHeader,
