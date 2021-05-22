@@ -16,7 +16,7 @@ const App = () => {
         <Route path="/">
           <MainLayout>
             <Route path="/" component={RoomList} />
-            <Route path="/Feedback" component={FeedBack} />
+            <Route path="/feedback" component={FeedBack} />
           </MainLayout>
         </Route>
       </Switch>
