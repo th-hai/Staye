@@ -6,6 +6,7 @@ const locationRoute = require('./location.route');
 const bookingRoute = require('./booking.route');
 const categoryRoute = require('./category.route');
 const amenityRoute = require('./amenity.route');
+const uploadRoute = require('./upload.route');
 const docsRoute = require('./docs.route');
 const config = require('../../config/config');
 
@@ -40,6 +41,10 @@ const defaultRoutes = [
     path: '/amenities',
     route: amenityRoute,
   },
+  {
+    path: '/upload',
+    route: uploadRoute
+  }
 ];
 
 const devRoutes = [
