@@ -4,7 +4,7 @@ import ReactDOM from 'react-dom'
 import relativeTime from 'dayjs/plugin/relativeTime'
 import { Provider } from 'react-redux'
 import App from './App'
-import history from './app/utils/history'
+import history from 'utils/history'
 import { ConnectedRouter } from 'connected-react-router'
 import configureStore from './configureStore'
 

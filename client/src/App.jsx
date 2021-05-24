@@ -1,19 +1,34 @@
 import React from 'react'
-import { Switch, Route } from 'react-router-dom'
-import { connect } from 'react-redux'
-import { Button } from 'antd'
+import { Switch, Route, Redirect, BrowserRouter } from 'react-router-dom'
 import './App.css'
-import MainLayout from './app/components/Layout/MainLayout'
-import FeedBack from './app/containers/FeedBack/index'
-import RoomList from './app/containers/RoomList'
-import Page404 from './app/containers/Page404/index'
+import MainLayout from 'components/layout/MainLayout'
+import MainAdmin from 'components/layout/MainAdmin'
+import FeedBack from 'containers/FeedBack/index'
+import RoomList from 'containers/RoomList'
+import Page404 from 'containers/Page404/index'
+import AdminLayout from "components/layout/Admin";
+import AuthLayout from "components/layout/Auth";
 
+import "assets/plugins/nucleo/css/nucleo.css";
+import "@fortawesome/fontawesome-free/css/all.min.css";
+import "assets/scss/argon-dashboard-react.scss";
 
 
 const App = () => {
   return (
     <>
+      <BrowserRouter>
       <Switch>
+        
+        <Route path="/admin">
+          <MainAdmin>
+            <Switch>
+              <Route path="/" render={(props) => <AdminLayout {...props} />} />
+              <Route path="/auth" render={(props) => <AuthLayout {...props} />} />
+            </Switch> 
+          </MainAdmin>
+        </Route>
+
         <Route path="/">
           <MainLayout>
             <Route path="/" component={RoomList} />
@@ -21,7 +36,9 @@ const App = () => {
             <Route path="/feedback" component={FeedBack} />
           </MainLayout>
         </Route>
+
       </Switch>
+      </BrowserRouter>
     </>
   )
 }
