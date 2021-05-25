@@ -1,18 +1,57 @@
-// import React from 'react';
-// import { useInjectSaga } from 'utils/injectSaga';
-// import { useInjectReducer } from 'utils/injectReducer';
-// import reducerKey from '../RoomList/constants';
-// import roomsReducer from '../RoomList/reducer';
-// import roomsSaga from '../RoomList/saga';
+import React, { useEffect, useState } from 'react';
+import PropTypes from 'prop-types';
+import { connect } from 'react-redux';
+import { createStructuredSelector } from 'reselect';
+import { compose, bindActionCreators } from 'redux';
+import { useInjectSaga } from '../../utils/injectSaga';
+import { useInjectReducer } from '../../utils/injectReducer';
+import { reducerKey } from '../RoomList/constants';
+import roomsReducer from '../RoomList/reducer';
+import roomsSaga from '../RoomList/saga';
+import { makeSelectRooms } from '../RoomList/selectors';
+import * as actions from '../RoomList/actions';
+import CarouselSlider from '../../components/HomeComponents/HomeCarousel';
+import LocationContainers from '../../components/HomeComponents/LocationContainers';
+import { LOCATION_CARDS } from './constants';
+import Title from './title';
+const HomeContainers = ({ getRoom, rooms }) => {
+  useInjectReducer({
+    key: reducerKey,
+    reducer: roomsReducer,
+  });
+  useInjectSaga({
+    key: reducerKey,
+    saga: roomsSaga,
+  });
 
-// const HomeContainers = () => {
-//     useInjectReducer({ key: reducerKey, roomsReducer })
-//     useInjectSaga({ key: reducerKey, roomsSaga })
-//     return (
-//         <div>
-//             quang
-//         </div>
-//     )
-// }
+  useEffect(() => {
+    getRoom();
+    console.log(rooms);
+  }, []);
+  return (
+    <div className="flex flex-col mx-24">
+      <Title />
+      
+        <LocationContainers locations={LOCATION_CARDS}></LocationContainers>
+     
+    </div>
+  );
+};
+HomeContainers.propTypes = {
+  getRoom: PropTypes.func,
+  rooms: PropTypes.array,
+};
+const mapStateToProps = createStructuredSelector({
+  rooms: makeSelectRooms,
+});
 
-// export default HomeContainers
+const mapDispatchToProps = (dispatch) =>
+  bindActionCreators(
+    {
+      getRoom: actions.getRoom,
+    },
+    dispatch
+  );
+
+const withConnect = connect(mapStateToProps, mapDispatchToProps);
+export default compose(withConnect)(HomeContainers);
