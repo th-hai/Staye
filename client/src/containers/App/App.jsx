@@ -1,10 +1,9 @@
 import React from 'react'
 import { Switch, Route, Redirect, BrowserRouter } from 'react-router-dom'
 import MainLayout from 'components/layout/MainLayout'
-import MainAdmin from 'components/layout/MainAdmin'
 import RoomList from 'containers/RoomList'
-import AdminLayout from "components/layout/Admin";
-import AuthLayout from "components/layout/Auth";
+import Page404 from 'containers/Page404/index'
+import Dashboard from 'containers/Dashboard'
 import '../../../src/App.css'
 import SignIn from '../SignIn';
 import Register from '../Register';
@@ -17,12 +16,7 @@ const App = () => {
       <Switch>
         
         <Route path="/admin">
-          <MainAdmin>
-            <Switch>
-              <Route path="/" render={(props) => <AdminLayout {...props} />} />
-              <Route path="/auth" render={(props) => <AuthLayout {...props} />} />
-            </Switch> 
-          </MainAdmin>
+          <Dashboard/>
         </Route>
 
         <Route path="/">
