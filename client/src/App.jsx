@@ -5,14 +5,9 @@ import MainLayout from 'components/layout/MainLayout'
 import MainAdmin from 'components/layout/MainAdmin'
 import FeedBack from 'containers/FeedBack/index'
 import RoomList from 'containers/RoomList'
+import Register from 'containers/Register'
 import Page404 from 'containers/Page404/index'
-import AdminLayout from "components/layout/Admin";
-import AuthLayout from "components/layout/Auth";
-
-import "assets/plugins/nucleo/css/nucleo.css";
-import "@fortawesome/fontawesome-free/css/all.min.css";
-import "assets/scss/argon-dashboard-react.scss";
-
+import Dashboard from 'containers/Dashboard'
 
 const App = () => {
   return (
@@ -21,12 +16,7 @@ const App = () => {
       <Switch>
         
         <Route path="/admin">
-          <MainAdmin>
-            <Switch>
-              <Route path="/" render={(props) => <AdminLayout {...props} />} />
-              <Route path="/auth" render={(props) => <AuthLayout {...props} />} />
-            </Switch> 
-          </MainAdmin>
+          <Dashboard/>
         </Route>
 
         <Route path="/">
@@ -34,6 +24,7 @@ const App = () => {
             <Route path="/" component={RoomList} />
             <Route path="/404" component={Page404} />
             <Route path="/feedback" component={FeedBack} />
+            <Route path="/register" component={Register} />
           </MainLayout>
         </Route>
 
