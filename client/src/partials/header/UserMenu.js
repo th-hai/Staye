@@ -2,7 +2,7 @@ import React, { useState, useRef, useEffect } from 'react';
 import { Link } from 'react-router-dom';
 import Transition from '../../utils/Transition';
 
-import UserAvatar from '../../images/user-avatar-32.png';
+import UserAvatar from 'assets/images/user-avatar-32.png';
 
 function UserMenu() {
 

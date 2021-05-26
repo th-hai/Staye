@@ -2,16 +2,16 @@ import React, { useRef, useEffect } from 'react';
 import { focusHandling } from 'cruip-js-toolkit';
 
 import {
-  Chart, BarController, BarElement, LinearScale, TimeScale, Tooltip, Legend,
+  Chart, LineController, LineElement, Filler, PointElement, LinearScale, TimeScale, Tooltip,
 } from 'chart.js';
 import 'chartjs-adapter-moment';
 
 // Import utilities
-import { tailwindConfig, formatValue } from '../utils/Utils';
+import { tailwindConfig, formatValue } from '../Utils';
 
-Chart.register(BarController, BarElement, LinearScale, TimeScale, Tooltip, Legend);
+Chart.register(LineController, LineElement, Filler, PointElement, LinearScale, TimeScale, Tooltip);
 
-function BarChart01({
+function LineChart02({
   data,
   width,
   height
@@ -24,21 +24,17 @@ function BarChart01({
     const ctx = canvas.current;
     // eslint-disable-next-line no-unused-vars
     const chart = new Chart(ctx, {
-      type: 'bar',
+      type: 'line',
       data: data,
       options: {
         layout: {
-          padding: {
-            top: 12,
-            bottom: 16,
-            left: 20,
-            right: 20,
-          },
+          padding: 20,
         },
         scales: {
           y: {
             grid: {
               drawBorder: false,
+              beginAtZero: true,
             },
             ticks: {
               maxTicksLimit: 5,
@@ -58,6 +54,10 @@ function BarChart01({
               display: false,
               drawBorder: false,
             },
+            ticks: {
+              autoSkipPadding: 48,
+              maxRotation: 0,
+            },
           },
         },
         plugins: {
@@ -75,9 +75,6 @@ function BarChart01({
           intersect: false,
           mode: 'nearest',
         },
-        animation: {
-          duration: 500,
-        },
         maintainAspectRatio: false,
       },
       plugins: [{
@@ -91,9 +88,9 @@ function BarChart01({
           }
           // Reuse the built-in legendItems generator
           const items = c.options.plugins.legend.labels.generateLabels(c);
-          items.forEach((item) => {
+          items.slice(0, 2).forEach((item) => {
             const li = document.createElement('li');
-            li.style.marginRight = tailwindConfig().theme.margin[4];
+            li.style.marginLeft = tailwindConfig().theme.margin[3];
             // Button element
             const button = document.createElement('button');
             button.style.display = 'inline-flex';
@@ -112,47 +109,41 @@ function BarChart01({
             box.style.borderRadius = tailwindConfig().theme.borderRadius.full;
             box.style.marginRight = tailwindConfig().theme.margin[2];
             box.style.borderWidth = '3px';
-            box.style.borderColor = item.fillStyle;
+            box.style.borderColor = c.data.datasets[item.datasetIndex].borderColor;
             box.style.pointerEvents = 'none';
             // Label
-            const labelContainer = document.createElement('span');
-            labelContainer.style.display = 'flex';
-            labelContainer.style.alignItems = 'center';
-            const value = document.createElement('span');
-            value.style.color = tailwindConfig().theme.colors.gray[800];
-            value.style.fontSize = tailwindConfig().theme.fontSize['3xl'][0];
-            value.style.lineHeight = tailwindConfig().theme.fontSize['3xl'][1].lineHeight;
-            value.style.fontWeight = tailwindConfig().theme.fontWeight.bold;
-            value.style.marginRight = tailwindConfig().theme.margin[2];
-            value.style.pointerEvents = 'none';
             const label = document.createElement('span');
             label.style.color = tailwindConfig().theme.colors.gray[500];
             label.style.fontSize = tailwindConfig().theme.fontSize.sm[0];
             label.style.lineHeight = tailwindConfig().theme.fontSize.sm[1].lineHeight;
-            const theValue = c.data.datasets[item.datasetIndex].data.reduce((a, b) => a + b, 0);
-            const valueText = document.createTextNode(formatValue(theValue));
             const labelText = document.createTextNode(item.text);
-            value.appendChild(valueText);
             label.appendChild(labelText);
             li.appendChild(button);
             button.appendChild(box);
-            button.appendChild(labelContainer);
-            labelContainer.appendChild(value);
-            labelContainer.appendChild(label);
+            button.appendChild(label);
             ul.appendChild(li);
           });
         },
       }],
     });
     return () => chart.destroy();
-  // eslint-disable-next-line react-hooks/exhaustive-deps
+    // eslint-disable-next-line react-hooks/exhaustive-deps
   }, []);
 
   return (
     <React.Fragment>
       <div className="px-5 py-3">
-        <ul ref={legend} className="flex flex-wrap"></ul>
+        <div className="flex flex-wrap justify-between items-end">
+          <div className="flex items-start">
+            <div className="text-3xl font-bold text-gray-800 mr-2">$1,482</div>
+            <div className="text-sm font-semibold text-white px-1.5 bg-yellow-500 rounded-full">-22%</div>
+          </div>
+          <div className="flex-grow ml-2 mb-1">
+            <ul ref={legend} className="flex flex-wrap justify-end"></ul>
+          </div>
+        </div>
       </div>
+      {/* Chart built with Chart.js 3 */}
       <div className="flex-grow">
         <canvas ref={canvas} width={width} height={height}></canvas>
       </div>
@@ -160,4 +151,4 @@ function BarChart01({
   );
 }
 
-export default BarChart01;
+export default LineChart02;

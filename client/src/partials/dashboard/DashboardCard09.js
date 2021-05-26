@@ -1,6 +1,6 @@
 import React from 'react';
 import Info from '../../utils/Info';
-import BarChart from '../../charts/BarChart02';
+import BarChart from '../../utils/charts/BarChart02';
 
 // Import utilities
 import { tailwindConfig } from '../../utils/Utils';
