@@ -1,16 +1,16 @@
 import React, { useRef, useEffect } from 'react';
 
 import {
-  Chart, LineController, LineElement, Filler, PointElement, LinearScale, TimeScale, Tooltip,
+  Chart, BarController, BarElement, LinearScale, TimeScale, Tooltip, Legend,
 } from 'chart.js';
 import 'chartjs-adapter-moment';
 
 // Import utilities
-import { tailwindConfig, formatValue } from '../Utils';
+import { formatValue } from '../utils/Utils';
 
-Chart.register(LineController, LineElement, Filler, PointElement, LinearScale, TimeScale, Tooltip);
+Chart.register(BarController, BarElement, LinearScale, TimeScale, Tooltip, Legend);
 
-function LineChart01({
+function BarChart02({
   data,
   width,
   height
@@ -22,49 +22,72 @@ function LineChart01({
     const ctx = canvas.current;
     // eslint-disable-next-line no-unused-vars
     const chart = new Chart(ctx, {
-      type: 'line',
+      type: 'bar',
       data: data,
       options: {
-        chartArea: {
-          backgroundColor: tailwindConfig().theme.colors.gray[50],
-        },
         layout: {
-          padding: 20,
+          padding: {
+            top: 12,
+            bottom: 16,
+            left: 20,
+            right: 20,
+          },
         },
         scales: {
           y: {
-            display: false,
+            stacked: true,
+            grid: {
+              drawBorder: false,
+            },
             beginAtZero: true,
+            ticks: {
+              maxTicksLimit: 5,
+              callback: (value) => formatValue(value),
+            },
           },
           x: {
+            stacked: true,
             type: 'time',
             time: {
               parser: 'MM-DD-YYYY',
               unit: 'month',
+              displayFormats: {
+                month: 'MMM YY',
+              },
             },
-            display: false,
+            grid: {
+              display: false,
+              drawBorder: false,
+            },
+            ticks: {
+              autoSkipPadding: 48,
+              maxRotation: 0,
+            },
           },
         },
         plugins: {
+          legend: {
+            display: false,
+          },
           tooltip: {
             callbacks: {
               title: () => false, // Disable tooltip title
               label: (context) => formatValue(context.parsed.y),
             },
           },
-          legend: {
-            display: false,
-          },
         },
         interaction: {
           intersect: false,
           mode: 'nearest',
         },
+        animation: {
+          duration: 200,
+        },
         maintainAspectRatio: false,
       },
     });
     return () => chart.destroy();
-  // eslint-disable-next-line react-hooks/exhaustive-deps
+    // eslint-disable-next-line react-hooks/exhaustive-deps
   }, []);
 
   return (
@@ -72,4 +95,4 @@ function LineChart01({
   );
 }
 
-export default LineChart01;
+export default BarChart02;
