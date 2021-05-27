@@ -1,9 +1,10 @@
 import React from 'react'
 import routes from 'routes/sidebar'
-import { NavLink, Route } from 'react-router-dom'
+import { Link, NavLink, Route } from 'react-router-dom'
 import * as Icons from 'assets/icons'
 import SidebarSubmenu from './SidebarSubmenu'
 import { Button } from '@windmill/react-ui'
+import logo from 'assets/img/logo.svg'
 
 function Icon({ icon, ...props }) {
   const Icon = Icons[icon]
@@ -13,9 +14,9 @@ function Icon({ icon, ...props }) {
 function SidebarContent() {
   return (
     <div className="py-4 text-gray-500 dark:text-gray-400">
-      <a className="ml-6 text-lg font-bold text-gray-800 dark:text-gray-200" href="#">
-        Windmill
-      </a>
+      <Link to='/admin' href="#">
+        <img className="w-32 ml-6" src={logo}/>
+      </Link>
       <ul className="mt-6">
         {routes.map((route) =>
           route.routes ? (
@@ -30,7 +31,7 @@ function SidebarContent() {
               >
                 <Route path={route.path} exact={route.exact}>
                   <span
-                    className="absolute inset-y-0 left-0 w-1 bg-purple-600 rounded-tr-lg rounded-br-lg"
+                    className="absolute inset-y-0 left-0 w-1 bg-blue-500 rounded-tr-lg rounded-br-lg"
                     aria-hidden="true"
                   ></span>
                 </Route>
@@ -42,7 +43,7 @@ function SidebarContent() {
         )}
       </ul>
       <div className="px-6 my-6">
-        <Button>
+        <Button className="bg-blue-500">
           Create account
           <span className="ml-2" aria-hidden="true">
             +

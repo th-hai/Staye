@@ -25,11 +25,12 @@ function Header() {
 
   function handleProfileClick() {
     setIsProfileMenuOpen(!isProfileMenuOpen)
+    console.log(isProfileMenuOpen)
   }
 
   return (
     <header className="z-40 py-4 bg-white shadow-bottom dark:bg-gray-800">
-      <div className="container flex items-center justify-between h-full px-6 mx-auto text-purple-600 dark:text-purple-300">
+      <div className="container flex items-center justify-between h-full px-6 mx-auto text-blue-500 dark:text-purple-300">
         {/* <!-- Mobile hamburger --> */}
         <button
           className="p-1 mr-5 -ml-1 rounded-md lg:hidden focus:outline-none focus:shadow-outline-purple"
@@ -118,7 +119,7 @@ function Header() {
             <Dropdown
               align="right"
               isOpen={isProfileMenuOpen}
-              onClose={() => setIsProfileMenuOpen(false)}
+              // onClose={() => setIsProfileMenuOpen(false)}
             >
               <DropdownItem tag="a" href="#">
                 <OutlinePersonIcon className="w-4 h-4 mr-3" aria-hidden="true" />

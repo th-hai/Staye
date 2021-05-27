@@ -1,7 +1,7 @@
 import request from '../utils/request';
 
-export function getRooms() {
-  return request.get('/v1/rooms');
+export function getRooms(params) {
+  return request.get('/v1/rooms', params);
 }
 
 export function createRooms(competency) {

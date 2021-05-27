@@ -48,7 +48,7 @@ const roomSchema = mongoose.Schema(
     status: {
       type: String,
       default: 'Available',
-      enum: ['Available', 'Not available']
+      enum: ['Available', 'Not Available']
     },
     owner: {
       type: mongoose.SchemaTypes.ObjectId,

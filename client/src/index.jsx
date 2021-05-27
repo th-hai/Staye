@@ -11,6 +11,7 @@ import './assets/css/tailwind.output.css'
 import { SidebarProvider } from './context/SidebarContext'
 import ThemedSuspense from 'components/ThemedSuspense'
 import { Windmill } from '@windmill/react-ui'
+import theme from 'utils/theme'
 
 dayjs.extend(relativeTime)
 
@@ -21,7 +22,7 @@ ReactDOM.render(
     <ConnectedRouter history={history}>
       <SidebarProvider>
       <Suspense fallback={<ThemedSuspense />}>
-        <Windmill usePreferences>
+        <Windmill theme={theme}>
           <App />
         </Windmill>
       </Suspense>

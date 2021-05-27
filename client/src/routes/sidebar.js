@@ -39,7 +39,7 @@
     {
       path: '/admin/tables',
       icon: 'TablesIcon',
-      name: 'Tables',
+      name: 'Rooms',
     },
     {
       icon: 'PagesIcon',
