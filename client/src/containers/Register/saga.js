@@ -8,8 +8,6 @@ import { Redirect, Link, useHistory } from 'react-router-dom';
 export function* registerUser({ user }) {
   try {
     const { data } = yield call(services.createUser, user);
-    
-    console.log(data);
     yield put(registerSuccess(data));
   } catch (error) {
     yield put(registerFailed(getErrorMessage(error)));

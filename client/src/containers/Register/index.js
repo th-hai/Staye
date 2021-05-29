@@ -26,11 +26,7 @@ const Register = ({ registerUser, isPending, isSuccessful }) => {
   const onFinishHandler = useCallback(
     async (values) => {
       const { confirm, ...user } = values;
-      console.log(user);
     await  registerUser(user);
-      console.log("sul", isSuccessful)
-
-      
     },
 
     [registerUser]
