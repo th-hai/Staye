@@ -67,10 +67,22 @@ const deleteBooking = {
   }),
 };
 
+const cancelBooking = {
+  params: Joi.object().keys({
+    bookingId: Joi.required().custom(objectId),
+  }),
+  body: Joi.object()
+    .keys({
+      status: Joi.string().valid("Cancelled").required()
+    })
+    .min(1), 
+}
+
 module.exports = {
   createBooking,
   getBookings,
   getBooking,
   updateBooking,
   deleteBooking,
+  cancelBooking
 };

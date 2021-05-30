@@ -65,10 +65,26 @@ const deleteBookingById = async (bookingId) => {
   return booking;
 };
 
+/**
+ * Cancel booking by id
+ * @param {ObjectId} bookingId
+ * @returns {Promise<Booking>}
+ */
+ const cancelBookingById = async (bookingId, updateBody) => {
+  const booking = await getBookingById(bookingId);
+  if (!booking) {
+    throw new ApiError(httpStatus.NOT_FOUND, 'Booking not found');
+  }
+  Object.assign(booking, updateBody);
+  await booking.save();
+  return booking;
+};
+
 module.exports = {
   createBooking,
   queryBookings,
   getBookingById,
   updateBookingById,
   deleteBookingById,
+  cancelBookingById
 };

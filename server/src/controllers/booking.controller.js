@@ -34,10 +34,16 @@ const deleteBooking = catchAsync(async (req, res) => {
   res.status(httpStatus.NO_CONTENT).send();
 });
 
+const cancelBooking = catchAsync(async (req, res) => {
+  const booking = await bookingService.cancelBookingById(req.params.bookingId, req.body);
+  res.send(booking);
+});
+
 module.exports = {
   createBooking,
   getBookings,
   getBooking,
   updateBooking,
   deleteBooking,
+  cancelBooking
 };
