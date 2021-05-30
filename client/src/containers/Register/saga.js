@@ -4,11 +4,10 @@ import * as services from '../../services/userClientService';
 import { getErrorMessage } from '../../utils/responseUtils';
 import { REGISTER, REGISTER_FAILED, REGISTER_SUCCESS } from './constants';
 import { register, registerFailed, registerSuccess } from './actions';
-
+import { Redirect, Link, useHistory } from 'react-router-dom';
 export function* registerUser({ user }) {
   try {
     const { data } = yield call(services.createUser, user);
-    console.log(data);
     yield put(registerSuccess(data));
   } catch (error) {
     yield put(registerFailed(getErrorMessage(error)));

@@ -5,13 +5,14 @@ import { Form, Input, InputNumber, Button, Spin } from 'antd';
 import { Password } from './styles';
 import { useInjectSaga } from 'utils/injectSaga';
 import registerUserSaga from './saga';
-import { connect } from 'react-redux';
+import { connect, useDispatch } from 'react-redux';
 import { compose, bindActionCreators } from 'redux';
 import * as actions from './actions';
 import { useInjectReducer } from 'utils/injectReducer';
 import registerReducer from './reducer';
 import { createStructuredSelector } from 'reselect';
 import { makeSelectIsPending, makeSelectIsSuccessful } from './selectors';
+import { REDIRECT } from './constants'
 const layout = {
   labelCol: { span: 0 },
   wrapperCol: { span: 24 },
@@ -21,21 +22,20 @@ const Register = ({ registerUser, isPending, isSuccessful }) => {
   useInjectSaga({ key: 'register', saga: registerUserSaga });
   useInjectReducer({ key: 'register', reducer: registerReducer });
   const [form] = Form.useForm();
-
+  const dispatch = useDispatch()
   const onFinishHandler = useCallback(
-    (values) => {
+    async (values) => {
       const { confirm, ...user } = values;
-      console.log(user);
-      registerUser(user);
+    await  registerUser(user);
     },
 
     [registerUser]
   );
-
-// if(isSuccessful) {
-//   return <Redirect to="/" />;
-// }
-
+    if(isSuccessful)
+    {
+        dispatch({type: REDIRECT, isSuccessful})
+        return <Redirect to="/login"/>
+    }
   return (
     <section class="flex flex-col items-center h-screen md:flex-row">
       <div class="container mx-auto">
@@ -234,14 +234,13 @@ const Register = ({ registerUser, isPending, isSuccessful }) => {
                   >
                     Submit
                   </button> */}
-                  
-                    <Button
-                      htmlType="submit"
-                      className="h-12 flex items-center justify-center block w-full px-4 py-3 mt-6 font-semibold text-white transition duration-500 ease-in-out transform rounded-lg bg-gradient-to-r from-black hover:from-black to-black focus:outline-none focus:shadow-outline focus:ring-2 ring-offset-current ring-offset-2 hover:to-black"
-                    >
-                      Register
-                    </Button>
-                  
+
+                  <Button
+                    htmlType="submit"
+                    className="h-12 flex items-center justify-center block w-full px-4 py-3 mt-6 font-semibold text-white transition duration-500 ease-in-out transform rounded-lg bg-gradient-to-r from-black hover:from-black to-black focus:outline-none focus:shadow-outline focus:ring-2 ring-offset-current ring-offset-2 hover:to-black"
+                  >
+                    Register
+                  </Button>
                 </Form>
                 <p class="mt-8 text-center">
                   Already have an account?{' '}
@@ -261,11 +260,11 @@ const Register = ({ registerUser, isPending, isSuccessful }) => {
 Register.propTypes = {
   registerUser: PropTypes.func,
   isPending: PropTypes.bool,
-  isSuccessful: PropTypes.bool.isRequired
+  isSuccessful: PropTypes.bool.isRequired,
 };
 const mapStateToProps = createStructuredSelector({
   // isPending: makeSelectIsPending(),
-  // isSuccessful: makeSelectIsSuccessful()
+  isSuccessful: makeSelectIsSuccessful()
 });
 
 const mapDispatchToProps = (dispatch) =>

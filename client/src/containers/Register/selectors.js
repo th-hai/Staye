@@ -4,13 +4,13 @@ const selectRegister = state => state.register;
 const makeSelectIsPending = () => 
 createSelector(
     selectRegister,
-    register => register.pending
+    register => register && register.pending
 )
 
 const makeSelectIsSuccessful = () => 
 createSelector(
     selectRegister,
-    register => register.successful
+    register => register && register.successful
 )
 export {
     makeSelectIsPending,

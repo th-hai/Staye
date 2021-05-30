@@ -1,11 +1,10 @@
 import produce from 'immer';
-import {REGISTER, REGISTER_SUCCESS, REGISTER_FAILED} from './constants'
+import {REGISTER, REGISTER_SUCCESS, REGISTER_FAILED, REDIRECT} from './constants'
 
 const initialState = {
-    // username: '',
-    // email: '',
-    // password: '',
     user: '',
+    pending: false,
+    successful: false,
 };
 
 const registerReducer = (state = initialState, action) => 
@@ -26,6 +25,10 @@ produce(state, draft => {
             draft.user = undefined;
             draft.successful = false;
             break;
+        case REDIRECT:
+            draft.successful = false;
+            break;
+            
     }
 });
 
