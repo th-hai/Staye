@@ -13,7 +13,7 @@ const createBooking = {
       total: Joi.number()
     }).required(),
     payment: Joi.object({
-      type: Joi.string(),
+      method: Joi.string(),
       amount: Joi.number()
     }).required()
   }),
@@ -54,7 +54,7 @@ const updateBooking = {
         total: Joi.number()
       }),
       payment: Joi.object({
-        type: Joi.string(),
+        method: Joi.string(),
         amount: Joi.number()
       })
     })
@@ -70,12 +70,7 @@ const deleteBooking = {
 const cancelBooking = {
   params: Joi.object().keys({
     bookingId: Joi.required().custom(objectId),
-  }),
-  body: Joi.object()
-    .keys({
-      status: Joi.string().valid("Cancelled").required()
-    })
-    .min(1), 
+  })
 }
 
 module.exports = {

@@ -14,13 +14,15 @@ const adminRights = [
 
 const ownerRights = [
   'getOwnerRooms',
-  'manageOwnerRooms'
+  'manageOwnerRooms',
+  'uploadImages'
 ]
 
 const userRights = [
   'createBooking',
   'manageUserBookings',
-  'cancelBooking'
+  'cancelBooking',
+  'uploadImages'
 ]
 
 const roleRights = new Map();

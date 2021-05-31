@@ -35,7 +35,7 @@ const deleteBooking = catchAsync(async (req, res) => {
 });
 
 const cancelBooking = catchAsync(async (req, res) => {
-  const booking = await bookingService.cancelBookingById(req.params.bookingId, req.body);
+  const booking = await bookingService.cancelBookingById(req.params.bookingId);
   res.send(booking);
 });
 

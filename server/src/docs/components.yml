@@ -19,6 +19,126 @@ components:
         name: fake name
         role: user
 
+    Room:
+      type: object
+      properties:
+        id:
+          type: string
+        name:
+          type: string
+        description:
+          type: string
+        address:
+          type: object
+          properties:
+            houseNumber: 
+              type: string
+            city: 
+              type: string
+            state: 
+              type: string
+            country: 
+              type: string
+            fullAddress: 
+              type: string
+        standardGuests:
+          type: integer
+          description: Must greater than 0
+        maximumGuests:
+          type: integer
+          description: Must greater than 0
+        photos: 
+          type: array
+          description: array of url string
+        amenities: 
+          type: array
+          description: array of ObjectId
+        price: 
+          type: int
+        status:
+          type: string
+          enum: [Available, Not available]
+        owner:
+          type: string
+          description: ObjectId string to refer
+        location:
+          type: string
+          description: ObjectId string to refer
+      example:
+          name: demo room
+          description: demo description
+          address:
+           houseNumber: 145
+           city: Ho Chi Minh City
+           country: Vietnam
+           fullAddress: 145 Linh Trung, P. Linh Trung, TP. Thu Duc
+          standardGuests: 4
+          maximumGuests: 4
+          amenities: []
+          photos: []
+          price: 1000000
+          status: Available
+          owner: 60b4b0d5209f55c67dc298dc
+          location: 60b4b0e911e1a95eb83d5275
+
+    Booking:
+      type: object
+      properties:
+        id:
+          type: string
+        room:
+          type: string
+          description: ObjectId string to refer
+        customer:
+          type: string
+          description: ObjectId string to refer
+        status:
+          type: string
+          enum: [Cancelled, Hold, Confirmed, Pending]
+        from:
+          type: string
+          format: date-time
+        to:
+          type: string
+          format: date-time
+          description: Must greater than from date
+        price:
+          type: object
+          properties: 
+            currency:
+              type: string
+            total:
+              type: int
+        payment:
+          type: object
+          properties:
+            type: 
+              type: string
+              enum: [Manual Bank Transfer, Pay In Cash]
+            amount:
+              type: int
+
+      example:
+        id: 5ebac534954b54139806c113
+        room: 60b4bea26501ed4da2594795
+        customer: 60b4beaf289ac03d1bb981eb
+        status: Pending
+        from: 2021-05-31T10:47:42+0000
+        to: 2021-06-1T10:47:42+0000
+        price:
+          currency: VND
+          total: 2000000
+        payment:
+          type: Pay In Cash
+          amount: 1500000
+    
+    Upload:
+      type: object
+      properties:
+        file:
+          type: string
+          format: binary
+
     Token:
       type: object
       properties:

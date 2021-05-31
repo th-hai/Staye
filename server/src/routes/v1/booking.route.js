@@ -19,24 +19,24 @@ router
 
 router
   .route('/:bookingId/cancel')
-  .patch(auth('cancelBooking'), validate(bookingValidation.cancelBooking), bookingController.cancelBooking);
+  .get(auth('cancelBooking'), validate(bookingValidation.cancelBooking), bookingController.cancelBooking);
 
 module.exports = router;
 
 /**
  * @swagger
  * tags:
- *   name: Rooms
- *   description: Room management and retrieval
+ *   name: Bookings
+ *   description: Booking management and retrieval
  */
 
 /**
  * @swagger
- * /rooms:
+ * /bookings:
  *   post:
- *     summary: Create a room
- *     description: Only admins and owners can create rooms.
- *     tags: [Rooms]
+ *     summary: Create a booking
+ *     description: Only user can create bookings.
+ *     tags: [Bookings]
  *     security:
  *       - bearerAuth: []
  *     requestBody:
@@ -46,61 +46,97 @@ module.exports = router;
  *           schema:
  *             type: object
  *             required:
- *               - name
- *               - email
- *               - password
- *               - role
+ *               - room
+ *               - customer
+ *               - from
+ *               - to
+ *               - price
+ *               - payment
  *             properties:
- *               name:
+ *               room:
  *                 type: string
- *               email:
+ *                 description: ObjectId to refer
+ *               customer:
  *                 type: string
- *                 format: email
- *                 description: must be unique
- *               password:
+ *                 description: ObjectId to refer
+ *               status:
  *                 type: string
- *                 format: password
- *                 minLength: 8
- *                 description: At least one number and one letter
- *               role:
- *                  type: string
- *                  enum: [user, admin, owner]
+ *                 enum: [Cancelled, Hold, Confirmed, Pending]
+ *               from:
+ *                 type: string
+ *                 format: date-time
+ *               to:
+ *                 type: string
+ *                 format: date-time
+ *               price:
+ *                 type: object
+ *                 currency: 
+ *                   type: string
+ *                 total: 
+ *                   type: integer
+ *               payment:
+ *                 type: object
+ *                 amount: 
+ *                   type: integer
+ *                 method:
+ *                   type: string
+ *                   enum: [Manual Bank Transfer, Pay In Cash]
  *             example:
- *               name: fake name
- *               email: fake@example.com
- *               password: password1
- *               role: user
+ *               room: 60b4b0d5209f55c67dc298dc
+ *               customer: 60b4ce7ceacc24bf7b347754
+ *               from: 1622462098
+ *               to: 1622462099
+ *               status: Pending
+ *               price:
+ *                 currency: VND
+ *                 total: 2000000
+ *               payment:
+ *                 method: Pay In Cash
+ *                 amount: 1500000
  *     responses:
  *       "201":
  *         description: Created
  *         content:
  *           application/json:
  *             schema:
- *                $ref: '#/components/schemas/User'
- *       "400":
- *         $ref: '#/components/responses/DuplicateEmail'
+ *                $ref: '#/components/schemas/Booking'
  *       "401":
  *         $ref: '#/components/responses/Unauthorized'
  *       "403":
  *         $ref: '#/components/responses/Forbidden'
  *
  *   get:
- *     summary: Get all users
- *     description: Only admins can retrieve all users.
- *     tags: [Users]
+ *     summary: Get all bookings
+ *     description: Only admins can retrieve all bookings.
+ *     tags: [Bookings]
  *     security:
  *       - bearerAuth: []
  *     parameters:
  *       - in: query
- *         name: name
+ *         name: room
  *         schema:
  *           type: string
- *         description: User name
+ *         description: Room Id
  *       - in: query
- *         name: role
+ *         name: customer
  *         schema:
  *           type: string
- *         description: User role
+ *         description: Customer Id
+ *       - in: query
+ *         name: status
+ *         schema:
+ *           type: string
+ *         description: Booking status
+ *       - in: query
+ *         name: from
+ *         schema:
+ *           type: string
+ *         description: Date from
+ *       - in: query
+ *         name: to
+ *         schema:
+ *           type: string
+ *         description: Date to
  *       - in: query
  *         name: sortBy
  *         schema:
@@ -131,7 +167,7 @@ module.exports = router;
  *                 results:
  *                   type: array
  *                   items:
- *                     $ref: '#/components/schemas/User'
+ *                     $ref: '#/components/schemas/Booking'
  *                 page:
  *                   type: integer
  *                   example: 1
@@ -152,27 +188,27 @@ module.exports = router;
 
 /**
  * @swagger
- * /users/{id}:
+ * /bookings/{bookingId}:
  *   get:
- *     summary: Get a user
+ *     summary: Get a booking
  *     description: Logged in users can fetch only their own user information. Only admins can fetch other users.
- *     tags: [Users]
+ *     tags: [Bookings]
  *     security:
  *       - bearerAuth: []
  *     parameters:
  *       - in: path
- *         name: id
+ *         name: bookingId
  *         required: true
  *         schema:
  *           type: string
- *         description: User id
+ *         description: Booking id
  *     responses:
  *       "200":
  *         description: OK
  *         content:
  *           application/json:
  *             schema:
- *                $ref: '#/components/schemas/User'
+ *                $ref: '#/components/schemas/Booking'
  *       "401":
  *         $ref: '#/components/responses/Unauthorized'
  *       "403":
@@ -181,18 +217,18 @@ module.exports = router;
  *         $ref: '#/components/responses/NotFound'
  *
  *   patch:
- *     summary: Update a user
- *     description: Logged in users can only update their own information. Only admins can update other users.
- *     tags: [Users]
+ *     summary: Update a booking
+ *     description: Only admins can update bookings.
+ *     tags: [Bookings]
  *     security:
  *       - bearerAuth: []
  *     parameters:
  *       - in: path
- *         name: id
+ *         name: bookingId
  *         required: true
  *         schema:
  *           type: string
- *         description: User id
+ *         description: Booking id
  *     requestBody:
  *       required: true
  *       content:
@@ -200,30 +236,53 @@ module.exports = router;
  *           schema:
  *             type: object
  *             properties:
- *               name:
+ *               room:
  *                 type: string
- *               email:
+ *                 description: ObjectId to refer
+ *               customer:
  *                 type: string
- *                 format: email
- *                 description: must be unique
- *               password:
+ *                 description: ObjectId to refer
+ *               status:
  *                 type: string
- *                 format: password
- *                 minLength: 8
- *                 description: At least one number and one letter
+ *                 enum: [Cancelled, Hold, Confirmed, Pending]
+ *               from:
+ *                 type: string
+ *                 format: date-time
+ *               to:
+ *                 type: string
+ *                 format: date-time
+ *               price:
+ *                 type: object
+ *                 currency: 
+ *                   type: string
+ *                 total: 
+ *                   type: integer
+ *               payment:
+ *                 type: object
+ *                 amount: 
+ *                   type: integer
+ *                 method:
+ *                   type: string
+ *                   enum: [Manual Bank Transfer, Pay In Cash]
  *             example:
- *               name: fake name
- *               email: fake@example.com
- *               password: password1
+ *               room: 60b4b0d5209f55c67dc298dc
+ *               customer: 60b4ce7ceacc24bf7b347754
+ *               from: 1622462098
+ *               to: 1622462099
+ *               status: Pending
+ *               price:
+ *                 currency: VND
+ *                 total: 2000000
+ *               payment:
+ *                 method: Pay In Cash
+ *                 amount: 1500000
  *     responses:
  *       "200":
  *         description: OK
  *         content:
  *           application/json:
  *             schema:
- *                $ref: '#/components/schemas/User'
- *       "400":
- *         $ref: '#/components/responses/DuplicateEmail'
+ *                $ref: '#/components/schemas/Booking'
  *       "401":
  *         $ref: '#/components/responses/Unauthorized'
  *       "403":
@@ -232,21 +291,53 @@ module.exports = router;
  *         $ref: '#/components/responses/NotFound'
  *
  *   delete:
- *     summary: Delete a user
- *     description: Logged in users can delete only themselves. Only admins can delete other users.
- *     tags: [Users]
+ *     summary: Delete a booking
+ *     description: Only admins can delete booking.
+ *     tags: [Bookings]
  *     security:
  *       - bearerAuth: []
  *     parameters:
  *       - in: path
- *         name: id
+ *         name: bookingId
  *         required: true
  *         schema:
  *           type: string
- *         description: User id
+ *         description: Booking id
  *     responses:
  *       "200":
  *         description: No content
+ *       "401":
+ *         $ref: '#/components/responses/Unauthorized'
+ *       "403":
+ *         $ref: '#/components/responses/Forbidden'
+ *       "404":
+ *         $ref: '#/components/responses/NotFound'
+ */
+
+
+/**
+ * @swagger
+ * /bookings/{bookingId}/cancel:
+ *   get:
+ *     summary: Cancel a booking
+ *     description: Only logged in user can cancel a booking.
+ *     tags: [Bookings]
+ *     security:
+ *       - bearerAuth: []
+ *     parameters:
+ *       - in: path
+ *         name: bookingId
+ *         required: true
+ *         schema:
+ *           type: string
+ *         description: Booking id
+ *     responses:
+ *       "200":
+ *         description: OK
+ *         content:
+ *           application/json:
+ *             schema:
+ *                $ref: '#/components/schemas/Booking'
  *       "401":
  *         $ref: '#/components/responses/Unauthorized'
  *       "403":

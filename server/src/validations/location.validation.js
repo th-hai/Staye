@@ -5,7 +5,7 @@ const createLocation = {
   body: Joi.object().keys({
     name: Joi.string().required(),
     description: Joi.string(),
-    image: Joi.string()
+    photo: Joi.string()
   })
 };
 
@@ -32,7 +32,7 @@ const updateLocation = {
     .keys({
       name: Joi.string(),
       description: Joi.string(),
-      image: Joi.string()
+      photo: Joi.string()
     })
     .min(1),
 };

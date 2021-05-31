@@ -34,7 +34,7 @@ const bookingSchema = mongoose.Schema(
       total: Number
     },
     payment: {
-      type: {
+      method: {
         type: String,
         enum: ['Manual Bank Transfer', 'Pay In Cash'],
         default: 'Manual Bank Transfer'

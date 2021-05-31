@@ -26,7 +26,7 @@ let self = module.exports = {
   uploadMultiple: (file) => {
     return new Promise(resolve => {
       cloudinary.uploader.upload(file, {
-        folder: 'home'
+        folder: 'multiple'
       })
         .then(result => {
           if (result) {

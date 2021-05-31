@@ -24,7 +24,7 @@ module.exports = router;
  * @swagger
  * tags:
  *   name: Rooms
- *   description: Room management and retrieval aaaaaaaaaaaaaaaaaa
+ *   description: Room management and retrieval
  */
 
 /**
@@ -44,29 +44,69 @@ module.exports = router;
  *             type: object
  *             required:
  *               - name
- *               - email
- *               - password
+ *               - standardGuests
+ *               - maximumGuests
  *               - role
+ *               - price
+ *               - status
+ *               - owner
+ *               - location
  *             properties:
  *               name:
  *                 type: string
- *               email:
+ *               description:
  *                 type: string
- *                 format: email
- *                 description: must be unique
- *               password:
- *                 type: string
- *                 format: password
- *                 minLength: 8
- *                 description: At least one number and one letter
- *               role:
+ *               address:
+ *                 type: object
+ *                 houseNumber: 
+ *                   type: string
+ *                 city: 
+ *                   type: string
+ *                 state: 
+ *                   type: string
+ *                 country: 
+ *                   type: string
+ *                 fullAddress: 
+ *                   type: string
+ *               standardGuests:
+ *                  type: integer
+ *                  description: Must greater than 0
+ *               maximumGuests:
+ *                  type: integer
+ *                  description: Must greater than 0
+ *               photos: 
+ *                  type: array
+ *                  description: array of url string
+ *               amenities: 
+ *                  type: array
+ *                  description: array of ObjectId
+ *               price: 
+ *                  type: int
+ *               status:
  *                  type: string
- *                  enum: [user, admin, owner]
+ *                  enum: [Available, Not available]
+ *               owner:
+ *                  type: string
+ *                  description: ObjectId string to refer
+ *               location:
+ *                  type: string
+ *                  description: ObjectId string to refer
  *             example:
- *               name: fake name
- *               email: fake@example.com
- *               password: password1
- *               role: user
+ *               name: demo room
+ *               description: demo description
+ *               address:
+ *                  houseNumber: 145
+ *                  city: Ho Chi Minh City
+ *                  country: Vietnam
+ *                  fullAddress: 145 Linh Trung, P. Linh Trung, TP. Thu Duc
+ *               standardGuests: 4
+ *               maximumGuests: 4
+ *               amenities: []
+ *               photos: []
+ *               price: 1000000
+ *               status: Available
+ *               owner: 60b4b0d5209f55c67dc298dc
+ *               location: 60b4b0e911e1a95eb83d5275
  *     responses:
  *       "201":
  *         description: Created
@@ -82,9 +122,9 @@ module.exports = router;
  *         $ref: '#/components/responses/Forbidden'
  *
  *   get:
- *     summary: Get all users
- *     description: Only admins can retrieve all users.
- *     tags: [Users]
+ *     summary: Get all rooms
+ *     description: Only admins can retrieve all rooms.
+ *     tags: [Rooms]
  *     security:
  *       - bearerAuth: []
  *     parameters:
@@ -92,12 +132,22 @@ module.exports = router;
  *         name: name
  *         schema:
  *           type: string
- *         description: User name
+ *         description: Room name
  *       - in: query
- *         name: role
+ *         name: location
  *         schema:
  *           type: string
- *         description: User role
+ *         description: Room location
+ *       - in: query
+ *         name: standardGuests
+ *         schema:
+ *           type: string
+ *         description: Room standard guests
+ *       - in: query
+ *         name: maximumGuests
+ *         schema:
+ *           type: string
+ *         description: Room maximum guests
  *       - in: query
  *         name: sortBy
  *         schema:
@@ -128,7 +178,7 @@ module.exports = router;
  *                 results:
  *                   type: array
  *                   items:
- *                     $ref: '#/components/schemas/User'
+ *                     $ref: '#/components/schemas/Room'
  *                 page:
  *                   type: integer
  *                   example: 1
@@ -149,11 +199,11 @@ module.exports = router;
 
 /**
  * @swagger
- * /users/{id}:
+ * /rooms/{id}:
  *   get:
- *     summary: Get a user
- *     description: Logged in users can fetch only their own user information. Only admins can fetch other users.
- *     tags: [Users]
+ *     summary: Get a room
+ *     description: Logged owner can fetch only their own rooms. Only admins can fetch other rooms.
+ *     tags: [Rooms]
  *     security:
  *       - bearerAuth: []
  *     parameters:
@@ -162,14 +212,14 @@ module.exports = router;
  *         required: true
  *         schema:
  *           type: string
- *         description: User id
+ *         description: Room id
  *     responses:
  *       "200":
  *         description: OK
  *         content:
  *           application/json:
  *             schema:
- *                $ref: '#/components/schemas/User'
+ *                $ref: '#/components/schemas/Room'
  *       "401":
  *         $ref: '#/components/responses/Unauthorized'
  *       "403":
@@ -178,9 +228,9 @@ module.exports = router;
  *         $ref: '#/components/responses/NotFound'
  *
  *   patch:
- *     summary: Update a user
- *     description: Logged in users can only update their own information. Only admins can update other users.
- *     tags: [Users]
+ *     summary: Update a room
+ *     description: Logged owner can fetch only their own rooms. Only admins can fetch other rooms.
+ *     tags: [Rooms]
  *     security:
  *       - bearerAuth: []
  *     parameters:
@@ -189,7 +239,7 @@ module.exports = router;
  *         required: true
  *         schema:
  *           type: string
- *         description: User id
+ *         description: Room id
  *     requestBody:
  *       required: true
  *       content:
@@ -199,26 +249,66 @@ module.exports = router;
  *             properties:
  *               name:
  *                 type: string
- *               email:
+ *               description:
  *                 type: string
- *                 format: email
- *                 description: must be unique
- *               password:
- *                 type: string
- *                 format: password
- *                 minLength: 8
- *                 description: At least one number and one letter
+ *               address:
+ *                 type: object
+ *                 houseNumber: 
+ *                   type: string
+ *                 city: 
+ *                   type: string
+ *                 state: 
+ *                   type: string
+ *                 country: 
+ *                   type: string
+ *                 fullAddress: 
+ *                   type: string
+ *               standardGuests:
+ *                  type: integer
+ *                  description: Must greater than 0
+ *               maximumGuests:
+ *                  type: integer
+ *                  description: Must greater than 0
+ *               photos: 
+ *                  type: array
+ *                  description: array of url string
+ *               amenities: 
+ *                  type: array
+ *                  description: array of ObjectId
+ *               price: 
+ *                  type: int
+ *               status:
+ *                  type: string
+ *                  enum: [Available, Not available]
+ *               owner:
+ *                  type: string
+ *                  description: ObjectId string to refer
+ *               location:
+ *                  type: string
+ *                  description: ObjectId string to refer
  *             example:
- *               name: fake name
- *               email: fake@example.com
- *               password: password1
+ *               name: demo room
+ *               description: demo description
+ *               address:
+ *                  houseNumber: 145
+ *                  city: Ho Chi Minh City
+ *                  country: Vietnam
+ *                  fullAddress: 145 Linh Trung, P. Linh Trung, TP. Thu Duc
+ *               standardGuests: 4
+ *               maximumGuests: 4
+ *               amenities: []
+ *               photos: []
+ *               price: 1000000
+ *               status: Available
+ *               owner: 60b4b0d5209f55c67dc298dc
+ *               location: 60b4b0e911e1a95eb83d5275
  *     responses:
  *       "200":
  *         description: OK
  *         content:
  *           application/json:
  *             schema:
- *                $ref: '#/components/schemas/User'
+ *                $ref: '#/components/schemas/Room'
  *       "400":
  *         $ref: '#/components/responses/DuplicateEmail'
  *       "401":
@@ -229,9 +319,9 @@ module.exports = router;
  *         $ref: '#/components/responses/NotFound'
  *
  *   delete:
- *     summary: Delete a user
- *     description: Logged in users can delete only themselves. Only admins can delete other users.
- *     tags: [Users]
+ *     summary: Delete a room
+ *     description: Logged in owner can delete only their rooms. Only admins can delete other rooms.
+ *     tags: [Rooms]
  *     security:
  *       - bearerAuth: []
  *     parameters:

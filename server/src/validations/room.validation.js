@@ -18,8 +18,8 @@ const createRoom = {
     amenities: Joi.array().items(Joi.object()),
     price: Joi.number().required(),
     status: Joi.string().required(),
-    owner: Joi.string().required(),
-    location: Joi.string().required()
+    owner: Joi.string().required().custom(objectId),
+    location: Joi.string().required().custom(objectId)
   }),
 };
 

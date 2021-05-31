@@ -70,12 +70,12 @@ const deleteBookingById = async (bookingId) => {
  * @param {ObjectId} bookingId
  * @returns {Promise<Booking>}
  */
- const cancelBookingById = async (bookingId, updateBody) => {
+ const cancelBookingById = async (bookingId) => {
   const booking = await getBookingById(bookingId);
   if (!booking) {
     throw new ApiError(httpStatus.NOT_FOUND, 'Booking not found');
   }
-  Object.assign(booking, updateBody);
+  Object.assign(booking, {status: 'Cancelled'});
   await booking.save();
   return booking;
 };

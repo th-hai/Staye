@@ -9,7 +9,7 @@ const locationSchema = mongoose.Schema(
       unique: true
     },
     description: String,
-    image: String
+    photo: String
   }
 );
 
