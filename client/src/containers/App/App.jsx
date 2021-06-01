@@ -5,6 +5,7 @@ import { connect } from 'react-redux';
 import { createStructuredSelector } from 'reselect';
 import MainLayout from 'components/layout/MainLayout';
 import RoomList from 'containers/RoomList';
+import Review from '../Review'
 import 'App.css';
 import SignIn from '../SignIn';
 import Register from '../Register';
@@ -40,6 +41,7 @@ const App = ({ user, role }) => {
                 <Route path="/roomlist" component={RoomList} />
                 <Route path="/login" component={SignIn} />
                 <Route path="/register" component={Register} />
+                <Route path="/reviews" component={Review} />
               </Switch>
             </MainLayout>
           </Route>

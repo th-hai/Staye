@@ -13,8 +13,32 @@ const TopNav = ({ user, handleLogout, role }) => {
         <a className="flex items-center mb-4 font-medium text-gray-900 title-font md:mb-0">
           <img className="w-24" />
         </a>
-        <div className="flex flex-wrap items-center border-gray-700 md:mr-auto">
-         <FilterRooms />
+        <div class="flex flex-wrap items-center justify-center pl-6 ml-6 text-base border-l border-gray-200 md:mr-auto">
+          <Link
+            to="/"
+            class="mr-5 font-medium text-gray-600 hover:text-gray-900 no-underline"
+          >
+            Home
+          </Link>
+          <a
+            href="/about"
+            class="mr-5 font-medium text-gray-600   hover:text-gray-900 no-underline"
+          >
+            About
+          </a>
+          <a
+            href="/about"
+            class="mr-5 font-medium text-gray-600   hover:text-gray-900 no-underline"
+          >
+            Reviews
+          </a>
+          <a
+            href="/contact"
+            class="font-medium text-gray-600 hover:text-gray-900 no-underline"
+          >
+            Contact
+          </a>
+          
         </div>
         <div className="flex items-center h-full">
           {user ? (
