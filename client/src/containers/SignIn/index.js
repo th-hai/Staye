@@ -29,7 +29,7 @@ const SignIn = ({ isPending, onLogin, isLoggedIn }) => {
   }
 
   return (
-    <section class="flex flex-col items-center w-5/6 h-1/2 md:flex-row mx-24 my-24 shadow-lg">
+    <section class="flex flex-col items-center w-5/6 h-1/2 md:flex-row mx-24 my-10 shadow-lg">
       <div class=" bg-white h-1/2">
         <img
           src="https://preview.redd.it/1vw96asigy741.png?width=640&crop=smart&auto=webp&s=8552410f08f23eade85782b52a4c0ec15a70c59d"
@@ -39,16 +39,10 @@ const SignIn = ({ isPending, onLogin, isLoggedIn }) => {
       </div>
       <div class="flex items-center justify-center w-full h-full px-6 bg-white md:max-w-md lg:max-w-full md:mx-auto md:w-1/2 xl:w-1/3 lg:px-16 xl:px-12">
         <div class="w-full ">
-          <a class="flex items-center w-32 mb-4 font-medium text-blueGray-900 title-font md:mb-0">
-            <div class="w-2 h-2 p-2 mr-2 rounded-full bg-gradient-to-tr from-blue-300 to-blue-600"></div>
-            <h2 class="text-lg font-bold tracking-tighter text-black uppercase duration-500 ease-in-out transform ttransition hover:text-lightBlue-500 dark:text-blueGray-400">
-              {' '}
-              STAYE{' '}
-            </h2>
-          </a>
-          <h1 class="mt-12 text-2xl font-semibold text-black tracking-ringtighter sm:text-3xl title-font">
-            Log in to your account
-          </h1>
+          <h1 class="mb-10 text-5xl font-bold text-center text-gray-700 dark:text-white">Staye</h1>
+
+           
+            <p class="mt-1 text-center text-gray-400 dark:text-gray-300">Login or create account</p>
 
           <Form
             name="login"
@@ -57,9 +51,7 @@ const SignIn = ({ isPending, onLogin, isLoggedIn }) => {
             onFinish={onFinish}
           >
             <div>
-              <label class="block text-sm font-medium leading-relaxed tracking-tighter text-blueGray-700">
-                Email Address
-              </label>
+            <label for="username" class="block text-sm text-gray-800 dark:text-gray-200">Email Address</label>
               <Form.Item
                 name="email"
                 rules={[
@@ -67,16 +59,17 @@ const SignIn = ({ isPending, onLogin, isLoggedIn }) => {
                 ]}
               >
                 <Input
-                  className="w-full px-4 py-2 mt-2 text-base text-black transition duration-500 ease-in-out transform border-transparent rounded-lg bg-blueGray-100 focus:border-blueGray-500 focus:bg-white focus:outline-none focus:shadow-outline focus:ring-2 ring-offset-current ring-offset-2"
+                  className="block w-full px-4 py-2 mt-2 text-gray-700 bg-white border border-gray-300 rounded-md dark:bg-gray-800 dark:text-gray-300 dark:border-gray-600 focus:border-blue-500 dark:focus:border-blue-500 focus:outline-none focus:ring"
                   placeholder="Email"
                 />
               </Form.Item>
               
             </div>
             <div class="mt-4">
-              <label class="block text-sm font-medium leading-relaxed tracking-tighter text-blueGray-700">
-                Password
-              </label>
+            <div class="flex items-center justify-between">
+                    <label for="password" class="block text-sm text-gray-800 dark:text-gray-200">Password</label>
+                    <a href="#" class="text-xs text-gray-600 dark:text-gray-400 hover:underline">Forget Password?</a>
+                </div>
               
               <Form.Item
                 name="password"
@@ -85,28 +78,20 @@ const SignIn = ({ isPending, onLogin, isLoggedIn }) => {
                 ]}
               >
                 <Input
-                  className="w-full px-4 py-2 text-base text-black transition duration-500 ease-in-out transform border-transparent rounded-lg bg-blueGray-100 focus:border-blueGray-500 focus:bg-white focus:outline-none focus:shadow-outline focus:ring-2 ring-offset-current ring-offset-2"
+                  className="block w-full px-4 py-2 mt-2 text-gray-700 bg-white border border-gray-300 rounded-md dark:bg-gray-800 dark:text-gray-300 dark:border-gray-600 focus:border-blue-500 dark:focus:border-blue-500 focus:outline-none focus:ring"
                   type="password"
                   placeholder="Password"
                 />
               </Form.Item>
             </div>
-            <div class="mt-2 text-right">
-              <a
-                href="#"
-                class="text-sm font-semibold leading-relaxed text-blueGray-700 hover:text-black focus:text-blue-700"
-              >
-                Forgot Password?
-              </a>
-            </div>
-          
+
             <Form.Item>
               {isPending ? (
                 <Spin />
               ) : (
                 <Button
                   htmlType="submit"
-                  className="h-12 block w-full px-4 py-3 mt-6 font-semibold text-white transition duration-500 ease-in-out transform bg-black rounded-lg hover:bg-blueGray-800 hover:to-black focus:shadow-outline focus:outline-none focus:ring-2 ring-offset-current ring-offset-2"
+                  className="h-12 block w-full px-4 py-3 mt-6 tracking-wide text-white transition-colors duration-500 transform bg-blue-500 rounded-md hover:bg-blue-600 focus:outline-none focus:bg-blue-600"
                 >
                   Log In
                 </Button>
@@ -114,41 +99,52 @@ const SignIn = ({ isPending, onLogin, isLoggedIn }) => {
             </Form.Item>
           </Form>
 
-          <hr class="w-full my-6 border-blueGray-300" />
-          <div class="flex justify-enter">
-            <button
-              type="button"
-              class="inline-flex w-full px-4 py-3 font-semibold text-black transition duration-500 ease-in-out transform bg-white border rounded-lg border-blueGray-300 hover:bg-black hover:text-white focus:outline-none focus:shadow-outline focus:ring-2 ring-offset-current ring-offset-2 "
-            >
-              <div class="flex items-center justify-center">
-                <span class="ml-4"> Log in with Google </span>
-              </div>
-            </button>
-            <button
-              type="button"
-              class="inline-flex px-4 py-3 ml-8 font-semibold text-black transition duration-500 ease-in-out transform bg-white border rounded-lg border-blueGray-300 focus:outline-none focus:shadow-outline focus:ring-2 ring-offset-current ring-offset-2 hover:bg-black focus:bg-blueGray-100 hover:text-blue-500"
-            >
-              <div class="flex items-center justify-center">
-                <svg
-                  fill="currentColor"
-                  stroke-linecap="round"
-                  stroke-linejoin="round"
-                  stroke-width="2"
-                  class="w-5 h-5"
-                  viewBox="0 0 24 24"
-                >
-                  <path d="M23 3a10.9 10.9 0 01-3.14 1.53 4.48 4.48 0 00-7.86 3v1A10.66 10.66 0 013 4s-4 9 5 13a11.64 11.64 0 01-7 2c9 5 20 0 20-11.5a4.5 4.5 0 00-.08-.83A7.72 7.72 0 0023 3z"></path>
-                </svg>
-              </div>
-            </button>
-          </div>
-          <p class="mt-8 text-center">
-            Need an account?{' '}
-            <a href="#" class="font-semibold text-blue-500 hover:text-blue-700">
-              Sign Up
-            </a>
-          </p>
+          <div class="flex items-center justify-between mt-4">
+            <span class="w-1/5 border-b dark:border-gray-600 lg:w-1/5"></span>
+
+            <a href="#" class="text-xs text-center text-gray-500 uppercase dark:text-gray-400 hover:underline">or login with Social Media</a>
+
+            <span class="w-1/5 border-b dark:border-gray-400 lg:w-1/5"></span>
         </div>
+
+        <div class="flex items-center mt-5 -mx-20">
+            <button type="button"
+                class="flex items-center justify-center w-full px-6 py-2 mx-2 text-sm font-medium text-white transition-colors duration-200 transform bg-red-400 rounded-md hover:bg-red-600 focus:bg-blue-400 focus:outline-none">
+                <svg class="w-4 h-4 mx-2 fill-current" viewBox="0 0 24 24">
+                    <path
+                        d="M12.24 10.285V14.4h6.806c-.275 1.765-2.056 5.174-6.806 5.174-4.095 0-7.439-3.389-7.439-7.574s3.345-7.574 7.439-7.574c2.33 0 3.891.989 4.785 1.849l3.254-3.138C18.189 1.186 15.479 0 12.24 0c-6.635 0-12 5.365-12 12s5.365 12 12 12c6.926 0 11.52-4.869 11.52-11.726 0-.788-.085-1.39-.189-1.989H12.24z">
+                    </path>
+                </svg>
+
+                <span class="hidden mx-2 sm:inline">Login with Google</span>
+            </button>
+            <br></br>
+            <button type="button"
+                class="flex items-center justify-center w-full px-6 py-2 mx-2 text-sm font-medium text-white transition-colors duration-200 transform bg-blue-400 rounded-md hover:bg-blue-600 focus:bg-blue-400 focus:outline-none">
+                <svg class="w-4 h-4 mx-1 fill-current" viewBox="0 0 24 24">
+                   
+                </svg>
+
+                <span class="hidden mx-2 sm:inline">Login with Facebook</span>
+            </button>
+            
+           
+
+            
+
+            {/* <a href="#"
+                class="p-2 mx-2 text-sm font-medium text-gray-500 transition-colors duration-200 transform bg-gray-300 rounded-md hover:bg-gray-200">
+                <svg class="w-5 h-5 fill-current" viewBox="0 0 24 24">
+                    <path
+                        d="M23.954 4.569c-.885.389-1.83.654-2.825.775 1.014-.611 1.794-1.574 2.163-2.723-.951.555-2.005.959-3.127 1.184-.896-.959-2.173-1.559-3.591-1.559-2.717 0-4.92 2.203-4.92 4.917 0 .39.045.765.127 1.124C7.691 8.094 4.066 6.13 1.64 3.161c-.427.722-.666 1.561-.666 2.475 0 1.71.87 3.213 2.188 4.096-.807-.026-1.566-.248-2.228-.616v.061c0 2.385 1.693 4.374 3.946 4.827-.413.111-.849.171-1.296.171-.314 0-.615-.03-.916-.086.631 1.953 2.445 3.377 4.604 3.417-1.68 1.319-3.809 2.105-6.102 2.105-.39 0-.779-.023-1.17-.067 2.189 1.394 4.768 2.209 7.557 2.209 9.054 0 13.999-7.496 13.999-13.986 0-.209 0-.42-.015-.63.961-.689 1.8-1.56 2.46-2.548l-.047-.02z">
+                    </path>
+                </svg>
+            </a> */}
+        </div>
+
+        <p class="mt-10 text-20 font-light text-center text-gray-600"> Don't have an account? <a href="/register"
+                class="font-medium text-gray-800 dark:text-gray-200 hover:underline">Sign Up</a></p>
+    </div>
       </div>
     </section>
   );
