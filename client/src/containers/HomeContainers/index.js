@@ -29,11 +29,16 @@ const HomeContainers = ({ getRoom, rooms }) => {
     console.log(rooms);
   }, []);
   return (
-    <div className="flex flex-col mx-24">
-      <Title />
+    <div className="flex flex-col mx-24 ">
+      <CarouselSlider />
+
+      <Title title="Prominent place" content="Join Staye to start your journey to conquer the world"/>
       
-        <LocationContainers locations={LOCATION_CARDS}></LocationContainers>
-     
+      <LocationContainers locations={LOCATION_CARDS}></LocationContainers>
+
+      <Title title="Gợi ý khám phá" content="Để mỗi chuyến đi là một hành trình truyền cảm hứng, mỗi căn phòng là một khoảng trời an yên"/>
+
+
     </div>
   );
 };

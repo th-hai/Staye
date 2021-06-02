@@ -20,7 +20,10 @@ const makeSelectIsLoggedIn = () =>
   });
 
 const makeSelectIsPending = () =>
-  createSelector(selectGlobal, (globalState) =>globalState && globalState.pending);
+  createSelector(
+    selectGlobal,
+    (globalState) => globalState && globalState.pending
+  );
 
 const makeSelectUser = () =>
   createSelector(selectGlobal, (globalState) =>

@@ -13,6 +13,9 @@ import { useInjectReducer } from 'utils/injectReducer';
 import globalReducer from './reducer';
 import { DAEMON } from '../../utils/constants';
 import { makeSelectUser } from './selectors';
+import MainAdmin from 'components/layout/MainAdmin';
+import AdminDashboard from 'containers/AdminDashboard';
+import AdminRooms from 'containers/AdminRooms';
 const App = ({ user }) => {
   useInjectReducer({ key: 'global', reducer: globalReducer, mode: DAEMON });
 
@@ -20,6 +23,16 @@ const App = ({ user }) => {
     <>
       <BrowserRouter>
         <Switch>
+
+          <Route path="/admin/:path?"> 
+              <MainAdmin>
+                <Switch>
+                  <Route path="/admin/quang" exact component={AdminDashboard} />  
+                  <Route path="/admin/rooms/" exact component={AdminRooms}/>
+                </Switch>
+              </MainAdmin>
+          </Route>
+
           <Route path="/">
             <MainLayout user={user}>
               <Switch>
@@ -30,6 +43,7 @@ const App = ({ user }) => {
               </Switch>
             </MainLayout>
           </Route>
+
         </Switch>
       </BrowserRouter>
     </>

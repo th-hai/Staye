@@ -8,9 +8,9 @@ import Footer from '../Footer'
 const MainLayout = ({ children, user }) => {
   return (
     <div className="w-full h-screen font-sans no-underline">
-      <div className="w-full">
+      <>
         <TopNav user={user} />
-      </div>
+      </>
       <div className="content-area min-h-screen">{children}</div>
       <>
         <Footer />
