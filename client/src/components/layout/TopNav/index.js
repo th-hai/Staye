@@ -3,32 +3,17 @@ import { Link } from 'react-router-dom';
 import { connect } from 'react-redux';
 import PropTypes from 'prop-types';
 import { logout } from 'containers/App/actions';
+import FilterRooms from 'components/HomeComponents/FilterRooms';
 const TopNav = ({ user, handleLogout }) => {
   return (
-    <div class="w-full text-gray-700 bg-white border-t border-gray-100 shadow-sm body-font ">
-      <div class="container flex flex-col items-start justify-between p-6 mx-auto md:flex-row">
+    <div class="w-full text-gray-700 bg-white border-t border-gray-100 shadow-sm body-font sticky top-0 z-50">
+      <div class="container flex flex-col items-start justify-between px-6 pt-6 mx-auto md:flex-row h-16">
         <a class="flex items-center mb-4 font-medium text-gray-900 title-font md:mb-0">
           <img className="w-24" />
         </a>
-        <div class="flex flex-wrap items-center justify-center pl-6 ml-6 text-base border-l border-gray-200 md:mr-auto">
-          <Link
-            to="/"
-            class="mr-5 font-medium text-gray-600 hover:text-gray-900 no-underline"
-          >
-            Home
-          </Link>
-          <a
-            href="/about"
-            class="mr-5 font-medium text-gray-600   hover:text-gray-900 no-underline"
-          >
-            About
-          </a>
-          <a
-            href="/contact"
-            class="font-medium text-gray-600 hover:text-gray-900 no-underline"
-          >
-            Contact
-          </a>
+        <div class="flex flex-wrap items-center justify-centertext-base border-l border-gray-200 md:mr-auto">
+         
+          <FilterRooms/>
         </div>
         <div class="items-center h-full">
           {user ? (
