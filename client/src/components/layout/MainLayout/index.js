@@ -5,12 +5,12 @@ import { Layout } from 'antd'
 
 import Footer from '../Footer'
 
-const MainLayout = ({ children, user }) => {
+const MainLayout = ({ children, user, role }) => {
   return (
     <div className="w-full h-screen font-sans no-underline">
-      <div className="w-full">
-        <TopNav user={user} />
-      </div>
+      <>
+        <TopNav user={user} role={role} />
+      </>
       <div className="content-area min-h-screen">{children}</div>
       <>
         <Footer />
@@ -24,4 +24,5 @@ export default MainLayout
 MainLayout.propTypes = {
   children: PropTypes.element,
   user: PropTypes.object,
+  role: PropTypes.string
 }

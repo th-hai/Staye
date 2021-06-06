@@ -3,9 +3,9 @@ import React from 'react'
 const Item = (props) => {
     const {location} = props
     return (
-        <a href="/">
+        <a href="/" >
         <div
-          class="bg-cover bg-center w-full h-full text-white  object-fill relative"
+          class="bg-cover bg-center w-full h-80  text-white  object-fill relative"
          style={{
             backgroundImage: `url(${location.avatarUrl})`,
           }}

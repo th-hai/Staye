@@ -12,16 +12,29 @@ import HomeContainers from 'containers/HomeContainers';
 import { useInjectReducer } from 'utils/injectReducer';
 import globalReducer from './reducer';
 import { DAEMON } from '../../utils/constants';
-import { makeSelectUser } from './selectors';
-const App = ({ user }) => {
+import { makeSelectRole, makeSelectUser } from './selectors';
+import MainAdmin from 'components/layout/MainAdmin';
+import AdminDashboard from 'containers/AdminDashboard';
+import AdminRooms from 'containers/AdminRooms';
+const App = ({ user, role }) => {
   useInjectReducer({ key: 'global', reducer: globalReducer, mode: DAEMON });
 
   return (
     <>
       <BrowserRouter>
         <Switch>
+
+          <Route path="/admin/:path?"> 
+              <MainAdmin>
+                <Switch>
+                  <Route path="/admin/dashboard" exact component={AdminDashboard} />  
+                  <Route path="/admin/rooms/" exact component={AdminRooms}/>
+                </Switch>
+              </MainAdmin>
+          </Route>
+
           <Route path="/">
-            <MainLayout user={user}>
+            <MainLayout user={user} role={role} >
               <Switch>
                 <Route path="/" exact component={HomeContainers} />
                 <Route path="/roomlist" component={RoomList} />
@@ -30,6 +43,7 @@ const App = ({ user }) => {
               </Switch>
             </MainLayout>
           </Route>
+
         </Switch>
       </BrowserRouter>
     </>
@@ -38,10 +52,12 @@ const App = ({ user }) => {
 
 App.propTypes = {
   user: PropTypes.object,
+  role: PropTypes.string
 };
 
 const mapStateToProps = createStructuredSelector({
   user: makeSelectUser(),
+  role: makeSelectRole()
 });
 
 export default connect(mapStateToProps)(App);
