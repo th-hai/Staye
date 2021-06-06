@@ -41,9 +41,6 @@ components:
               type: string
             fullAddress: 
               type: string
-        standardGuests:
-          type: integer
-          description: Must greater than 0
         maximumGuests:
           type: integer
           description: Must greater than 0
@@ -72,7 +69,6 @@ components:
            city: Ho Chi Minh City
            country: Vietnam
            fullAddress: 145 Linh Trung, P. Linh Trung, TP. Thu Duc
-          standardGuests: 4
           maximumGuests: 4
           amenities: []
           photos: []

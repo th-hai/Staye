@@ -10,8 +10,13 @@ const createRoom = catchAsync(async (req, res) => {
 });
 
 const getRooms = catchAsync(async (req, res) => {
-  const filter = pick(req.query, ['name', 'role']);
+  let filter = pick(req.query, ['location', 'maximumGuests']);
+  if(req.query.name) {
+    let name = new RegExp(req.query.name, 'i');
+    filter = { ...filter, name };
+  }
   const options = pick(req.query, ['sortBy', 'limit', 'page']);
+  console.log(filter)
   const result = await roomService.queryRooms(filter, options);
   res.send(result);
 });

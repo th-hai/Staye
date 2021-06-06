@@ -3,7 +3,6 @@ const auth = require('../../middlewares/auth');
 const validate = require('../../middlewares/validate');
 const roomValidation = require('../../validations/room.validation');
 const roomController = require('../../controllers/room.controller');
-const userController = require('../../controllers/user.controller');
 
 const router = express.Router();
 
@@ -44,7 +43,6 @@ module.exports = router;
  *             type: object
  *             required:
  *               - name
- *               - standardGuests
  *               - maximumGuests
  *               - role
  *               - price
@@ -68,9 +66,6 @@ module.exports = router;
  *                   type: string
  *                 fullAddress: 
  *                   type: string
- *               standardGuests:
- *                  type: integer
- *                  description: Must greater than 0
  *               maximumGuests:
  *                  type: integer
  *                  description: Must greater than 0
@@ -99,7 +94,6 @@ module.exports = router;
  *                  city: Ho Chi Minh City
  *                  country: Vietnam
  *                  fullAddress: 145 Linh Trung, P. Linh Trung, TP. Thu Duc
- *               standardGuests: 4
  *               maximumGuests: 4
  *               amenities: []
  *               photos: []
@@ -138,11 +132,6 @@ module.exports = router;
  *         schema:
  *           type: string
  *         description: Room location
- *       - in: query
- *         name: standardGuests
- *         schema:
- *           type: string
- *         description: Room standard guests
  *       - in: query
  *         name: maximumGuests
  *         schema:
@@ -263,9 +252,6 @@ module.exports = router;
  *                   type: string
  *                 fullAddress: 
  *                   type: string
- *               standardGuests:
- *                  type: integer
- *                  description: Must greater than 0
  *               maximumGuests:
  *                  type: integer
  *                  description: Must greater than 0
@@ -294,7 +280,6 @@ module.exports = router;
  *                  city: Ho Chi Minh City
  *                  country: Vietnam
  *                  fullAddress: 145 Linh Trung, P. Linh Trung, TP. Thu Duc
- *               standardGuests: 4
  *               maximumGuests: 4
  *               amenities: []
  *               photos: []

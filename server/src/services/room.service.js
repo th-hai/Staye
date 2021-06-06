@@ -39,15 +39,6 @@ const getRoomById = async (id) => {
 };
 
 /**
- * Get user by email
- * @param {string} email
- * @returns {Promise<User>}
- */
-const getUserByEmail = async (email) => {
-  return User.findOne({ email });
-};
-
-/**
  * Update room by id
  * @param {ObjectId} roomId
  * @param {Object} updateBody
@@ -84,7 +75,6 @@ module.exports = {
   createRoom,
   queryRooms,
   getRoomById,
-  getUserByEmail,
   updateRoomById,
   deleteRoomById,
 };

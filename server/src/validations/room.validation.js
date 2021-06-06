@@ -12,7 +12,6 @@ const createRoom = {
       country: Joi.string(),
       fullAddress: Joi.string()
     }),
-    standardGuests: Joi.number().greater(0).required(),
     maximumGuests: Joi.number().greater(0).required(),
     photos: Joi.array().items(Joi.string()),
     amenities: Joi.array().items(Joi.object()),
@@ -27,7 +26,6 @@ const getRooms = {
   query: Joi.object().keys({
     name: Joi.string(),
     location: Joi.string(),
-    standardGuests: Joi.number(),
     maximumGuests: Joi.number(),
     sortBy: Joi.string(),
     limit: Joi.number().integer(),
@@ -56,7 +54,6 @@ const updateRoom = {
         country: Joi.string(),
         fullAddress: Joi.string()
       }),
-      standardGuests: Joi.number().greater(0),
       maximumGuests: Joi.number().greater(0),
       photos: Joi.array().items(Joi.string()),
       amenities: Joi.array().items(Joi.object()),

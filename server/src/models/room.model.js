@@ -25,10 +25,6 @@ const roomSchema = mongoose.Schema(
     photos: [{
       type: String,
     }],
-    standardGuests: {
-      type: Number,
-      required: true
-    },
     maximumGuests: {
       type: Number,
       required: true
