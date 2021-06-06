@@ -7,34 +7,24 @@ const makeSelectLocation = () =>
   createSelector(selectRouter, (routerState) => routerState.location);
 
 const makeSelectJwt = () =>
-  createSelector(selectGlobal, (globalState) =>
-    globalState ? globalState.jwt : ''
-  );
+  createSelector(selectGlobal, (globalState) => globalState?.jwt);
 
 const makeSelectIsLoggedIn = () =>
   createSelector(selectGlobal, (globalState) => {
-    if (globalState && globalState.jwt) {
+    if (globalState?.jwt) {
       return !globalState.jwt.isEmpty;
     }
     return false;
   });
 
 const makeSelectIsPending = () =>
-  createSelector(
-    selectGlobal,
-    (globalState) => globalState && globalState.pending
-  );
+  createSelector(selectGlobal, (globalState) => globalState?.pending);
 
 const makeSelectUser = () =>
-  createSelector(selectGlobal, (globalState) =>
-    globalState ? globalState.user : null
-  );
+  createSelector(selectGlobal, (globalState) => globalState?.user);
 
 const makeSelectRole = () =>
-  createSelector(
-    selectGlobal,
-    (globalState) => globalState.user && globalState.user.role
-  );
+  createSelector(selectGlobal, (globalState) => globalState?.user?.role);
 
 export {
   makeSelectLocation,
