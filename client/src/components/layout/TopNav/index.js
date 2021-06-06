@@ -4,7 +4,9 @@ import { connect } from 'react-redux';
 import PropTypes from 'prop-types';
 import { logout } from 'containers/App/actions';
 import FilterRooms from 'components/HomeComponents/FilterRooms';
-const TopNav = ({ user, handleLogout }) => {
+const TopNav = ({ user, handleLogout, role }) => {
+  console.log(role)
+  const isAdmin = role === 'admin' ? true : false;
   return (
     <div class="w-full text-gray-700 bg-white border-t border-gray-100 shadow-sm body-font sticky top-0 z-50">
       <div class="container flex flex-col items-start justify-between px-6 pt-6 mx-auto md:flex-row h-16">
@@ -12,17 +14,25 @@ const TopNav = ({ user, handleLogout }) => {
           <img className="w-24" />
         </a>
         <div class="flex flex-wrap items-center justify-centertext-base border-l border-gray-200 md:mr-auto">
-         
-          <FilterRooms/>
+          <FilterRooms />
         </div>
         <div class="items-center h-full">
           {user ? (
-            <Link
-              to="/profile"
-              class="mr-5 font-medium text-gray-600 hover:text-gray-900 text-black  no-underline"
-            >
-              Hello {user.name}!
-            </Link>
+            (isAdmin ? (
+              <Link
+                to="/admin/dashboard"
+                class="mr-5 font-medium text-gray-600 hover:text-gray-900 text-black  no-underline"
+              >
+                Hello {user.name} - Admin!
+              </Link>
+            ) : (
+              <Link
+                to="/profile"
+                class="mr-5 font-medium text-gray-600 hover:text-gray-900 text-black  no-underline"
+              >
+                Hello {user.name}!
+              </Link>
+            ))
           ) : (
             <Link
               to="/login"
@@ -55,6 +65,7 @@ const TopNav = ({ user, handleLogout }) => {
 TopNav.propTypes = {
   user: PropTypes.object,
   handleLogout: PropTypes.func,
+  role: PropTypes.string,
 };
 
 function mapDispatchToProps(dispatch) {
