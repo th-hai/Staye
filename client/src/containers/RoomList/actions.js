@@ -8,6 +8,9 @@ import {
   GET_ROOM,
   GET_ROOM_SUCCESS,
   GET_ROOM_FAIL,
+  GET_ROOMS_BY_LOCATION,
+  GET_ROOMS_BY_LOCATION_SUCCESS,
+  GET_ROOMS_BY_LOCATION_FAIL,
   DELETE_ROOM,
   DELETE_ROOM_FAILED,
   DELETE_ROOM_SUCCESS,
@@ -31,6 +34,20 @@ export const getRoomSuccess = (data) => ({
 
 export const getRoomFail = (error) => ({
   type: GET_ROOM_FAIL,
+  error,
+});
+
+export const getRoomsByLocation = () => ({
+  type: GET_ROOMS_BY_LOCATION,
+});
+
+export const getRoomsByLocationSuccess = (data) => ({
+  type: GET_ROOMS_BY_LOCATION_SUCCESS,
+  payload: data,
+});
+
+export const getRoomsByLocationFail = (error) => ({
+  type: GET_ROOMS_BY_LOCATION_FAIL,
   error,
 });
 

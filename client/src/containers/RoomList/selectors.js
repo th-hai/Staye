@@ -31,8 +31,14 @@ const makeSelectRoomModal = createSelector(
     get('visible')
   );
 
+const makeSelectRoomsAutoComplete = createSelector(
+  makeSelectRoomListDomain,
+  state => state.roomsAutocomplete
+);
+
 export {
     makeSelectRooms,
     makeSelectRoomModal,
-    makeSelectRoomModalVisible
+    makeSelectRoomModalVisible,
+    makeSelectRoomsAutoComplete
 };
