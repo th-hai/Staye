@@ -8,6 +8,7 @@ const uploadSingle = catchAsync(async (req, res) => {
 })
 
 const uploadMultiple = catchAsync(async (req, res) => {
+  console.log("req.file", req);
   let files = req.files.map(file => new Promise((resolve, reject) => {
     cloudinary.uploadMultiple(file.path).then((result) => {
       resolve(result);

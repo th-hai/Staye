@@ -1,16 +1,16 @@
-import React, { memo, useCallback, useEffect } from 'react';
+import React, { memo, useCallback, useEffect, useState } from 'react';
 import PropTypes from 'prop-types';
 import BaseModal from 'components/Modal/BaseModal';
-import { Input, Select } from 'antd';
+import { Input, Select, Upload, Modal } from 'antd';
+import { PlusOutlined } from '@ant-design/icons';
 import flow from 'lodash/fp/flow';
 import { connect } from 'react-redux';
 import { bindActionCreators } from 'redux';
 import { createStructuredSelector } from 'reselect';
 import { makeSelectRoomModal } from 'containers/RoomList/selectors';
 import isNil from 'lodash/fp/isNil';
-import { showRoomModal } from 'containers/RoomList/actions';
+import { showRoomModal, uploadPhotos } from 'containers/RoomList/actions';
 import { StyledForm } from './styles';
-
 const DEFAULT_ROOM = {
   name: '',
   description: '',
@@ -113,7 +113,14 @@ renderSingleItem.propTypes = {
   placeholder: PropTypes.string,
   suggestedOptions: PropTypes.array,
 };
-
+function getBase64(file) {
+  return new Promise((resolve, reject) => {
+    const reader = new FileReader();
+    reader.readAsDataURL(file);
+    reader.onload = () => resolve(reader.result);
+    reader.onerror = (error) => reject(error);
+  });
+}
 const RoomModal = ({
   room,
   addRoom,
@@ -121,9 +128,45 @@ const RoomModal = ({
   roomModal,
   setModalState,
   showRoomModal,
+  uploadPhotos,
   ...restProps
 }) => {
   const [form] = StyledForm.useForm();
+  const [previewVisible, setPreviewvisible] = useState(false);
+  const [previewTitle, setPreviewTitle] = useState('');
+  const [previewImage, setPreviewImage] = useState('');
+  const [fileList, setFilelist] = useState([]);
+
+  const handleCancel = () => setPreviewvisible(false);
+
+  const handlePreview = async (file) => {
+    if (!file.url && !file.preview) {
+      file.preview = await getBase64(file.originFileObj);
+    }
+
+    setPreviewImage(file.url || file.preview);
+    setPreviewvisible(true);
+    setPreviewTitle(
+      file.name || file.url.substring(file.url.lastIndexOf('/') + 1)
+    );
+  };
+
+  const handleChange = ({ fileList }) => {
+    setFilelist(fileList);
+  };
+
+  const uploadButton = (
+    <div>
+      <PlusOutlined />
+      <div style={{ marginTop: 8 }}>Upload</div>
+    </div>
+  );
+
+  const dummyRequest = ({ file, onSuccess }) => {
+    setTimeout(() => {
+      onSuccess('ok');
+    }, 0);
+  };
 
   const isAddRoom = isNil(room) || isNil(room.id);
 
@@ -131,7 +174,8 @@ const RoomModal = ({
     if (!isAddRoom) {
       form.setFieldsValue(room);
     }
-  }, [form, room]);
+    console.log('useEffect', fileList);
+  }, [form, room, fileList]);
 
   const onCancelHandler = useCallback(() => {
     showRoomModal(false);
@@ -142,17 +186,25 @@ const RoomModal = ({
   };
   const onFinishHandler = useCallback(
     (values) => {
-      values.name = replace(values.name);
-      values.description = replace(values.description);
+      // values.name = replace(values.name);
+      // values.description = replace(values.description);
+      console.log('finish', fileList);
+      const formData = new FormData();
+      const filesOrigin = fileList.map((file) => file.originFileObj);
+      console.log('filesOrigin', filesOrigin);
+      for (const item of filesOrigin) {
+        formData.append('files', item);
+      }
+      console.log(formData);
+      uploadPhotos(formData);
 
-      values.address.a();
       if (isAddRoom) {
         addRoom(values);
       } else {
         updateRoom(room.id, values);
       }
     },
-    [isAddRoom, addRoom, updateRoom, room]
+    [isAddRoom, addRoom, updateRoom, room, fileList]
   );
 
   const onOkHandler = useCallback(() => {
@@ -199,7 +251,7 @@ const RoomModal = ({
 
         <Item
           name="description"
-          label="description"
+          label="Description"
           rules={[
             {
               required: true,
@@ -210,25 +262,31 @@ const RoomModal = ({
           <TextArea rows={5} placeholder="Description" />
         </Item>
 
-        <Item label="Address">
+        <Item label="Address" name="address">
           <Input.Group compact>
             <Item
               name={['address', 'houseNumber']}
-              rules={[{ type: 'number', message: 'Must be a number!' }]}
+              rules={[
+                {
+                  pattern: new RegExp(/^[0-9]+$/),
+                  message: 'Must be a number!',
+                },
+              ]}
               className="w-1/12"
             >
               <Input placeholder="House number" />
             </Item>
-            <Item name={['address', 'city']} >
+            <Item name={['address', 'city']}>
               <Input placeholder="City" />
             </Item>
             <Item name={['address', 'country']}>
               <Input placeholder="Country" />
             </Item>
             <Item name={['address', 'fullAddress']} className="w-full">
-              <Input placeholder="Full address"/>
+              <Input placeholder="Full address" />
             </Item>
           </Input.Group>
+          {/* <Input placeholder="Full address" /> */}
         </Item>
 
         <Item
@@ -253,7 +311,53 @@ const RoomModal = ({
             },
           ]}
         >
-          <Input className="w-1/12" placeholder="Maximum guests" />
+          <Input className="w-1/12" placeholder="Price" />
+        </Item>
+        <Item
+          label="Price"
+          name="price"
+          rules={[
+            {
+              required: true,
+              message: 'Price is empty!',
+            },
+          ]}
+        >
+          <Input className="w-1/12" placeholder="Price" />
+        </Item>
+        <Item
+          label="Status"
+          name="status"
+          rules={[
+            {
+              required: true,
+              message: 'Status is empty!',
+            },
+          ]}
+        >
+          <Input className="w-1/12" placeholder="Status" />
+        </Item>
+
+        <Item>
+          <Upload
+            action="https://www.mocky.io/v2/5cc8019d300000980a055e76"
+            listType="picture-card"
+            fileList={fileList}
+            onPreview={handlePreview}
+            onChange={handleChange}
+            customRequest={dummyRequest}
+            beforeUpload={() => false}
+          >
+            {fileList.length >= 3 ? null : uploadButton}
+          </Upload>
+          <Modal
+            visible={previewVisible}
+            title={previewTitle}
+            footer={null}
+            onCancel={handleCancel}
+          >
+            <img alt="example" style={{ width: '100%' }} src={previewImage} />
+          </Modal>
         </Item>
       </StyledForm>
     </BaseModal>
@@ -267,6 +371,7 @@ RoomModal.propTypes = {
   roomModal: PropTypes.func,
   setModalState: PropTypes.func,
   showRoomModal: PropTypes.func,
+  uploadPhotos: PropTypes.func,
 };
 
 const mapStateToProps = createStructuredSelector({
@@ -277,6 +382,7 @@ const mapDispatchToProps = (dispatch) =>
   bindActionCreators(
     {
       showRoomModal,
+      uploadPhotos,
     },
     dispatch
   );

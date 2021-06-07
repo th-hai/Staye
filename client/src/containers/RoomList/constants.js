@@ -1,9 +1,9 @@
 /**
- * 
- * 
+ *
+ *
  * RoomList constants
- * 
- * 
+ *
+ *
  */
 
 export const scope = 'containers/RoomList';
@@ -27,6 +27,10 @@ export const UPDATE_ROOM_FAILED = `${scope}/UPDATE_ROOM_FAILED`;
 export const DELETE_ROOM = `${scope}/DELETE_ROOM`;
 export const DELETE_ROOM_SUCCESS = `${scope}/DELETE_ROOM_SUCCESS`;
 export const DELETE_ROOM_FAILED = `${scope}/DELETE_ROOM_FAILED`;
+
+export const UPLOAD_PHOTOS = `${scope}/UPLOAD_PHOTOS`;
+export const UPLOAD_PHOTOS_SUCCESS = `${scope}/UPLOAD_PHOTOS_SUCCESS`;
+export const UPLOAD_PHOTOS_FAILED = `${scope}/UPLOAD_PHOTOS_FAILED `;
 
 export const SHOW_MODAL = `${scope}/SHOW_MODAL`;
 

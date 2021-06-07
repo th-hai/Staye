@@ -1,5 +1,12 @@
 import produce from 'immer';
-import { GET_ROOM, GET_ROOM_SUCCESS, GET_ROOM_FAIL, GET_ROOMS_BY_LOCATION, GET_ROOMS_BY_LOCATION_SUCCESS, GET_ROOMS_BY_LOCATION_FAIL, SHOW_MODAL } from './constants';
+import {
+  GET_ROOM,
+  GET_ROOM_SUCCESS,
+  GET_ROOM_FAIL,
+  SHOW_MODAL,
+  UPLOAD_PHOTOS,
+  UPLOAD_PHOTOS_SUCCESS,
+} from './constants';
 
 export const initialState = {
   rooms: [],
@@ -8,7 +15,7 @@ export const initialState = {
   roomModal: {
     visible: false,
   },
-  roomsAutocomplete: [],
+  photoUrls: [],
 };
 
 const roomListReducer = (state = initialState, action) =>
@@ -41,6 +48,12 @@ const roomListReducer = (state = initialState, action) =>
       case SHOW_MODAL:
         draftState.roomModal.visible = action.visible;
         break;
+      case UPLOAD_PHOTOS:
+        draftState.loading = true;
+        break;
+      case UPLOAD_PHOTOS_SUCCESS:
+        draftState.loading = false;
+        draftState.photoUrls = action.photoUrls
     }
   });
 export default roomListReducer;
