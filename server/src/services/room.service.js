@@ -1,5 +1,5 @@
 const httpStatus = require('http-status');
-const { Room } = require('../models');
+const { Room, Location } = require('../models');
 const ApiError = require('../utils/ApiError');
 
 /**
@@ -39,6 +39,45 @@ const getRoomById = async (id) => {
 };
 
 /**
+ * Get room by location id
+ * @param {ObjectId} id
+ * @returns {Promise<any>}
+ */
+ const getRoomByLocationId = async (id) => {
+
+  const location = await Location.findById(id);
+  const totalRooms = await Room.countDocuments({location: id});
+  result = {
+    id: id,
+    location: location?.name,
+    thumbnail: location?.photo,
+    totalRooms: totalRooms
+  }
+  
+  return result;
+};
+
+/**
+ * Get room by all location
+ * @param {ObjectId}
+ * @returns {Promise<any>}
+ */
+ const getRoomByAllLocation = async () => {
+  const locations = await Location.find();
+  const results = await Promise.all(locations.map(async (location) => {
+    const totalRooms = await Room.countDocuments({ location: location._id })
+    return ({
+      id: location._id,
+      location: location?.name,
+      thumbnail: location?.photo,
+      totalRooms: totalRooms
+    })
+  }));
+
+  return results
+};
+
+/**
  * Update room by id
  * @param {ObjectId} roomId
  * @param {Object} updateBody
@@ -75,6 +114,8 @@ module.exports = {
   createRoom,
   queryRooms,
   getRoomById,
+  getRoomByLocationId,
+  getRoomByAllLocation,
   updateRoomById,
   deleteRoomById,
 };
