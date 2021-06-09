@@ -22,11 +22,14 @@ import saga from './saga';
 import * as actions from './actions';
 
 import { makeSelectLocations, makeSelectRooms } from './selectors';
-import { Link } from 'react-router-dom';
+import { Link, useHistory } from 'react-router-dom';
+import {createURLSearchParams} from 'utils/urlUtils'
 
 const { Option } = AutoComplete;
 
 const FilterRooms = ({ getLocations, locations, getRooms, rooms }) => {
+
+  const history = useHistory();
 
   const [openLocation, setOpenLocation] = useState(false);
   const [openDate, setOpenDate] = useState(false);
@@ -34,14 +37,14 @@ const FilterRooms = ({ getLocations, locations, getRooms, rooms }) => {
 
   const [location, setLocation] = useState(null);
   const [searchText, setSearchText] = useState('');
-  const [fromDate, setFromDate] = useState(moment());
-  const [toDate, setToDate] = useState(moment());
+  const [fromDate, setFromDate] = useState(null);
+  const [toDate, setToDate] = useState(null);
   const [inputDate, setInputDate] = useState('Ngày');
-  const [numberGuests, setNumberGuests] = useState(0);
+  const [numberGuests, setNumberGuests] = useState();
 
   useInjectReducer({ key: reducerKey, reducer });
   useInjectSaga({ key: reducerKey, saga });
-  
+
   useEffect(() => {
     getLocations();
   }, []);
@@ -56,51 +59,70 @@ const FilterRooms = ({ getLocations, locations, getRooms, rooms }) => {
     }
   }, [location]);
 
-  const onCalendarChangeHandler = (value) => {
-    const from = value[0];
-    const to = value[1];
-    console.log(from?.format('DD-MM-YYYY'), to?.format('DD-MM-YYYY'))
-    if (from == null || to == null) {
-      const date = from || to;
-      setInputDate(date.format('D-M-yyyy'));
-      setFromDate(date);
-      setToDate(date.clone().add(1, 'd'));
+  useEffect(() => {
+    if (openDate) return;
+
+    if (fromDate == null) {
+      clearDate();
     }
-    else if (from.month() === to.month()) {
-      if (from.date() === to.date()){
-        setFromDate(from);
-        setToDate(to.add(1, 'd'))
-        setInputDate(from.format('MMM D-') + to.format('D'));
-      } 
-      else {
-        setFromDate(from);
-        setToDate(to);
-        setInputDate(from.format('MMM D-') + to.format('D'));
+    else if (toDate == null) {
+      setToDate(fromDate.clone().add(1, 'd'))
+    }
+    else if (fromDate.month() === toDate?.month()) {
+      if (fromDate.date() === toDate.date()) {
+        setToDate(toDate.add(1, 'd'))
       }
     }
-    else {
-      setFromDate(from);
-      setToDate(to);
-      setInputDate(from.format('MMM D-') + to.format('MMM D'));
-    }
-    setOpenDate(true);
-  };
+  }, [openDate])
 
-  const refreshDate = () => {
-    if (fromDate.month() === toDate.month()) {
-      if (fromDate.date() === toDate.date()){
-        setInputDate(fromDate.format('MMM D-') + toDate.format('D'));
-      } 
+  useEffect(() => {
+    if (fromDate == null && toDate == null) {
+      setInputDate('Ngày');
+    }
+    else if (fromDate == null || toDate == null) {
+      const date = fromDate || toDate;
+      setInputDate(date.format('D-M-yyyy'));
+    }
+    else if (fromDate.month() === toDate.month()) {
+      if (fromDate.date() === toDate.date()) {
+        setInputDate(fromDate.format('D-M-yyyy'));
+      }
       else {
         setInputDate(fromDate.format('MMM D-') + toDate.format('D'));
       }
     }
     else setInputDate(fromDate.format('MMM D-') + toDate.format('MMM D'));
+  }, [fromDate, toDate])
+
+  const onCalendarChangeHandler = (value) => {
+    const from = value[0];
+    const to = value[1];
+
+    if (from == null || to == null) {
+      const date = from || to;
+      setFromDate(date);
+      setToDate(null);
+    }
+    else if (from.month() === to.month() && from.date() === to.date()) {
+      setFromDate(from);
+      setToDate(to.add(1, 'd'))
+    }
+    else {
+      setFromDate(from);
+      setToDate(to);
+    }
+  };
+
+  const handleOpenPickerChange = open => {
+    // firing by open props
+    // open always get false value
+    if (!open) {
+      applyDate()
+    }
   }
 
   const applyDate = () => {
     setOpenDate(false)
-    refreshDate();
   }
 
   const clearDate = () => {
@@ -121,11 +143,10 @@ const FilterRooms = ({ getLocations, locations, getRooms, rooms }) => {
     return current && current < moment().endOf('day');
   }
 
-  const handleOpenPickerChange = open => {
-    console.log("open",open)
-    if (!open) {
-      applyDate()
-    }
+  const handleSearching = () => {
+    const params = { location, keyword: searchText, checkin: fromDate?.format('YYYY-MM-DD'), checkout: toDate?.format('YYYY-MM-DD'), guests: numberGuests }
+
+    history.push(`/s?${createURLSearchParams(params)}`)
   }
 
   const autoCompleteOptions = rooms.map(item => (
@@ -165,14 +186,14 @@ const FilterRooms = ({ getLocations, locations, getRooms, rooms }) => {
       <AutoComplete
         allowClear
         onChange={(value) => setSearchText(value)}
-        onFocus={()=> closeAll()}
+        onFocus={() => closeAll()}
         filterOption={(inputValue, option) =>
-          inputValue.length>0 && option.value.toUpperCase().indexOf(inputValue.toUpperCase()) !== -1
+          inputValue.length > 0 && option.value.toUpperCase().indexOf(inputValue.toUpperCase()) !== -1
         }
         dataSource={autoCompleteOptions}
         placeholder="Tìm homestay"
         dropdownMatchSelectWidth={false}
-        className="w-96">
+        className="w-72">
         <Input className="border-none shadow-none outline-none" />
       </AutoComplete>
       <Divider type="vertical" className="bg-gray-300 m-0" style={{ height: '30px' }} />
@@ -193,7 +214,7 @@ const FilterRooms = ({ getLocations, locations, getRooms, rooms }) => {
       />
       <Button
         className="border-0 h-full w-28"
-        onClick={() => { 
+        onClick={() => {
           setOpenDate(!openDate);
           setOpenLocation(false);
           setOpenGuest(false);
@@ -218,7 +239,7 @@ const FilterRooms = ({ getLocations, locations, getRooms, rooms }) => {
         </Select>
         <Button
           className="border-0 h-full w-20"
-          onClick={() => { 
+          onClick={() => {
             setOpenGuest(!openGuest);
             setOpenLocation(false);
             setOpenDate(false);
@@ -228,7 +249,7 @@ const FilterRooms = ({ getLocations, locations, getRooms, rooms }) => {
         </Button>
       </div>
 
-      <Button htmlType="submit" className="bg-gray-700 text-white border-0" onClick={() => console.log('hihi')} >
+      <Button htmlType="submit" className="bg-gray-700 text-white border-0" onClick={handleSearching} >
         <FontAwesomeIcon icon={faSearch} />
       </Button>
     </div>
