@@ -23,7 +23,7 @@ import * as actions from './actions';
 
 import { makeSelectLocations, makeSelectRooms } from './selectors';
 import { Link, useHistory } from 'react-router-dom';
-import {createURLSearchParams} from 'utils/urlUtils'
+import { createURLSearchParams } from 'utils/urlUtils'
 
 const { Option } = AutoComplete;
 
@@ -34,6 +34,8 @@ const FilterRooms = ({ getLocations, locations, getRooms, rooms }) => {
   const [openLocation, setOpenLocation] = useState(false);
   const [openDate, setOpenDate] = useState(false);
   const [openGuest, setOpenGuest] = useState(false);
+
+  const [options, setOptions] = useState([]);
 
   const [location, setLocation] = useState(null);
   const [searchText, setSearchText] = useState('');
@@ -149,7 +151,14 @@ const FilterRooms = ({ getLocations, locations, getRooms, rooms }) => {
     history.push(`/s?${createURLSearchParams(params)}`)
   }
 
-  const autoCompleteOptions = rooms.map(item => (
+  const handleAutoCompleteInputChange = (value) => {
+    setSearchText(value);
+    const filtered = !value ? [] : rooms.filter(item =>
+      item.name.toUpperCase().indexOf(value.toUpperCase()) !== -1)
+    setOptions(filtered)
+  }
+
+  const autoCompleteOptions = options.map(item => (
     <Option key={item.id} value={item.name}>
       <Link to={`/rooms/${item.id}`}>{item.name}</Link>
     </Option>
@@ -185,11 +194,8 @@ const FilterRooms = ({ getLocations, locations, getRooms, rooms }) => {
       <Divider type="vertical" className="bg-gray-300 mr-0" style={{ height: '30px' }} />
       <AutoComplete
         allowClear
-        onChange={(value) => setSearchText(value)}
-        onFocus={() => closeAll()}
-        filterOption={(inputValue, option) =>
-          inputValue.length > 0 && option.value.toUpperCase().indexOf(inputValue.toUpperCase()) !== -1
-        }
+        onChange={handleAutoCompleteInputChange}
+        onFocus={closeAll}
         dataSource={autoCompleteOptions}
         placeholder="Tìm homestay"
         dropdownMatchSelectWidth={false}
@@ -203,7 +209,7 @@ const FilterRooms = ({ getLocations, locations, getRooms, rooms }) => {
         disabledDate={disabledDate}
         value={[fromDate, toDate]}
         style={{ visibility: 'collapse', width: 0, padding: 0 }}
-        onOpenChange={(open) => handleOpenPickerChange(open)}
+        onOpenChange={handleOpenPickerChange}
         onCalendarChange={onCalendarChangeHandler}
         renderExtraFooter={() => {
           return <div className="flex justify-between p-2">
@@ -238,7 +244,7 @@ const FilterRooms = ({ getLocations, locations, getRooms, rooms }) => {
           ))}
         </Select>
         <Button
-          className="border-0 h-full w-20"
+          className="border-0 h-full min-w-20"
           onClick={() => {
             setOpenGuest(!openGuest);
             setOpenLocation(false);

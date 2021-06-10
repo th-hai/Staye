@@ -31,6 +31,25 @@ const getRoom = catchAsync(async (req, res) => {
 
 const getRoomsByLocation = catchAsync(async (req, res) => {
   const rooms = await roomService.getRoomsByLocation(req.params.locationId);
+
+  if (!rooms) {
+    throw new ApiError(httpStatus.NOT_FOUND, 'Room not found');
+  }
+  res.send(rooms);
+});
+
+const getRoomByLocation = catchAsync(async (req, res) => {
+  
+  let rooms;
+  
+  const locationId = req.params.locationId;
+  if (!locationId) {
+    console.log('No location')
+    rooms = await roomService.getRoomByAllLocation();
+  } else {
+    rooms = await roomService.getRoomByLocationId(req.params.locationId);
+  }
+
   if (!rooms) {
     throw new ApiError(httpStatus.NOT_FOUND, 'Room not found');
   }
@@ -52,6 +71,7 @@ module.exports = {
   getRooms,
   getRoom,
   getRoomsByLocation,
+  getRoomByLocation,
   updateRoom,
   deleteRoom,
 };

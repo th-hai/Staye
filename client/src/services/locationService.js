@@ -4,6 +4,10 @@ export function getLocations() {
   return request.get('/v1/locations');
 }
 
+export function getLocationsCountRooms() {
+  return request.get(`/v1/locations/rooms`);
+}
+
 export function createLocation(location) {
   return request.post('/v1/locations', location);
 }

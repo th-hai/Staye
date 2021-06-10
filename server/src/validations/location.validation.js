@@ -20,7 +20,13 @@ const getLocations = {
 
 const getLocation = {
   params: Joi.object().keys({
-    locationId: Joi.string().custom(objectId),
+    locationId: Joi.string().custom(objectId)
+  }),
+};
+
+const getRoomByLocation = {
+  params: Joi.object().keys({
+    locationId: Joi.string().allow(null, '').custom(objectId)
   }),
 };
 
@@ -49,4 +55,5 @@ module.exports = {
   getLocation,
   updateLocation,
   deleteLocation,
+  getRoomByLocation
 };

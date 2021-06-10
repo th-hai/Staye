@@ -21,7 +21,13 @@ const makeSelectLocations = createSelector(
     makeSelectLocationListDomain,
     state => state.locations
 );
+
+const makeSelectLocationsAndCountRooms = createSelector(
+    makeSelectLocationListDomain,
+    state => state.locationsCountRooms
+);
+
 export {
     makeSelectLocations,
-    
+    makeSelectLocationsAndCountRooms
 };

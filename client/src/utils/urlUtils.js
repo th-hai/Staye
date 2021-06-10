@@ -1,11 +1,11 @@
 export const createURLSearchParams = params => {
-    const searchParams = new URLSearchParams(params);
-    const standardParams = new URLSearchParams();
+  const searchParams = new URLSearchParams(params);
+  const standardParams = new URLSearchParams();
 
-    searchParams.forEach((v, k) => {
-      if (v && v !== 'undefined')
-      standardParams.append(k, v)
-    })
+  searchParams.forEach((value, key) => {
+    if (value && value !== 'undefined')
+      standardParams.append(key, value)
+  })
 
-    return standardParams.toString();
+  return standardParams.toString();
 }
