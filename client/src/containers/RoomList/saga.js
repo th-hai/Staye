@@ -4,8 +4,9 @@ import { message } from 'antd';
 import { getErrorMessage } from '../../utils/responseUtils';
 import {
   GET_ROOM,
-  GET_ROOM_SUCCESS,
   GET_ROOM_FAIL,
+  GET_ROOMS_BY_LOCATION,
+  GET_ROOMS_BY_LOCATION_FAIL,
   DELETE_ROOM,
   DELETE_ROOM_SUCCESS,
   DELETE_ROOM_FAILED,
@@ -21,6 +22,9 @@ import {
   getRoom,
   getRoomSuccess,
   getRoomFail,
+  getRoomsByLocation,
+  getRoomsByLocationSuccess,
+  getRoomsByLocationFail,
   deleteRoom,
   deleteRoomSuccess,
   deleteRoomFailed,
@@ -39,6 +43,15 @@ export function* getRoomTask() {
     yield put(getRoomSuccess(data.results));
   } catch (error) {
     yield put(getRoomFail(getErrorMessage(error)));
+  }
+}
+
+export function* getRoomsByLocationTask() {
+  try {
+    const { data } = yield call(services.getRoomsByLocation);
+    yield put(getRoomsByLocationSuccess(data.results));
+  } catch (error) {
+    yield put(getRoomsByLocationFail(getErrorMessage(error)));
   }
 }
 
@@ -93,6 +106,7 @@ export function* failedTask({ error }) {
 export default function* roomListSaga() {
   yield all([
     takeLatest(GET_ROOM, getRoomTask),
+    takeLatest(GET_ROOMS_BY_LOCATION, getRoomsByLocationTask),
     takeLatest(DELETE_ROOM, deleteRoomTask),
     takeLatest(DELETE_ROOM_SUCCESS, deleteRoomSuccessTask),
     takeLatest(UPDATE_ROOM, updateRoomTask),

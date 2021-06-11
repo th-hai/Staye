@@ -1,33 +1,32 @@
 import { createSelector } from 'reselect';
 import { initialState } from './reducer';
 import { reducerKey } from './constants';
-
 /**
  * Direct selector to the roomList state domain
  */
 
-const selectLocationListDomain = state => state[reducerKey] || initialState;
+const selectFilterRoomsDomain = state => state[reducerKey] || initialState;
 
 /**
  * Other specific selectors
  */
 
-const makeSelectLocationListDomain = createSelector(
-    selectLocationListDomain,
+const makeSelectFilterRoomsDomain = createSelector(
+    selectFilterRoomsDomain,
     state => state
 );
 
 const makeSelectLocations = createSelector(
-    makeSelectLocationListDomain,
+    makeSelectFilterRoomsDomain,
     state => state.locations
 );
 
-const makeSelectLocationsAndCountRooms = createSelector(
-    makeSelectLocationListDomain,
-    state => state.locationsCountRooms
+const makeSelectRooms = createSelector(
+    makeSelectFilterRoomsDomain,
+    state => state.rooms
 );
 
 export {
     makeSelectLocations,
-    makeSelectLocationsAndCountRooms
+    makeSelectRooms,
 };

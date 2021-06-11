@@ -3,18 +3,19 @@ import {
     GET_LOCATIONS,
     GET_LOCATIONS_SUCCESS,
     GET_LOCATIONS_FAIL,
-    GET_LOCATIONS_COUNT_ROOMS,
-    GET_LOCATIONS_COUNT_ROOMS_SUCCESS,
+    GET_ROOMS_BY_LOCATION, 
+    GET_ROOMS_BY_LOCATION_SUCCESS, 
+    GET_ROOMS_BY_LOCATION_FAIL
 } from './constants'
 
 export const initialState = {
     locations: [],
-    locationsCountRooms: [],
+    rooms: [],
     loading: false,
     error: '',
 };
 
-const locationListReducer = (state = initialState, action) => 
+const filterRoomsReducer = (state = initialState, action) => 
     produce(state, draftState => {
         switch(action.type) {
             case GET_LOCATIONS:
@@ -25,18 +26,22 @@ const locationListReducer = (state = initialState, action) =>
                 draftState.locations = action.payload;
                 draftState.error = null;
                 break;
-            case GET_LOCATIONS_COUNT_ROOMS:
+            case GET_LOCATIONS_FAIL:
+                draftState.loading = false;
+                draftState.error = action.error;
+                break;
+            case GET_ROOMS_BY_LOCATION:
                 draftState.loading = true;
                 break;
-            case GET_LOCATIONS_COUNT_ROOMS_SUCCESS:
+            case GET_ROOMS_BY_LOCATION_SUCCESS:
                 draftState.loading = false;
-                draftState.locationsCountRooms = action.payload;
+                draftState.rooms = action.payload;
                 draftState.error = null;
                 break;
-            case GET_LOCATIONS_FAIL:
+            case GET_ROOMS_BY_LOCATION_FAIL:
                 draftState.loading = false;
                 draftState.error = action.error;
                 break;
         }
     })
-export default locationListReducer;
+export default filterRoomsReducer;
