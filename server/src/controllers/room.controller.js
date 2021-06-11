@@ -44,7 +44,6 @@ const getRoomByLocation = catchAsync(async (req, res) => {
   
   const locationId = req.params.locationId;
   if (!locationId) {
-    console.log('No location')
     rooms = await roomService.getRoomByAllLocation();
   } else {
     rooms = await roomService.getRoomByLocationId(req.params.locationId);
