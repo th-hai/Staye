@@ -24,6 +24,9 @@ import {
   UPLOAD_PHOTOS,
   UPLOAD_PHOTOS_FAILED,
   UPLOAD_PHOTOS_SUCCESS,
+  GET_OWNERS,
+  GET_OWNERS_FAILED,
+  GET_OWNERS_SUCCESS
 } from './constants';
 
 export const getRoom = () => ({
@@ -51,6 +54,20 @@ export const getRoomsByLocationSuccess = (data) => ({
 
 export const getRoomsByLocationFail = (error) => ({
   type: GET_ROOMS_BY_LOCATION_FAIL,
+  error,
+});
+
+export const getOwners = () => ({
+  type: GET_OWNERS,
+});
+
+export const getOwnersSuccess = (data) => ({
+  type: GET_OWNERS_SUCCESS,
+  payload: data,
+});
+
+export const getOwnersFailed = (error) => ({
+  type: GET_OWNERS_FAILED,
   error,
 });
 

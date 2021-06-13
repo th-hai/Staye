@@ -1,17 +1,40 @@
 import { takeLatest, put, call, all } from 'redux-saga/effects'
 import * as services from '../../../services/locationService'
 import { message } from 'antd'
-import { getErrorMessage } from '../../../utils/responseUtils'
-import { GET_LOCATIONS, GET_LOCATIONS_COUNT_ROOMS, GET_LOCATIONS_FAIL } from './constants'
+import { getErrorMessage } from '../../../utils/responseUtils';
+import { takeLatest, put, call, all } from 'redux-saga/effects';
+import * as services from '../../../services/locationService';
+import { message } from 'antd';
+import { getErrorMessage } from '../../../utils/responseUtils';
+import {
+  GET_LOCATIONS, GET_LOCATIONS_COUNT_ROOMS, GET_LOCATIONS_FAIL,
+  GET_AMENITIES,
+  GET_AMENITIES_FAIL,
+} from './constants';
 
-import { getLocationsSuccess, getLocationsFail, getLocationsCountRoomsSuccess } from './actions'
+import {
+  getLocationsSuccess,
+  getLocationsFail,
+  getAmenitiesSuccess,
+  getAmenitiesFail,
+  getLocationsCountRoomsSuccess 
+} from './actions';
 
 export function* getTask() {
   try {
-    const { data } = yield call(services.getLocations)
-    yield put(getLocationsSuccess(data.results))
+    const { data } = yield call(services.getLocations);
+    yield put(getLocationsSuccess(data.results));
   } catch (error) {
-    yield put(getLocationsFail(getErrorMessage(error)))
+    yield put(getLocationsFail(getErrorMessage(error)));
+  }
+}
+
+export function* getAmenitiesTask() {
+  try {
+    const { data } = yield call(services.getAmenities);
+    yield put(getAmenitiesSuccess(data.results));
+  } catch (error) {
+    yield put(getAmenitiesFail(getErrorMessage(error)));
   }
 }
 
@@ -26,12 +49,13 @@ export function* getLocationsCountRoomsTask() {
 }
 
 export function* failedTask({ error }) {
-  message.error(error)
+  message.error(error);
 }
 
 export default function* locationListSaga() {
   yield all([
     takeLatest(GET_LOCATIONS, getTask),
     takeLatest(GET_LOCATIONS_COUNT_ROOMS, getLocationsCountRoomsTask), 
-    takeLatest([GET_LOCATIONS_FAIL], failedTask)])
+    takeLatest(GET_AMENITIES, getAmenitiesTask),
+    takeLatest([GET_LOCATIONS_FAIL, GET_AMENITIES_FAIL], failedTask)])
 }

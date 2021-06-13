@@ -6,6 +6,9 @@ import {
   SHOW_MODAL,
   UPLOAD_PHOTOS,
   UPLOAD_PHOTOS_SUCCESS,
+  GET_OWNERS,
+  GET_OWNERS_FAILED,
+  GET_OWNERS_SUCCESS,
 } from './constants';
 
 export const initialState = {
@@ -16,6 +19,7 @@ export const initialState = {
     visible: false,
   },
   photoUrls: [],
+  owners: [],
 };
 
 const roomListReducer = (state = initialState, action) =>
@@ -45,6 +49,18 @@ const roomListReducer = (state = initialState, action) =>
         draftState.loading = false;
         draftState.error = action.error;
         break;
+      case GET_OWNERS:
+        draftState.loading = true;
+        break;
+      case GET_OWNERS_SUCCESS:
+        draftState.loading = false;
+        draftState.owners = action.payload;
+        draftState.error = null;
+        break;
+      case GET_OWNERS_FAILED:
+        draftState.loading = false;
+        draftState.error = action.error;
+        break;
       case SHOW_MODAL:
         draftState.roomModal.visible = action.visible;
         break;
@@ -53,7 +69,7 @@ const roomListReducer = (state = initialState, action) =>
         break;
       case UPLOAD_PHOTOS_SUCCESS:
         draftState.loading = false;
-        draftState.photoUrls = action.photoUrls
+        draftState.photoUrls = action.photoUrls;
     }
   });
 export default roomListReducer;

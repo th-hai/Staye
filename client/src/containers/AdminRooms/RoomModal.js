@@ -1,29 +1,34 @@
 import React, { memo, useCallback, useEffect, useState } from 'react';
 import PropTypes from 'prop-types';
 import BaseModal from 'components/Modal/BaseModal';
-import { Input, Select, Upload, Modal } from 'antd';
+import { Input, Select, Upload, Modal, InputNumber, AutoComplete } from 'antd';
 import { PlusOutlined } from '@ant-design/icons';
 import flow from 'lodash/fp/flow';
 import { connect } from 'react-redux';
 import { bindActionCreators } from 'redux';
 import { createStructuredSelector } from 'reselect';
-import { makeSelectRoomModal } from 'containers/RoomList/selectors';
+import * as uploadServices from 'services/uploadService';
+import {
+  makeSelectOwners,
+  makeSelectPhotoUrls,
+  makeSelectRoomModal,
+} from 'containers/RoomList/selectors';
 import isNil from 'lodash/fp/isNil';
 import { showRoomModal, uploadPhotos } from 'containers/RoomList/actions';
 import { StyledForm } from './styles';
 const DEFAULT_ROOM = {
   name: '',
   description: '',
-  address: {},
-  standardGuests: 0,
-  maximumGuests: 0,
+  address: '',
+  maximumGuests: 1,
   amenities: [],
   photos: [],
-  price: 0,
+  price: null,
   status: '',
   owner: '',
   location: '',
 };
+const { Option } = AutoComplete;
 
 const { Item } = StyledForm;
 const { TextArea } = Input;
@@ -40,79 +45,6 @@ const formItemLayout = {
   },
 };
 
-const renderListItem = ({
-  name,
-  required,
-  itemLabel,
-  requireMessage,
-  placeholder,
-  suggestedOptions,
-}) => (
-  <Item
-    name={name}
-    label={itemLabel}
-    rules={[
-      {
-        required,
-        message: requireMessage,
-      },
-    ]}
-  >
-    <Select mode="multiple" placeholder={placeholder}>
-      {suggestedOptions.map((option) => (
-        <Select.Option key={option} value={option}>
-          {option}
-        </Select.Option>
-      ))}
-    </Select>
-  </Item>
-);
-
-const renderSingleItem = ({
-  name,
-  required,
-  itemLabel,
-  requireMessage,
-  placeholder,
-  suggestedOptions,
-}) => (
-  <Item
-    name={name}
-    label={itemLabel}
-    rules={[
-      {
-        required,
-        message: requireMessage,
-      },
-    ]}
-  >
-    <Select placeholder={placeholder} showArrow showSearch>
-      {suggestedOptions.map((option) => (
-        <Select.Option key={option} value={option}>
-          {option}
-        </Select.Option>
-      ))}
-    </Select>
-  </Item>
-);
-
-renderListItem.propTypes = {
-  name: PropTypes.string,
-  required: PropTypes.bool,
-  itemLabel: PropTypes.string,
-  requireMessage: PropTypes.string,
-  placeholder: PropTypes.string,
-  suggestedOptions: PropTypes.array,
-};
-
-renderSingleItem.propTypes = {
-  name: PropTypes.string,
-  required: PropTypes.bool,
-  itemLabel: PropTypes.string,
-  requireMessage: PropTypes.string,
-  placeholder: PropTypes.string,
-  suggestedOptions: PropTypes.array,
-};
 function getBase64(file) {
   return new Promise((resolve, reject) => {
     const reader = new FileReader();
@@ -123,12 +55,16 @@ function getBase64(file) {
 }
 const RoomModal = ({
   room,
+  owners,
   addRoom,
   updateRoom,
   roomModal,
   setModalState,
   showRoomModal,
   uploadPhotos,
+  photoUrls,
+  locations,
+  amenities,
   ...restProps
 }) => {
   const [form] = StyledForm.useForm();
@@ -136,9 +72,12 @@ const RoomModal = ({
   const [previewTitle, setPreviewTitle] = useState('');
   const [previewImage, setPreviewImage] = useState('');
   const [fileList, setFilelist] = useState([]);
-
+  const [openSelect, setOpenSelect] = useState(false);
   const handleCancel = () => setPreviewvisible(false);
-
+  const status = [
+    { id: 1, state: 'Available' },
+    { id: 2, state: 'Unavailable' },
+  ];
   const handlePreview = async (file) => {
     if (!file.url && !file.preview) {
       file.preview = await getBase64(file.originFileObj);
@@ -173,35 +112,60 @@ const RoomModal = ({
   useEffect(() => {
     if (!isAddRoom) {
       form.setFieldsValue(room);
+      const listPhotos = room.photos.map((item, index) => ({
+        status: 'done',
+        url: item,
+      }));
+      setFilelist(listPhotos);
+    } else {
+      form.resetFields();
     }
-    console.log('useEffect', fileList);
-  }, [form, room, fileList]);
+  }, [form, room]);
 
   const onCancelHandler = useCallback(() => {
+    setFilelist([]);
     showRoomModal(false);
     setModalState({ visible: false, room: null });
   }, [showRoomModal]);
   const replace = (value) => {
     return value.replace(/\s+/g, ' ').trim();
   };
+
   const onFinishHandler = useCallback(
-    (values) => {
-      // values.name = replace(values.name);
-      // values.description = replace(values.description);
-      console.log('finish', fileList);
+    async (values) => {
+      let newValues;
+      values.name = replace(values.name);
+      values.description = replace(values.description);
       const formData = new FormData();
-      const filesOrigin = fileList.map((file) => file.originFileObj);
-      console.log('filesOrigin', filesOrigin);
-      for (const item of filesOrigin) {
+      // if (!isAddRoom) {
+      const newPhotos = fileList
+        .filter((item) => !item.status)
+        .map((file) => file.originFileObj);
+      for (const item of newPhotos) {
         formData.append('files', item);
       }
-      console.log(formData);
-      uploadPhotos(formData);
-
+      // }
+      await uploadServices.uploadMultiple(formData).then((res) => {
+        const urls = res.data.map((item) => item.url);
+        if (isAddRoom) {
+          newValues = {
+            ...values,
+            photos: urls,
+          };
+        } else {
+          newValues = {
+            ...values,
+            photos: fileList
+              .filter((item) => item.status)
+              .map((item) => item.url)
+              .concat(urls),
+          };
+        }
+      });
       if (isAddRoom) {
-        addRoom(values);
+        addRoom(newValues);
       } else {
-        updateRoom(room.id, values);
+        updateRoom(room.id, newValues);
       }
     },
     [isAddRoom, addRoom, updateRoom, room, fileList]
@@ -218,7 +182,7 @@ const RoomModal = ({
 
   const afterCloseHandler = useCallback(() => {
     form.resetFields();
-  }, []);
+  }, [photoUrls]);
 
   return (
     <BaseModal
@@ -262,45 +226,19 @@ const RoomModal = ({
           <TextArea rows={5} placeholder="Description" />
         </Item>
 
-        <Item label="Address" name="address">
-          <Input.Group compact>
-            <Item
-              name={['address', 'houseNumber']}
-              rules={[
-                {
-                  pattern: new RegExp(/^[0-9]+$/),
-                  message: 'Must be a number!',
-                },
-              ]}
-              className="w-1/12"
-            >
-              <Input placeholder="House number" />
-            </Item>
-            <Item name={['address', 'city']}>
-              <Input placeholder="City" />
-            </Item>
-            <Item name={['address', 'country']}>
-              <Input placeholder="Country" />
-            </Item>
-            <Item name={['address', 'fullAddress']} className="w-full">
-              <Input placeholder="Full address" />
-            </Item>
-          </Input.Group>
-          {/* <Input placeholder="Full address" /> */}
-        </Item>
-
         <Item
-          label="Standard guests"
-          name="standardGuests"
+          label="Address"
+          name="address"
           rules={[
             {
               required: true,
-              message: 'Standard guests is empty!',
+              message: 'Description is empty!',
             },
           ]}
         >
-          <Input className="w-1/12" placeholder="Standard guests" />
+          <Input placeholder="Address" />
         </Item>
+
         <Item
           label="Maximum guests"
           name="maximumGuests"
@@ -311,7 +249,7 @@ const RoomModal = ({
             },
           ]}
         >
-          <Input className="w-1/12" placeholder="Price" />
+          <InputNumber min={1} max={10} defaultValue={1} />
         </Item>
         <Item
           label="Price"
@@ -323,8 +261,9 @@ const RoomModal = ({
             },
           ]}
         >
-          <Input className="w-1/12" placeholder="Price" />
+          <Input placeholder="Price" />
         </Item>
+
         <Item
           label="Status"
           name="status"
@@ -335,7 +274,66 @@ const RoomModal = ({
             },
           ]}
         >
-          <Input className="w-1/12" placeholder="Status" />
+          <Select
+            mode="single"
+            optionFilterProp="children"
+            placeholder="Select status"
+            listHeight={100}
+          >
+            {status.map((item) => (
+              <Option key={item.id} value={item.state}>
+                <div>{item.state}</div>
+              </Option>
+            ))}
+          </Select>
+        </Item>
+
+        <Item label="Locations" name="location">
+          <Select
+            mode="single"
+            optionFilterProp="children"
+            placeholder="Select multiple amenities"
+            listHeight={100}
+            // disabled={isAddRoom ? false : true}
+          >
+            {locations.map((location) => (
+              <Option key={location.id} value={location.id}>
+                <div>{location.name}</div>
+              </Option>
+            ))}
+          </Select>
+        </Item>
+
+        <Item label="Amenities" name="amenities">
+          <Select
+            mode="multiple"
+            optionFilterProp="children"
+            placeholder="Select multiple amenities"
+            listHeight={100}
+          >
+            {amenities?.map((amenity) => (
+              <Option key={amenity.id} value={amenity.id}>
+                <div style={{ overflow: 'visible', whiteSpace: 'pre-wrap' }}>
+                  {amenity.name}
+                </div>
+              </Option>
+            ))}
+          </Select>
+        </Item>
+
+        <Item label="Owner" name="owner">
+          <Select
+            mode="single"
+            optionFilterProp="children"
+            placeholder="Select owner"
+            listHeight={100}
+          >
+            {owners.map((owner) => (
+              <Option key={owner.id} value={owner.id}>
+                <div>{owner.email}</div>
+              </Option>
+            ))}
+          </Select>
         </Item>
 
         <Item>
@@ -348,7 +346,7 @@ const RoomModal = ({
             customRequest={dummyRequest}
             beforeUpload={() => false}
           >
-            {fileList.length >= 3 ? null : uploadButton}
+            {fileList.length >= 8 ? null : uploadButton}
           </Upload>
           <Modal
             visible={previewVisible}
@@ -372,10 +370,15 @@ RoomModal.propTypes = {
   setModalState: PropTypes.func,
   showRoomModal: PropTypes.func,
   uploadPhotos: PropTypes.func,
+  photoUrls: PropTypes.array,
+  locations: PropTypes.array,
+  amenities: PropTypes.array,
+  owners: PropTypes.array,
 };
 
 const mapStateToProps = createStructuredSelector({
   roomModal: makeSelectRoomModal,
+  photoUrls: makeSelectPhotoUrls,
 });
 
 const mapDispatchToProps = (dispatch) =>

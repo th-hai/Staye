@@ -83,7 +83,7 @@ module.exports = router;
  *                  type: int
  *               status:
  *                  type: string
- *                  enum: [Available, Not available]
+ *                  enum: [Available, Unavailable]
  *               owner:
  *                  type: string
  *                  description: ObjectId string to refer
@@ -266,7 +266,7 @@ module.exports = router;
  *                  type: int
  *               status:
  *                  type: string
- *                  enum: [Available, Not available]
+ *                  enum: [Available, Unavailable]
  *               owner:
  *                  type: string
  *                  description: ObjectId string to refer
