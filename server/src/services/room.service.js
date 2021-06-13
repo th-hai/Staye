@@ -88,9 +88,6 @@ const updateRoomById = async (roomId, updateBody) => {
   if (!room) {
     throw new ApiError(httpStatus.NOT_FOUND, 'Room not found');
   }
-//   if (updateBody && (await Room.isEmailTaken(updateBody.email, roomId))) {
-//     throw new ApiError(httpStatus.BAD_REQUEST, 'Email already taken');
-//   }
   Object.assign(room, updateBody);
   await room.save();
   return room;
