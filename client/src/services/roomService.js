@@ -1,7 +1,7 @@
 import request from '../utils/request';
 
 export function getRooms() {
-  return request.get('/v1/rooms');
+  return request.get('/v1/rooms?limit=100');
 }
 
 export function getRoomsByLocation(location) {

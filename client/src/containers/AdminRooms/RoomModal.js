@@ -232,7 +232,7 @@ const RoomModal = ({
           rules={[
             {
               required: true,
-              message: 'Description is empty!',
+              message: 'Address is empty!',
             },
           ]}
         >
