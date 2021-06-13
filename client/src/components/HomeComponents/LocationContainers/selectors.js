@@ -22,6 +22,12 @@ const makeSelectLocations = createSelector(
     state => state.locations
 );
 
+const makeSelectAmenities = createSelector(
+    makeSelectLocationListDomain,
+    state => state.amenities
+);
+
+
 const makeSelectLocationsAndCountRooms = createSelector(
     makeSelectLocationListDomain,
     state => state.locationsCountRooms
@@ -29,5 +35,6 @@ const makeSelectLocationsAndCountRooms = createSelector(
 
 export {
     makeSelectLocations,
-    makeSelectLocationsAndCountRooms
+    makeSelectLocationsAndCountRooms,
+    makeSelectAmenities
 };

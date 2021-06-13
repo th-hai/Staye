@@ -14,6 +14,20 @@ const getDefaultConfig = () => {
     data: {},
   };
 };
+const getDefaultConfig2 = () => {
+  const jwt = getJwt();
+  const BASE_URL = process.env.REACT_APP_API_ENDPOINT
+  const authorizationHeader = jwt ? { Authorization: `Bearer ${jwt}` } : {};
+  return {
+    baseURL: BASE_URL,
+    headers: {
+      'Content-Type': 'multipart/form-data',
+      ...authorizationHeader,
+    },
+    params: {},
+    data: {},
+  };
+};
 
 function get(url, params = {}, config = {}) {
   return executeRequest(url, { ...config, params });
@@ -29,6 +43,15 @@ function patch(url, data = {}, config = {}) {
 
 function post(url, data = {}, params = {}, config = {}) {
   return executeRequest(url, {
+    method: 'POST',
+    data,
+    params,
+    ...config,
+  });
+}
+
+function post2(url, data = {}, params = {}, config = {}) {
+  return executeRequest2(url, {
     method: 'POST',
     data,
     params,
@@ -58,4 +81,9 @@ async function executeRequest(url, config) {
   return axios.request(finalConfig).then(response => response);
 }
 
-export default { get, post, patch, put, del };
+async function executeRequest2(url, config) {
+  const finalConfig = { ...getDefaultConfig2(), ...config, url };
+  return axios.request(finalConfig).then(response => response);
+}
+
+export default { get, post, post2, patch, put, del };

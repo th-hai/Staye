@@ -6,39 +6,50 @@ import get from 'lodash/fp/get';
  * Direct selector to the roomList state domain
  */
 
-const selectRoomListDomain = state => state[reducerKey] || initialState;
+const selectRoomListDomain = (state) => state[reducerKey] || initialState;
 
 /**
  * Other specific selectors
  */
 
 const makeSelectRoomListDomain = createSelector(
-    selectRoomListDomain,
-    state => state
+  selectRoomListDomain,
+  (state) => state
 );
 
 const makeSelectRooms = createSelector(
-    makeSelectRoomListDomain,
-    state => state.rooms
+  makeSelectRoomListDomain,
+  (state) => state.rooms
 );
 const makeSelectRoomModal = createSelector(
-    makeSelectRoomListDomain,
-    get('roomModal')
-  );
-  
-  const makeSelectRoomModalVisible = createSelector(
-    makeSelectRoomModal,
-    get('visible')
-  );
+  makeSelectRoomListDomain,
+  get('roomModal')
+);
 
 const makeSelectRoomsAutoComplete = createSelector(
   makeSelectRoomListDomain,
-  state => state.roomsAutocomplete
+  (state) => state.roomsAutocomplete
 );
 
+const makeSelectRoomModalVisible = createSelector(
+  makeSelectRoomModal,
+  get('visible')
+);
+
+const makeSelectPhotoUrls = createSelector(
+  makeSelectRoomListDomain,
+  (state) => state.photoUrls
+);
+
+const makeSelectOwners = createSelector(
+  makeSelectRoomListDomain,
+  (state) => state.owners
+);
 export {
-    makeSelectRooms,
-    makeSelectRoomModal,
-    makeSelectRoomModalVisible,
-    makeSelectRoomsAutoComplete
+  makeSelectRooms,
+  makeSelectRoomModal,
+  makeSelectRoomModalVisible,
+  makeSelectRoomsAutoComplete,
+  makeSelectPhotoUrls,
+  makeSelectOwners,
 };

@@ -6,7 +6,7 @@ const Footer = () => {
       <footer className="w-full text-gray-700 bg-gray-100 body-font">
         <div className="container flex flex-col flex-wrap px-5 py-10 mx-auto md:items-center lg:items-start md:flex-row md:flex-no-wrap">
           <div className="flex-shrink-0 w-64 mx-auto text-center md:mx-0 md:text-left">
-            <a className="flex items-center justify-center font-medium text-gray-900 title-font md:justify-start">
+            <a href="/" className="flex items-center justify-center font-medium text-gray-900 title-font md:justify-start">
               <svg
                 className="w-auto h-5 text-gray-900 fill-current"
                 viewBox="0 0 202 69"
@@ -22,14 +22,14 @@ const Footer = () => {
           </div>
           <div className="flex flex-wrap flex-grow text-center lg:-mb-10 md:mt-0">
             <div className="w-full px-4 mt-4 lg:w-1/4 md:w-1/4">
-              <a className="text-gray-500 cursor-pointer hover:text-gray-900">
+              {/* <a className="text-gray-500 cursor-pointer hover:text-gray-900">
                 Send a Message
-              </a>
+              </a> */}
             </div>
             <div className="w-full px-4 mt-4 lg:w-1/4 md:w-1/4">
-              <a className="text-gray-500 cursor-pointer hover:text-gray-900">
+              {/* <a className="text-gray-500 cursor-pointer hover:text-gray-900">
                 Terms & Privacy
-              </a>
+              </a> */}
             </div>
             
             <div className="w-full px-4 lg:w-1/4 md:w-1/4 lg:text-right">

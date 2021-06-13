@@ -1,5 +1,6 @@
 import { takeLatest, put, call, all, take } from 'redux-saga/effects';
 import * as services from '../../services/roomService';
+import { uploadMultiple, uploadSingle } from 'services/uploadService';
 import { message } from 'antd';
 import { getErrorMessage } from '../../utils/responseUtils';
 import {
@@ -16,6 +17,10 @@ import {
   CREATE_ROOM,
   CREATE_ROOM_FAILED,
   CREATE_ROOM_SUCCESS,
+  UPLOAD_PHOTOS,
+  UPLOAD_PHOTOS_SUCCESS,
+  GET_OWNERS,
+  GET_OWNERS_FAILED,
 } from './constants';
 
 import {
@@ -35,6 +40,11 @@ import {
   createRoom,
   createRoomFailed,
   createRoomSuccess,
+  uploadPhotosSuccess,
+  uploadPhotosFailed,
+  getOwners,
+  getOwnersFailed,
+  getOwnersSuccess,
 } from './actions';
 
 export function* getRoomTask() {
@@ -52,6 +62,15 @@ export function* getRoomsByLocationTask() {
     yield put(getRoomsByLocationSuccess(data.results));
   } catch (error) {
     yield put(getRoomsByLocationFail(getErrorMessage(error)));
+  }
+}
+
+export function* getOwnersTask() {
+  try {
+    const { data } = yield call(services.getOwners);
+    yield put(getOwnersSuccess(data.results));
+  } catch (error) {
+    yield put(getOwnersFailed(getErrorMessage(error)));
   }
 }
 
@@ -99,6 +118,19 @@ export function* updateRoomSuccessTask() {
   yield put(getRoom());
 }
 
+export function* uploadPhotosTask({ files }) {
+  try {
+    const { data } = yield call(uploadMultiple, files);
+    yield put(uploadPhotosSuccess(data));
+  } catch (error) {
+    yield put(uploadPhotosFailed(getErrorMessage(error)));
+  }
+}
+
+export function* uploadPhotosSuccessTask() {
+  message.success('Upload photos successfully');
+}
+
 export function* failedTask({ error }) {
   message.error(error);
 }
@@ -107,15 +139,19 @@ export default function* roomListSaga() {
   yield all([
     takeLatest(GET_ROOM, getRoomTask),
     takeLatest(GET_ROOMS_BY_LOCATION, getRoomsByLocationTask),
+    takeLatest(GET_OWNERS, getOwnersTask),
     takeLatest(DELETE_ROOM, deleteRoomTask),
     takeLatest(DELETE_ROOM_SUCCESS, deleteRoomSuccessTask),
     takeLatest(UPDATE_ROOM, updateRoomTask),
     takeLatest(UPDATE_ROOM_SUCCESS, updateRoomSuccessTask),
-    takeLatest(CREATE_ROOM, createRoom),
+    takeLatest(CREATE_ROOM, createRoomTask),
     takeLatest(CREATE_ROOM_SUCCESS, createRoomSuccessTask),
+    takeLatest(UPLOAD_PHOTOS, uploadPhotosTask),
+    takeLatest(UPLOAD_PHOTOS_SUCCESS, uploadPhotosSuccessTask),
     takeLatest(
       [
         GET_ROOM_FAIL,
+        GET_OWNERS_FAILED,
         DELETE_ROOM_FAILED,
         UPDATE_ROOM_FAILED,
         CREATE_ROOM_FAILED,

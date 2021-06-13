@@ -26,7 +26,6 @@ const HomeContainers = ({ getRoom, rooms }) => {
 
   useEffect(() => {
     getRoom();
-    // console.log(rooms);
   }, []);
   return (
     <div className="flex flex-col mx-24 ">

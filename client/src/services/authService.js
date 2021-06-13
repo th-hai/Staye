@@ -14,7 +14,7 @@ export const resetPasswordRequest = input =>
   request.post('/auth/reset-password', input);
 
 export function resetPasswordByAdmin(username) {
-  return request.put(`/auth/generate-forgot-password/${username}`);
+  return request.patch(`/auth/generate-forgot-password/${username}`);
 }
 
 export default {
