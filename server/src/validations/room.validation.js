@@ -39,6 +39,12 @@ const getRoom = {
   }),
 };
 
+const deleteRoom = {
+  params: Joi.object().keys({
+    roomId: Joi.string().custom(objectId),
+  }),
+};
+
 const updateRoom = {
   params: Joi.object().keys({
     roomId: Joi.required().custom(objectId),
@@ -65,16 +71,18 @@ const updateRoom = {
     .min(1),
 };
 
-const deleteRoom = {
+
+const getRoomsByLocation = {
   params: Joi.object().keys({
-    roomId: Joi.string().custom(objectId),
+    locationId: Joi.string().custom(objectId),
   }),
-};
+}
 
 module.exports = {
   createRoom,
   getRooms,
   getRoom,
+  getRoomsByLocation,
   updateRoom,
   deleteRoom,
 };

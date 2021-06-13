@@ -3,8 +3,6 @@ import moment from 'moment';
 import {
   Button,
   DatePicker,
-  Menu,
-  Dropdown,
   Divider,
   AutoComplete,
   Input,
@@ -12,34 +10,39 @@ import {
 } from 'antd';
 import { faSearch } from '@fortawesome/free-solid-svg-icons';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
-import InputCounter from '../../InputCounter';
 import PropTypes from 'prop-types';
 import { connect } from 'react-redux';
 import { createStructuredSelector } from 'reselect';
 import { compose, bindActionCreators } from 'redux';
 import { useInjectSaga } from '../../../utils/injectSaga';
 import { useInjectReducer } from '../../../utils/injectReducer';
-import { reducerKey } from '../LocationContainers/constants';
-import reducer from '../LocationContainers/reducer';
-import saga from '../LocationContainers/saga';
-import * as actions from '../LocationContainers/actions';
-import { makeSelectLocations } from '../LocationContainers/selectors';
+import { reducerKey } from './constants';
+import reducer from './reducer';
+import saga from './saga';
+import * as actions from './actions';
+
+import { makeSelectLocations, makeSelectRooms } from './selectors';
+import { Link, useHistory } from 'react-router-dom';
+import { createURLSearchParams } from 'utils/urlUtils'
 
 const { Option } = AutoComplete;
 
-const FilterRooms = ({ getLocations, locations }) => {
+const FilterRooms = ({ getLocations, locations, getRooms, rooms }) => {
 
-  const dateFormat = 'YYYY/MM/DD';
+  const history = useHistory();
+
   const [openLocation, setOpenLocation] = useState(false);
   const [openDate, setOpenDate] = useState(false);
   const [openGuest, setOpenGuest] = useState(false);
 
-  const [location, setLocation] = useState('');
+  const [options, setOptions] = useState([]);
+
+  const [location, setLocation] = useState(null);
   const [searchText, setSearchText] = useState('');
-  const [fromDate, setFromDate] = useState(moment());
-  const [toDate, setToDate] = useState(moment());
+  const [fromDate, setFromDate] = useState(null);
+  const [toDate, setToDate] = useState(null);
   const [inputDate, setInputDate] = useState('Ngày');
-  const [numberGuests, setNumberGuests] = useState(0);
+  const [numberGuests, setNumberGuests] = useState();
 
   useInjectReducer({ key: reducerKey, reducer });
   useInjectSaga({ key: reducerKey, saga });
@@ -48,20 +51,81 @@ const FilterRooms = ({ getLocations, locations }) => {
     getLocations();
   }, []);
 
+  useEffect(() => {
+    setLocation(locations[0]?.id);
+  }, [locations]);
+
+  useEffect(() => {
+    if (location) {
+      getRooms(location);
+    }
+  }, [location]);
+
+  useEffect(() => {
+    if (openDate) return;
+
+    if (fromDate == null) {
+      clearDate();
+    }
+    else if (toDate == null) {
+      setToDate(fromDate.clone().add(1, 'd'))
+    }
+    else if (fromDate.month() === toDate?.month()) {
+      if (fromDate.date() === toDate.date()) {
+        setToDate(toDate.add(1, 'd'))
+      }
+    }
+  }, [openDate])
+
+  useEffect(() => {
+    if (fromDate == null && toDate == null) {
+      setInputDate('Ngày');
+    }
+    else if (fromDate == null || toDate == null) {
+      const date = fromDate || toDate;
+      setInputDate(date.format('D-M-yyyy'));
+    }
+    else if (fromDate.month() === toDate.month()) {
+      if (fromDate.date() === toDate.date()) {
+        setInputDate(fromDate.format('D-M-yyyy'));
+      }
+      else {
+        setInputDate(fromDate.format('MMM D-') + toDate.format('D'));
+      }
+    }
+    else setInputDate(fromDate.format('MMM D-') + toDate.format('MMM D'));
+  }, [fromDate, toDate])
+
   const onCalendarChangeHandler = (value) => {
     const from = value[0];
     const to = value[1];
-    if (to == null) {
-      setInputDate(from.format('D-M-yyyy'))
+
+    if (from == null || to == null) {
+      const date = from || to;
+      setFromDate(date);
+      setToDate(null);
     }
-    else if (from.month() === to.month()) {
-      if (from.date() === to.date())
-        setInputDate(from.format('MMM D-') + to.add(1, 'd').format('D'));
-      else setInputDate(from.format('MMM D-') + to.format('D'));
+    else if (from.month() === to.month() && from.date() === to.date()) {
+      setFromDate(from);
+      setToDate(to.add(1, 'd'))
     }
-    else setInputDate(from.format('MMM D-') + to.format('MMM D'));
-    setOpenDate(true);
+    else {
+      setFromDate(from);
+      setToDate(to);
+    }
   };
+
+  const handleOpenPickerChange = open => {
+    // firing by open props
+    // open always get false value
+    if (!open) {
+      applyDate()
+    }
+  }
+
+  const applyDate = () => {
+    setOpenDate(false)
+  }
 
   const clearDate = () => {
     setOpenDate(false);
@@ -70,8 +134,10 @@ const FilterRooms = ({ getLocations, locations }) => {
     setInputDate('Ngày');
   }
 
-  const applyDate = () => {
-    setOpenDate(false)
+  const closeAll = () => {
+    setOpenLocation(false);
+    setOpenDate(false);
+    setOpenGuest(false);
   }
 
   function disabledDate(current) {
@@ -79,9 +145,22 @@ const FilterRooms = ({ getLocations, locations }) => {
     return current && current < moment().endOf('day');
   }
 
-  const autoCompleteOptions = locations.map(item => (
-    <Option key={item.name} value={item.description}>
-      {item.description}
+  const handleSearching = () => {
+    const params = { location, keyword: searchText, checkin: fromDate?.format('YYYY-MM-DD'), checkout: toDate?.format('YYYY-MM-DD'), guests: numberGuests }
+
+    history.push(`/s?${createURLSearchParams(params)}`)
+  }
+
+  const handleAutoCompleteInputChange = (value) => {
+    setSearchText(value);
+    const filtered = !value ? [] : rooms.filter(item =>
+      item.name.toUpperCase().indexOf(value.toUpperCase()) !== -1)
+    setOptions(filtered)
+  }
+
+  const autoCompleteOptions = options.map(item => (
+    <Option key={item.id} value={item.name}>
+      <Link to={`/rooms/${item.id}`}>{item.name}</Link>
     </Option>
   ))
 
@@ -95,29 +174,32 @@ const FilterRooms = ({ getLocations, locations }) => {
             setOpenLocation(false)
           }}
           placeholder="Khu vực"
-          className="absolute w-40 h-0 invisible">
+          className="absolute w-28 h-0 invisible">
           {locations.map(item => (
-            <Select.Option key={item.name} value={item.name}>{item.name}</Select.Option>
+            <Select.Option key={item.id} value={item.id}>{item.name}</Select.Option>
           ))}
         </Select>
         <Button
-          className="border-0 h-full w-40"
-          onClick={() => setOpenLocation(!openLocation)}
+          className="border-0 h-full w-24"
+          onClick={() => {
+            setOpenLocation(!openLocation);
+            setOpenDate(false);
+            setOpenGuest(false);
+          }}
         >
-          {location ? location : locations && locations[0] ? locations[0].name : 'Khu vực'}
+          {locations.find(item => item.id === location)?.name || 'Khu vực'}
         </Button>
       </>
 
       <Divider type="vertical" className="bg-gray-300 mr-0" style={{ height: '30px' }} />
       <AutoComplete
         allowClear
-        onChange={(value) => setSearchText(value)}
-        filterOption={(inputValue, option) =>
-          option.value.toUpperCase().indexOf(inputValue.toUpperCase()) !== -1
-        }
+        onChange={handleAutoCompleteInputChange}
+        onFocus={closeAll}
         dataSource={autoCompleteOptions}
         placeholder="Tìm homestay"
-        className="w-60">
+        dropdownMatchSelectWidth={false}
+        className="w-72">
         <Input className="border-none shadow-none outline-none" />
       </AutoComplete>
       <Divider type="vertical" className="bg-gray-300 m-0" style={{ height: '30px' }} />
@@ -125,9 +207,9 @@ const FilterRooms = ({ getLocations, locations }) => {
         open={openDate}
         allowClear
         disabledDate={disabledDate}
-        value={fromDate, toDate}
+        value={[fromDate, toDate]}
         style={{ visibility: 'collapse', width: 0, padding: 0 }}
-        onOpenChange={(open) => setOpenDate(open)}
+        onOpenChange={handleOpenPickerChange}
         onCalendarChange={onCalendarChangeHandler}
         renderExtraFooter={() => {
           return <div className="flex justify-between p-2">
@@ -137,8 +219,12 @@ const FilterRooms = ({ getLocations, locations }) => {
         }}
       />
       <Button
-        className="border-0 h-full w-40"
-        onClick={() => setOpenDate(!openDate)}
+        className="border-0 h-full w-28"
+        onClick={() => {
+          setOpenDate(!openDate);
+          setOpenLocation(false);
+          setOpenGuest(false);
+        }}
       >
         {inputDate}
       </Button>
@@ -158,14 +244,18 @@ const FilterRooms = ({ getLocations, locations }) => {
           ))}
         </Select>
         <Button
-          className="border-0 h-full w-20"
-          onClick={() => setOpenGuest(!openGuest)}
+          className="border-0 h-full min-w-20"
+          onClick={() => {
+            setOpenGuest(!openGuest);
+            setOpenLocation(false);
+            setOpenDate(false);
+          }}
         >
           {numberGuests > 0 ? numberGuests : 'Số'} khách
         </Button>
       </div>
 
-      <Button htmlType="submit" className="bg-gray-700 text-white border-0">
+      <Button htmlType="submit" className="bg-gray-700 text-white border-0" onClick={handleSearching} >
         <FontAwesomeIcon icon={faSearch} />
       </Button>
     </div>
@@ -174,16 +264,20 @@ const FilterRooms = ({ getLocations, locations }) => {
 FilterRooms.propTypes = {
   getLocations: PropTypes.func,
   locations: PropTypes.array,
+  getRooms: PropTypes.func,
+  rooms: PropTypes.array,
 };
 
 const mapStateToProps = createStructuredSelector({
   locations: makeSelectLocations,
+  rooms: makeSelectRooms,
 });
 
 const mapDispatchToProps = (dispatch) =>
   bindActionCreators(
     {
       getLocations: actions.getLocations,
+      getRooms: actions.getRoomsByLocation,
     },
     dispatch
   );

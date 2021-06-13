@@ -1,5 +1,5 @@
 import produce from 'immer';
-import { GET_ROOM, GET_ROOM_SUCCESS, GET_ROOM_FAIL, SHOW_MODAL } from './constants';
+import { GET_ROOM, GET_ROOM_SUCCESS, GET_ROOM_FAIL, GET_ROOMS_BY_LOCATION, GET_ROOMS_BY_LOCATION_SUCCESS, GET_ROOMS_BY_LOCATION_FAIL, SHOW_MODAL } from './constants';
 
 export const initialState = {
   rooms: [],
@@ -8,6 +8,7 @@ export const initialState = {
   roomModal: {
     visible: false,
   },
+  roomsAutocomplete: [],
 };
 
 const roomListReducer = (state = initialState, action) =>
@@ -22,6 +23,18 @@ const roomListReducer = (state = initialState, action) =>
         draftState.error = null;
         break;
       case GET_ROOM_FAIL:
+        draftState.loading = false;
+        draftState.error = action.error;
+        break;
+        case GET_ROOMS_BY_LOCATION:
+        draftState.loading = true;
+        break;
+      case GET_ROOMS_BY_LOCATION_SUCCESS:
+        draftState.loading = false;
+        draftState.roomsAutocomplete = action.payload;
+        draftState.error = null;
+        break;
+      case GET_ROOMS_BY_LOCATION_FAIL:
         draftState.loading = false;
         draftState.error = action.error;
         break;
