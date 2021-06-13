@@ -35,6 +35,6 @@ const makeSelectLocationsAndCountRooms = createSelector(
 
 export {
     makeSelectLocations,
-    makeSelectLocationsAndCountRooms
+    makeSelectLocationsAndCountRooms,
     makeSelectAmenities
 };

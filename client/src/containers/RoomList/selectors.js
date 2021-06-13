@@ -28,7 +28,7 @@ const makeSelectRoomModal = createSelector(
 
 const makeSelectRoomsAutoComplete = createSelector(
   makeSelectRoomListDomain,
-  state => state.roomsAutocomplete
+  (state) => state.roomsAutocomplete
 );
 
 const makeSelectRoomModalVisible = createSelector(
@@ -46,10 +46,10 @@ const makeSelectOwners = createSelector(
   (state) => state.owners
 );
 export {
-    makeSelectRooms,
-    makeSelectRoomModal,
-    makeSelectRoomModalVisible,
-    makeSelectRoomsAutoComplete
+  makeSelectRooms,
+  makeSelectRoomModal,
+  makeSelectRoomModalVisible,
+  makeSelectRoomsAutoComplete,
   makeSelectPhotoUrls,
   makeSelectOwners,
 };

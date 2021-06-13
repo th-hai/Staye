@@ -25,7 +25,7 @@ export function* getRoomsByLocationTask({location}) {
   }
 
 export function* failedTask({ error }) {
-  message.error(error)
+  yield message.error(error)
 }
 
 export default function* locationListSaga() {

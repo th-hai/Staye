@@ -9,6 +9,9 @@ import {
   GET_OWNERS,
   GET_OWNERS_FAILED,
   GET_OWNERS_SUCCESS,
+  GET_ROOMS_BY_LOCATION,
+  GET_ROOMS_BY_LOCATION_FAIL,
+  GET_ROOMS_BY_LOCATION_SUCCESS
 } from './constants';
 
 export const initialState = {

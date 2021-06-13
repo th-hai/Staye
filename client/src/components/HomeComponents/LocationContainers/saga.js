@@ -2,10 +2,6 @@ import { takeLatest, put, call, all } from 'redux-saga/effects'
 import * as services from '../../../services/locationService'
 import { message } from 'antd'
 import { getErrorMessage } from '../../../utils/responseUtils';
-import { takeLatest, put, call, all } from 'redux-saga/effects';
-import * as services from '../../../services/locationService';
-import { message } from 'antd';
-import { getErrorMessage } from '../../../utils/responseUtils';
 import {
   GET_LOCATIONS, GET_LOCATIONS_COUNT_ROOMS, GET_LOCATIONS_FAIL,
   GET_AMENITIES,
@@ -49,7 +45,7 @@ export function* getLocationsCountRoomsTask() {
 }
 
 export function* failedTask({ error }) {
-  message.error(error);
+  yield message.error(error);
 }
 
 export default function* locationListSaga() {
