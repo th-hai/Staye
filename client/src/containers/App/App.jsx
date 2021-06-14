@@ -16,6 +16,7 @@ import { makeSelectRole, makeSelectUser } from './selectors';
 import MainAdmin from 'components/layout/MainAdmin';
 import AdminDashboard from 'containers/AdminDashboard';
 import AdminRooms from 'containers/AdminRooms';
+import PageAbout from 'containers/PageAbout';
 const App = ({ user, role }) => {
   useInjectReducer({ key: 'global', reducer: globalReducer, mode: DAEMON });
 
@@ -40,6 +41,7 @@ const App = ({ user, role }) => {
                 <Route path="/roomlist" component={RoomList} />
                 <Route path="/login" component={SignIn} />
                 <Route path="/register" component={Register} />
+                <Route path="/about" component={PageAbout} />
               </Switch>
             </MainLayout>
           </Route>
