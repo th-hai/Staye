@@ -35,7 +35,7 @@ const queryRooms = async (filter, options) => {
  * @returns {Promise<Room>}
  */
 const getRoomById = async (id) => {
-  return Room.findById(id);
+  return Room.findById(id).populate('owner amenities location');
 };
 
 /**
