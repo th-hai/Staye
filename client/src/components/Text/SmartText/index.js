@@ -9,9 +9,9 @@ const SmartText = ({ text, length = 1000 }) => {
   
     return (
       <div>
-        <p class="leading-relaxed text-lg inline mb-4">{ showLess ? `${text?.slice(0, length)}...` : text }</p>
+        <p className="leading-relaxed text-lg inline mb-4">{ showLess ? `${text?.slice(0, length)}...` : text }</p>
         <a
-          style={{ color: "blue", cursor: "pointer", 'font-size': "16px" }}
+          style={{ color: "blue", cursor: "pointer", fontSize: "16px" }}
           onClick={() => setShowLess(!showLess)}
         >
           {showLess ? " Show more" : " Hide"}

@@ -7,12 +7,13 @@ import { useInjectSaga } from '../../utils/injectSaga';
 import { useInjectReducer } from '../../utils/injectReducer';
 import { reducerKey } from './constants';
 import { makeSelectRoom } from './selectors';
-import { Link, useParams } from "react-router-dom";
+import { useParams } from "react-router-dom";
 import reducer from './reducer';
 import saga from './saga';
 import * as actions from './actions';
 import CarouselSlider from 'components/Carousel';
 import RoomContent from 'components/Rooms/RoomContent'
+import NotFound from 'containers/Page404'
 
 export function RoomDetail({ getRoom, room }) {
   const { id } = useParams();
@@ -24,33 +25,33 @@ export function RoomDetail({ getRoom, room }) {
     getRoom(id);
   }, []);
 
-
   return <>
-    {room && (
+    {room && room.id ? (
       <>
         <CarouselSlider photos={room.photos} />
-        <RoomContent room={room}/>
-        </>
-    )}
-      </>;
+        <RoomContent room={room} />
+      </>
+    ) : (<NotFound/>) }
+  </>;
 }
-    RoomDetail.propTypes = {
-      getRoom: PropTypes.func,
-    room: PropTypes.object,
+
+RoomDetail.propTypes = {
+  getRoom: PropTypes.func,
+  room: PropTypes.object,
 };
 
-    const mapStateToProps = createStructuredSelector({
-      room: makeSelectRoom,
+const mapStateToProps = createStructuredSelector({
+  room: makeSelectRoom,
 });
 
 const mapDispatchToProps = (dispatch) =>
-    bindActionCreators(
+  bindActionCreators(
     {
       getRoom: actions.getRoom,
     },
     dispatch
-    );
+  );
 
-    const withConnect = connect(mapStateToProps, mapDispatchToProps);
+const withConnect = connect(mapStateToProps, mapDispatchToProps);
 
-    export default compose(withConnect)(RoomDetail);
+export default compose(withConnect)(RoomDetail);

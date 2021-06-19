@@ -1,20 +1,30 @@
-import { Carousel, Icon } from 'antd';
+import Slider from "react-slick";
 import React from 'react';
-import Item from './item'
-import 'App.css'
-const Arrow = ({ type, style, className, onClick }) => (
-  <Icon type={type} style={style} className={className} onClick={onClick} />
-);
+
+const settings = {
+  className: "center",
+  centerMode: true,
+  centerPadding: "600px",
+  dots: false,
+  lazyload: true,
+  infinite: true,
+  speed: 1000,
+  slidesToRoll: 1,
+  arrows: true,
+  autoplay: true,
+  autoplaySpeed: 5000,
+  initialSlide: 0,
+}
 
 const RoomCarousel = (props) => {
   const { photos } = props
   return (
     <>
-      <Carousel autoplay className="my-2 w-5/6" arrows
-        prevArrow={<Arrow type="left" />}
-        nextArrow={<Arrow type="right" />}>
-        {photos && photos.map((item) => <Item url={item} />)}
-      </Carousel>
+      <Slider {...settings} >
+        {photos.map(item =>
+          <img className="w-full" src={item} alt="Homestay preview"/>
+        )}
+      </Slider>
     </>
   );
 };
