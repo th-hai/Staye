@@ -4,6 +4,10 @@ export function getRooms() {
   return request.get('/v1/rooms?limit=100');
 }
 
+export function getRoom(id) {
+  return request.get(`/v1/rooms/${id}`);
+}
+
 export function createRoom(room) {
   return request.post('/v1/rooms', room);
 }
