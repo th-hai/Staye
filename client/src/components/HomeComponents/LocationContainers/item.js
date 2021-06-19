@@ -1,16 +1,16 @@
 import React from 'react'
+import { Link } from 'react-router-dom'
 
-const Item = (props) => {
-    const {location} = props
+const Item = ({ location }) => {
     return (
-        <a href="/" >
+      <Link to={`/s?location=${location.id}`} target="_blank" >
         <div
-          className="bg-cover bg-center w-full h-80 text-white  object-fill relative rounded-md"
+          className="bg-cover bg-center w-full h-80 text-white  object-fill relative rounded-xl"
          style={{
             backgroundImage: `url(${location.thumbnail})`,
           }}
         >
-          <div className="bg-gradient-to-b from-transparent via-transparent to-black h-full rounded-md">
+          <div className="bg-gradient-to-b from-transparent via-transparent to-black h-full rounded-xl">
               <div className="md:w-1/2 absolute bottom-4 pl-8">
                 <div className="text-2xl w-40 mb-2 font-bold">{location.location}</div>           
                 <span className="w-full font-semibold">
@@ -20,7 +20,7 @@ const Item = (props) => {
               </div>
           </div>
         </div>
-    </a>
+    </Link>
     )
 }
 
