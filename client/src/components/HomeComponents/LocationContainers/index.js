@@ -1,6 +1,9 @@
 import React, { useEffect } from 'react';
 import Item from './item';
 import PropTypes from 'prop-types';
+import Slider from "react-slick";
+import "slick-carousel/slick/slick.css";
+import "slick-carousel/slick/slick-theme.css";
 import { connect } from 'react-redux';
 import { createStructuredSelector } from 'reselect';
 import { compose, bindActionCreators } from 'redux';
@@ -12,6 +15,7 @@ import saga from './saga';
 import * as actions from './actions';
 import { makeSelectLocationsAndCountRooms } from './selectors';
 import Title from 'containers/HomeContainers/title'
+import './styles.css'
 
 const LocationContainers = ({ locations, getLocations }) => {
 
@@ -21,16 +25,24 @@ const LocationContainers = ({ locations, getLocations }) => {
   useEffect(() => {
     getLocations()
   }, [])
-  
+
+  const settings = {
+    lazyload: true,
+    infinite: false,
+    speed: 500,
+    slidesToShow: 5,
+    slidesToRoll: 1,
+    initialSlide: 0
+  }
+
   return (
     <>
-      <Title title="Prominent place" 
-            content="Join Staye to start your journey to conquer the world"/>
-      <div className="w-full flex justify-center">
-        <div className="grid lg:grid-cols-6 sm:grid-cols-3 w-full gap-4">
-          {locations &&
-            locations.map((location) => <Item key={location.id} location={location} />)}
-        </div>
+      <Title title="Prominent place"
+        content="Join Staye to start your journey to conquer the world" />
+      <div className="flex relative block">
+        <Slider {...settings} className="w-full">
+          {locations && locations.map((location) => <Item key={location.id} location={location} />)}
+        </Slider>
       </div>
     </>
   );

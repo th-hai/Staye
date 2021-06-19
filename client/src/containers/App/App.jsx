@@ -1,22 +1,27 @@
 import React, { useEffect } from 'react';
-import { Switch, Route, Redirect, BrowserRouter } from 'react-router-dom';
 import PropTypes from 'prop-types';
 import { connect } from 'react-redux';
+import { Switch, Route, Redirect, BrowserRouter } from 'react-router-dom';
 import { createStructuredSelector } from 'reselect';
-import MainLayout from 'components/layout/MainLayout';
-import RoomList from 'containers/RoomList';
-import 'App.css';
-import SignIn from '../SignIn';
-import Register from '../Register';
-import HomeContainers from 'containers/HomeContainers';
-import { useInjectReducer } from 'utils/injectReducer';
-import globalReducer from './reducer';
-import { DAEMON } from '../../utils/constants';
 import { makeSelectRole, makeSelectUser } from './selectors';
+import { useInjectReducer } from 'utils/injectReducer';
+import { DAEMON } from 'utils/constants';
+import globalReducer from './reducer';
+import 'App.css';
+// Layouts
+import MainLayout from 'components/layout/MainLayout';
 import MainAdmin from 'components/layout/MainAdmin';
+// Containers
+import HomeContainers from 'containers/HomeContainers';
+import SignIn from 'containers/SignIn';
+import Register from 'containers/Register';
+import RoomList from 'containers/RoomList';
 import AdminDashboard from 'containers/AdminDashboard';
 import AdminRooms from 'containers/AdminRooms';
-import PageAbout from 'containers/PageAbout';
+import RoomDetail from 'containers/RoomDetail'
+import About from 'containers/PageAbout';
+import NotFound from 'containers/Page404'
+
 const App = ({ user, role }) => {
   useInjectReducer({ key: 'global', reducer: globalReducer, mode: DAEMON });
 
@@ -41,7 +46,9 @@ const App = ({ user, role }) => {
                 <Route path="/roomlist" component={RoomList} />
                 <Route path="/login" component={SignIn} />
                 <Route path="/register" component={Register} />
-                <Route path="/about" component={PageAbout} />
+                <Route path="/rooms/:id" component={RoomDetail} />
+                <Route path="/about" component={About} />
+                <Route path="*" component={NotFound} />
               </Switch>
             </MainLayout>
           </Route>
