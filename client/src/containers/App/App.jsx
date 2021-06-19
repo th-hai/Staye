@@ -19,6 +19,7 @@ import RoomList from 'containers/RoomList';
 import AdminDashboard from 'containers/AdminDashboard';
 import AdminRooms from 'containers/AdminRooms';
 import RoomDetail from 'containers/RoomDetail'
+import About from 'containers/PageAbout';
 import NotFound from 'containers/Page404'
 
 const App = ({ user, role }) => {
@@ -46,6 +47,7 @@ const App = ({ user, role }) => {
                 <Route path="/login" component={SignIn} />
                 <Route path="/register" component={Register} />
                 <Route path="/rooms/:id" component={RoomDetail} />
+                <Route path="/about" component={About} />
                 <Route path="*" component={NotFound} />
               </Switch>
             </MainLayout>
