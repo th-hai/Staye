@@ -26,13 +26,10 @@ const HomeContainers = ({ getRoom, rooms }) => {
 
   useEffect(() => {
     getRoom();
-    // console.log(rooms);
   }, []);
   return (
     <div className="flex flex-col mx-24 ">
       <CarouselSlider />
-
-      <Title title="Prominent place" content="Join Staye to start your journey to conquer the world"/>
       
       <LocationContainers locations={LOCATION_CARDS}></LocationContainers>
 

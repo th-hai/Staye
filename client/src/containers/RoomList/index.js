@@ -18,7 +18,6 @@ export function RoomList({ getRoom, rooms }) {
 
   useEffect(() => {
     getRoom();
-    console.log(rooms);
   }, []);
   return <div>
     <Link to="/login">About</Link>

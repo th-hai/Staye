@@ -61,11 +61,14 @@ module.exports = router;
  *               role:
  *                  type: string
  *                  enum: [user, admin]
+ *               avatar:
+ *                  type: string
  *             example:
  *               name: fake name
  *               email: fake@example.com
  *               password: password1
  *               role: user
+ *               avatar: https://i.pravatar.cc/300
  *     responses:
  *       "201":
  *         description: Created
@@ -207,10 +210,13 @@ module.exports = router;
  *                 format: password
  *                 minLength: 8
  *                 description: At least one number and one letter
+ *               avatar:
+ *                 type: string
  *             example:
  *               name: fake name
  *               email: fake@example.com
  *               password: password1
+ *               avatar: https://i.pravatar.cc/300
  *     responses:
  *       "200":
  *         description: OK

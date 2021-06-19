@@ -17,6 +17,10 @@ router
   .patch(auth('manageRooms'), validate(roomValidation.updateRoom), roomController.updateRoom)
   .delete(auth('manageRooms'), validate(roomValidation.deleteRoom), roomController.deleteRoom);
 
+router
+  .route('/location/:locationId')
+  .get(validate(roomValidation.getRoomsByLocation), roomController.getRoomsByLocation)
+
 module.exports = router;
 
 /**
@@ -79,7 +83,7 @@ module.exports = router;
  *                  type: int
  *               status:
  *                  type: string
- *                  enum: [Available, Not available]
+ *                  enum: [Available, Unavailable]
  *               owner:
  *                  type: string
  *                  description: ObjectId string to refer
@@ -117,10 +121,7 @@ module.exports = router;
  *
  *   get:
  *     summary: Get all rooms
- *     description: Only admins can retrieve all rooms.
  *     tags: [Rooms]
- *     security:
- *       - bearerAuth: []
  *     parameters:
  *       - in: query
  *         name: name
@@ -265,7 +266,7 @@ module.exports = router;
  *                  type: int
  *               status:
  *                  type: string
- *                  enum: [Available, Not available]
+ *                  enum: [Available, Unavailable]
  *               owner:
  *                  type: string
  *                  description: ObjectId string to refer
@@ -325,4 +326,29 @@ module.exports = router;
  *         $ref: '#/components/responses/Forbidden'
  *       "404":
  *         $ref: '#/components/responses/NotFound'
+ */
+
+/**
+ * @swagger
+ * /rooms/location/{locationId}:
+ *   get:
+ *     summary: Get rooms by location
+ *     tags: [Rooms]
+ *     parameters:
+ *       - in: path
+ *         name: locationId
+ *         schema:
+ *           type: string
+ *         description: LocationId
+ *       
+ *     responses:
+ *       "200":
+ *         description: OK
+ *         content:
+ *           application/json:
+ *            []
+ *       "401":
+ *         $ref: '#/components/responses/Unauthorized'
+ *       "403":
+ *         $ref: '#/components/responses/Forbidden'
  */

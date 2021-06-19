@@ -1,5 +1,5 @@
 const httpStatus = require('http-status');
-const { Room } = require('../models');
+const { Room, Location } = require('../models');
 const ApiError = require('../utils/ApiError');
 
 /**
@@ -39,6 +39,57 @@ const getRoomById = async (id) => {
 };
 
 /**
+ * Query for rooms by location
+ * @param {ObjectId} location - Mongo filter
+ * @returns {Promise<QueryResult>}
+ */
+const getRoomsByLocation = async (location) => {
+  const rooms = await Room.find({ location: location }, 'name');
+  return rooms;
+}
+
+/**
+ * Get room by location id
+ * @param {ObjectId} id
+ * @returns {Promise<any>}
+ */
+const getRoomByLocationId = async (id) => {
+
+  const location = await Location.findById(id);
+  if (!location) {
+    throw new ApiError(httpStatus.NOT_FOUND, 'Location not found');
+  }
+  const totalRooms = await Room.countDocuments({ location: id });
+  result = {
+    id: id,
+    location: location.name,
+    thumbnail: location.photo,
+    totalRooms: totalRooms
+  }
+
+  return result;
+};
+
+/**
+ * Get room by all location
+ * @returns {Promise<any>}
+ */
+const getRoomByAllLocation = async () => {
+  const locations = await Location.find();
+  const results = await Promise.all(locations.map(async (location) => {
+    const totalRooms = await Room.countDocuments({ location: location._id })
+    return ({
+      id: location._id,
+      location: location.name,
+      thumbnail: location.photo,
+      totalRooms: totalRooms
+    })
+  }));
+
+  return results
+};
+
+/**
  * Update room by id
  * @param {ObjectId} roomId
  * @param {Object} updateBody
@@ -49,9 +100,6 @@ const updateRoomById = async (roomId, updateBody) => {
   if (!room) {
     throw new ApiError(httpStatus.NOT_FOUND, 'Room not found');
   }
-//   if (updateBody && (await Room.isEmailTaken(updateBody.email, roomId))) {
-//     throw new ApiError(httpStatus.BAD_REQUEST, 'Email already taken');
-//   }
   Object.assign(room, updateBody);
   await room.save();
   return room;
@@ -75,6 +123,9 @@ module.exports = {
   createRoom,
   queryRooms,
   getRoomById,
+  getRoomsByLocation,
+  getRoomByLocationId,
+  getRoomByAllLocation,
   updateRoomById,
   deleteRoomById,
 };

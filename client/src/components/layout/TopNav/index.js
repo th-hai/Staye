@@ -4,35 +4,37 @@ import { connect } from 'react-redux';
 import PropTypes from 'prop-types';
 import { logout } from 'containers/App/actions';
 import FilterRooms from 'components/HomeComponents/FilterRooms';
+import logo from 'assets/Logo.svg';
 const TopNav = ({ user, handleLogout, role }) => {
-  console.log(role)
   const isAdmin = role === 'admin' ? true : false;
   return (
     <div className="w-full text-gray-700 bg-white border-t border-gray-100 shadow-sm body-font sticky top-0 z-50">
       <div className="container flex flex-col items-center justify-between px-6 mx-auto md:flex-row h-16">
-        <a className="flex items-center mb-4 font-medium text-gray-900 title-font md:mb-0">
-          <img className="w-24" />
-        </a>
+        <Link to="/"
+          className="flex items-center mb-4 font-medium text-gray-900 title-font md:mb-0 mr-4">
+           <img alt="" src={logo} className="w-24 mr-12" />
+        </Link>
+         
         <div className="flex flex-wrap items-center border-gray-700 md:mr-auto">
-         <FilterRooms />
+          <FilterRooms />
         </div>
         <div className="flex items-center h-full">
           {user ? (
-            (isAdmin ? (
+            isAdmin ? (
               <Link
                 to="/admin/dashboard"
-                class="mr-5 font-medium text-gray-600 hover:text-gray-900 text-black  no-underline"
+                className="mr-5 font-medium text-gray-600 hover:text-gray-900 text-black  no-underline"
               >
                 Hello {user.name} - Admin!
               </Link>
             ) : (
               <Link
                 to="/profile"
-                class="mr-5 font-medium text-gray-600 hover:text-gray-900 text-black  no-underline"
+                className="mr-5 font-medium text-gray-600 hover:text-gray-900 text-black  no-underline"
               >
                 Hello {user.name}!
               </Link>
-            ))
+            )
           ) : (
             <Link
               to="/login"

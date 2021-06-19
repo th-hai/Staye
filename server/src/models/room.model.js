@@ -21,7 +21,9 @@ const roomSchema = mongoose.Schema(
     description: {
       type: String,
     },
-    address: addressSchema,
+    address: {
+      type: String,
+    },
     photos: [{
       type: String,
     }],
@@ -44,7 +46,7 @@ const roomSchema = mongoose.Schema(
     status: {
       type: String,
       default: 'Available',
-      enum: ['Available', 'Not available']
+      enum: ['Available', 'Unavailable']
     },
     owner: {
       type: mongoose.SchemaTypes.ObjectId,

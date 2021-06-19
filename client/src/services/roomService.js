@@ -8,12 +8,20 @@ export function getRoom(id) {
   return request.get(`/v1/rooms/${id}`);
 }
 
+export function getRoomsByLocation(location) {
+  return request.get(`/v1/rooms/location/${location}`);
+}
+
+export function getOwners() {
+  return request.get('/v1/users?role=owner');
+}
+
 export function createRoom(room) {
   return request.post('/v1/rooms', room);
 }
 
 export function updateRoom(id, room) {
-  return request.put(`/v1/rooms/${id}`, room);
+  return request.patch(`/v1/rooms/${id}`, room);
 }
 
 export function deleteRoom(id) {

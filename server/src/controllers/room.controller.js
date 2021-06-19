@@ -10,13 +10,16 @@ const createRoom = catchAsync(async (req, res) => {
 });
 
 const getRooms = catchAsync(async (req, res) => {
-  let filter = pick(req.query, ['location', 'maximumGuests']);
+  let filter = pick(req.query, ['location']);
   if(req.query.name) {
     let name = new RegExp(req.query.name, 'i');
     filter = { ...filter, name };
   }
+  if(req.query.maximumGuests) {
+    const maximumGuests = { $gte: req.query.maximumGuests };
+    filter = { ...filter, maximumGuests };
+  }
   const options = pick(req.query, ['sortBy', 'limit', 'page']);
-  console.log(filter)
   const result = await roomService.queryRooms(filter, options);
   res.send(result);
 });
@@ -27,6 +30,32 @@ const getRoom = catchAsync(async (req, res) => {
     throw new ApiError(httpStatus.NOT_FOUND, 'Room not found');
   }
   res.send(room);
+});
+
+const getRoomsByLocation = catchAsync(async (req, res) => {
+  const rooms = await roomService.getRoomsByLocation(req.params.locationId);
+
+  if (!rooms) {
+    throw new ApiError(httpStatus.NOT_FOUND, 'Room not found');
+  }
+  res.send(rooms);
+});
+
+const getRoomByLocation = catchAsync(async (req, res) => {
+  
+  let rooms;
+  
+  const locationId = req.params.locationId;
+  if (!locationId) {
+    rooms = await roomService.getRoomByAllLocation();
+  } else {
+    rooms = await roomService.getRoomByLocationId(req.params.locationId);
+  }
+
+  if (!rooms) {
+    throw new ApiError(httpStatus.NOT_FOUND, 'Room not found');
+  }
+  res.send(rooms);
 });
 
 const updateRoom = catchAsync(async (req, res) => {
@@ -43,6 +72,8 @@ module.exports = {
   createRoom,
   getRooms,
   getRoom,
+  getRoomsByLocation,
+  getRoomByLocation,
   updateRoom,
   deleteRoom,
 };
