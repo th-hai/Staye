@@ -1,21 +1,47 @@
 import { call, put, takeLatest, all } from 'redux-saga/effects';
-import { message as antMessage } from 'antd';
-import { LOGIN, LOGIN_FAILED, LOGIN_SUCCESS } from '../App/constants';
+import { message } from 'antd';
+import {
+  LOGIN,
+  LOGIN_FAILED,
+  LOGIN_SUCCESS,
+  UPDATE_USER,
+  UPDATE_USER_FAILED,
+  UPDATE_USER_SUCCESS,
+} from '../App/constants';
 import authService from '../../services/authService';
-import { loginFailed, loginSuccess } from '../App/actions';
+import {
+  loginFailed,
+  loginSuccess,
+  updateUserFailed,
+  updateUserSuccess,
+} from '../App/actions';
 import { getErrorMessage } from '../../utils/responseUtils';
-
+import * as userServices from 'services/userClientService';
+import { failedTask } from 'components/HomeComponents/FilterRooms/saga';
 function* loginSaga({ email, password, history }) {
   try {
-    const {data} = yield call(authService.login, email, password);
+    const { data } = yield call(authService.login, email, password);
     yield put(loginSuccess(data.tokens.access.token, data.user, history));
   } catch (e) {
     yield put(loginFailed(email, getErrorMessage(e)));
   }
 }
 
+export function* updateUserTask({ id, user }) {
+  try {
+    const { data } = yield call(userServices.updateUser, id, user);
+    yield put(updateUserSuccess(data));
+  } catch (error) {
+    yield put(updateUserFailed(getErrorMessage(error)));
+  }
+}
+
+export function* updateUserSuccessTask() {
+  message.success('Updated User');
+}
+
 function* loginFailedSaga({ message }) {
-  antMessage.error(message);
+  message.error(message);
 }
 
 function* loginSuccessSaga({ history }) {
@@ -27,5 +53,8 @@ export default function* loginPageSaga() {
     takeLatest(LOGIN, loginSaga),
     takeLatest(LOGIN_FAILED, loginFailedSaga),
     takeLatest(LOGIN_SUCCESS, loginSuccessSaga),
+    takeLatest(UPDATE_USER, updateUserTask),
+    takeLatest(UPDATE_USER_SUCCESS, updateUserSuccessTask),
+    takeLatest([UPDATE_USER_FAILED], failedTask),
   ]);
 }

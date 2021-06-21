@@ -21,6 +21,11 @@ import {
   UPLOAD_PHOTOS_SUCCESS,
   GET_OWNERS,
   GET_OWNERS_FAILED,
+  GET_USERS,
+  GET_USERS_FAILED,
+  DELETE_USER,
+  DELETE_USER_FAILED,
+  DELETE_USER_SUCCESS,
 } from './constants';
 
 import {
@@ -45,6 +50,10 @@ import {
   getOwners,
   getOwnersFailed,
   getOwnersSuccess,
+  getUsersSuccess,
+  getUsersFailed,
+  deleteUserSuccess,
+  getUsers,
 } from './actions';
 
 export function* getRoomTask() {
@@ -71,6 +80,16 @@ export function* getOwnersTask() {
     yield put(getOwnersSuccess(data.results));
   } catch (error) {
     yield put(getOwnersFailed(getErrorMessage(error)));
+  }
+}
+
+export function* getUsersTask() {
+  try {
+    const { data } = yield call(services.getUsers);
+    yield put(getUsersSuccess(data.results));
+    console.log('data results', data.results);
+  } catch (error) {
+    yield put(getUsersFailed(getErrorMessage(error)));
   }
 }
 
@@ -101,6 +120,20 @@ export function* deleteRoomTask({ id }) {
 export function* deleteRoomSuccessTask() {
   message.success('Deleted Room');
   yield put(getRoom());
+}
+
+export function* deleteUserTask({ id }) {
+  try {
+    yield call(services.deleteUser, id);
+    yield put(deleteUserSuccess(id));
+  } catch (error) {
+    yield put(deleteRoomFailed(getErrorMessage(error)));
+  }
+}
+
+export function* deleteUserSuccessTask() {
+  message.success('Deleted User');
+  yield put(getUsers());
 }
 
 export function* updateRoomTask({ id, room }) {
@@ -148,11 +181,16 @@ export default function* roomListSaga() {
     takeLatest(CREATE_ROOM_SUCCESS, createRoomSuccessTask),
     takeLatest(UPLOAD_PHOTOS, uploadPhotosTask),
     takeLatest(UPLOAD_PHOTOS_SUCCESS, uploadPhotosSuccessTask),
+    takeLatest(GET_USERS, getUsersTask),
+    takeLatest(DELETE_USER, deleteUserTask),
+    takeLatest(DELETE_USER_SUCCESS, deleteUserSuccessTask),
     takeLatest(
       [
         GET_ROOM_FAIL,
         GET_OWNERS_FAILED,
+        GET_USERS_FAILED,
         DELETE_ROOM_FAILED,
+        DELETE_USER_FAILED,
         UPDATE_ROOM_FAILED,
         CREATE_ROOM_FAILED,
       ],

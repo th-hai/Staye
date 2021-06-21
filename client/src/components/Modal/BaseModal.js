@@ -5,7 +5,6 @@ import flow from 'lodash/fp/flow';
 import { BUTTON_TYPES } from 'components/Button/constants';
 import FooterButton from './FooterButton';
 import { StyledModal, StyledContent, StyledFooter } from './styles';
-
 export function BaseModal(props) {
   const { intl, footerButton, onOk, onCancel, children, ...restProps } = props;
 
@@ -28,7 +27,7 @@ export function BaseModal(props) {
       centered
       footer={null}
       closable={false}
-      maskClosable={false}
+      maskClosable={true}
     >
       <StyledContent>{children}</StyledContent>
       <StyledFooter>

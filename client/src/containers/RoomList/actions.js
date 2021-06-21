@@ -26,7 +26,16 @@ import {
   UPLOAD_PHOTOS_SUCCESS,
   GET_OWNERS,
   GET_OWNERS_FAILED,
-  GET_OWNERS_SUCCESS
+  GET_OWNERS_SUCCESS,
+  GET_USERS,
+  GET_USERS_FAILED,
+  GET_USERS_SUCCESS,
+  DELETE_USER,
+  DELETE_USER_FAILED,
+  DELETE_USER_SUCCESS,
+  EDIT_USER,
+  EDIT_USER_FAILED,
+  EDIT_USER_SUCCESS,
 } from './constants';
 
 export const getRoom = () => ({
@@ -68,6 +77,20 @@ export const getOwnersSuccess = (data) => ({
 
 export const getOwnersFailed = (error) => ({
   type: GET_OWNERS_FAILED,
+  error,
+});
+
+export const getUsers = () => ({
+  type: GET_USERS,
+});
+
+export const getUsersSuccess = (data) => ({
+  type: GET_USERS_SUCCESS,
+  payload: data,
+});
+
+export const getUsersFailed = (error) => ({
+  type: GET_USERS_FAILED,
   error,
 });
 
@@ -114,6 +137,21 @@ export const deleteRoomSuccess = (id) => ({
 
 export const deleteRoomFailed = (error) => ({
   type: DELETE_ROOM_FAILED,
+  error,
+});
+
+export const deleteUser = (id) => ({
+  type: DELETE_USER,
+  id,
+});
+
+export const deleteUserSuccess = (id) => ({
+  type: DELETE_USER_SUCCESS,
+  id,
+});
+
+export const deleteUserFailed = (error) => ({
+  type: DELETE_USER_FAILED,
   error,
 });
 

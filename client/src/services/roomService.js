@@ -21,6 +21,10 @@ export function getOwners() {
   return request.get('/v1/users?role=owner');
 }
 
+export function getUsers() {
+  return request.get('/v1/users?limit=100');
+}
+
 export function createRoom(room) {
   return request.post('/v1/rooms', room);
 }
@@ -29,6 +33,12 @@ export function updateRoom(id, room) {
   return request.patch(`/v1/rooms/${id}`, room);
 }
 
+
+
 export function deleteRoom(id) {
   return request.del(`/v1/rooms/${id}`);
+}
+
+export function deleteUser(id) {
+  return request.del(`/v1/users/${id}`);
 }

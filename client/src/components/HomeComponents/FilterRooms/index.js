@@ -68,7 +68,7 @@ const FilterRooms = ({ getLocations, locations, getRooms, rooms }) => {
       clearDate();
     }
     else if (toDate == null) {
-      setToDate(fromDate.clone().add(1, 'd'))
+      setToDate(fromDate.add(1, 'd'))
     }
     else if (fromDate.month() === toDate?.month()) {
       if (fromDate.date() === toDate.date()) {
@@ -160,7 +160,7 @@ const FilterRooms = ({ getLocations, locations, getRooms, rooms }) => {
 
   const autoCompleteOptions = options.map(item => (
     <Option key={item.id} value={item.name}>
-      <Link to={`/rooms/${item.id}`}>{item.name}</Link>
+      <Link replace to={`/rooms/${item.id}`}>{item.name}</Link>
     </Option>
   ))
 
