@@ -2,14 +2,12 @@ import Slider from "react-slick";
 import React from 'react';
 
 const settings = {
-  className: "center",
-  centerMode: true,
-  centerPadding: "600px",
   dots: false,
   lazyload: true,
   infinite: true,
   speed: 1000,
   slidesToRoll: 1,
+  slidesToShow: 2,
   arrows: true,
   autoplay: true,
   autoplaySpeed: 5000,
@@ -19,13 +17,20 @@ const settings = {
 const RoomCarousel = (props) => {
   const { photos } = props
   return (
-    <>
+    <div class="">
       <Slider {...settings} >
-        {photos.map(item =>
-          <img className="w-full" src={item} alt="Homestay preview"/>
+        {photos && photos.map(item =>
+        <>
+          <div
+          className="bg-cover bg-center w-full h-96 text-white object-fill relative rounded-xl"
+          style={{
+            backgroundImage: `url(${item})`,
+          }}>
+          </div>
+          </>
         )}
       </Slider>
-    </>
+    </div>
   );
 };
 

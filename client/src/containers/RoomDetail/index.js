@@ -23,14 +23,14 @@ export function RoomDetail({ getRoom, room }) {
 
   useEffect(() => {
     getRoom(id);
-  }, []);
+  }, [id]);
 
   return <>
     {room && room.id ? (
-      <>
+      <div className="mt-8 mx-24">
         <CarouselSlider photos={room.photos} />
         <RoomContent room={room} />
-      </>
+      </div>
     ) : (<NotFound/>) }
   </>;
 }

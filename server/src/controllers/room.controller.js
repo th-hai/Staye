@@ -24,6 +24,24 @@ const getRooms = catchAsync(async (req, res) => {
   res.send(result);
 });
 
+const searchRooms = catchAsync(async (req, res) => {
+  let filter = pick(req.query, ['location']);
+  if(req.query.keyword) {
+    let name = new RegExp(req.query.keyword, 'i');
+    filter = { ...filter, name };
+  }
+  if(req.query.guests) {
+    const guests = { $gte: req.query.guests };
+    filter = { ...filter, guests };
+  }
+  let options = pick(req.query, ['sortBy', 'limit', 'page']);
+  const fields = 'name maximumGuests price photos';
+  options = { ...options, fields }
+  console.log(options)
+  const result = await roomService.searchRooms(filter, options);
+  res.send(result);
+});
+
 const getRoom = catchAsync(async (req, res) => {
   const room = await roomService.getRoomById(req.params.roomId);
   if (!room) {
@@ -71,6 +89,7 @@ const deleteRoom = catchAsync(async (req, res) => {
 module.exports = {
   createRoom,
   getRooms,
+  searchRooms,
   getRoom,
   getRoomsByLocation,
   getRoomByLocation,
