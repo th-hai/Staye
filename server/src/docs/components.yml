@@ -79,6 +79,56 @@ components:
           status: Available
           owner: 60b4b0d5209f55c67dc298dc
           location: 60b4b0e911e1a95eb83d5275
+    SearchRoom:
+      type: object
+      properties:
+        id:
+          type: string
+        name:
+          type: string
+        address:
+          type: object
+          properties:
+            houseNumber: 
+              type: string
+            city: 
+              type: string
+            state: 
+              type: string
+            country: 
+              type: string
+            fullAddress: 
+              type: string
+        maximumGuests:
+          type: integer
+          description: Must greater than 0
+        photos: 
+          type: array
+          description: array of url string
+        price: 
+          type: int
+        status:
+          type: string
+          enum: [Available, Unavailable]
+        owner:
+          type: string
+          description: ObjectId string to refer
+        location:
+          type: string
+          description: ObjectId string to refer
+      example:
+          name: demo room
+          address:
+           houseNumber: 145
+           city: Ho Chi Minh City
+           country: Vietnam
+           fullAddress: 145 Linh Trung, P. Linh Trung, TP. Thu Duc
+          maximumGuests: 4
+          photos: []
+          price: 1000000
+          status: Available
+          owner: 60b4b0d5209f55c67dc298dc
+          location: 60b4b0e911e1a95eb83d5275
 
     Booking:
       type: object

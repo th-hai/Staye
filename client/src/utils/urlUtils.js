@@ -9,3 +9,9 @@ export const createURLSearchParams = params => {
 
   return standardParams.toString();
 }
+
+export const getURLSearchParams = search => {
+  const searchParams = new URLSearchParams(search);
+  const params = Object.fromEntries(searchParams);
+  return params;
+}

@@ -148,7 +148,7 @@ const FilterRooms = ({ getLocations, locations, getRooms, rooms }) => {
   const handleSearching = () => {
     const params = { location, keyword: searchText, checkin: fromDate?.format('YYYY-MM-DD'), checkout: toDate?.format('YYYY-MM-DD'), guests: numberGuests }
 
-    history.push(`/s?${createURLSearchParams(params)}`)
+    history.push(`/search?${createURLSearchParams(params)}`)
   }
 
   const handleAutoCompleteInputChange = (value) => {

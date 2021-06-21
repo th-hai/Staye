@@ -1,4 +1,5 @@
 import request from '../utils/request';
+import { createURLSearchParams } from 'utils/urlUtils';
 
 export function getRooms() {
   return request.get('/v1/rooms?limit=100');
@@ -10,6 +11,10 @@ export function getRoom(id) {
 
 export function getRoomsByLocation(location) {
   return request.get(`/v1/rooms/location/${location}`);
+}
+
+export function searchRooms(params) {
+  return request.get(`/v1/rooms/search?${createURLSearchParams(params)}`)
 }
 
 export function getOwners() {
