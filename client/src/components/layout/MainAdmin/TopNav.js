@@ -128,7 +128,7 @@ const TopNav = ({ user, handleLogout, showRoomModal, updateUser }) => {
                     <Button className="focus:border-none focus:outline-none border-none outline-none">
                       <div className="w-8 h-8 overflow-hidden border-2 border-gray-400 rounded-full">
                         <img
-                          src={user?.avatar[0]}
+                          src={user?.avatar}
                           className="object-cover w-full h-full"
                           alt="avatar"
                         />
