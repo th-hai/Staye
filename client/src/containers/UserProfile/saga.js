@@ -20,7 +20,8 @@ export function* updateUserTask({ id, user }) {
 }
 
 export function* updateUserSuccessTask() {
-  message.success('Updated User');
+  message.success('Update profile successfully');
+  yield 
 }
 export function* failedTask({ error }) {
   message.error(error);

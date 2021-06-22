@@ -15,15 +15,14 @@ import {
   updateUserFailed,
   updateUserSuccess,
 } from '../App/actions';
-import { getErrorMessage } from '../../utils/responseUtils';
+import { getErrorMessage } from 'utils/responseUtils';
 import * as userServices from 'services/userClientService';
-import { failedTask } from 'components/HomeComponents/FilterRooms/saga';
-function* loginSaga({ email, password, history }) {
+export function* loginSaga({ email, password, history }) {
   try {
     const { data } = yield call(authService.login, email, password);
     yield put(loginSuccess(data.tokens.access.token, data.user, history));
-  } catch (e) {
-    yield put(loginFailed(email, getErrorMessage(e)));
+  } catch (error) {
+    yield put(loginFailed(getErrorMessage(error)));
   }
 }
 
@@ -40,21 +39,21 @@ export function* updateUserSuccessTask() {
   message.success('Updated User');
 }
 
-function* loginFailedSaga({ message }) {
-  message.error(message);
+export function* failedTask({ error }) {
+  console.log("failedtask")
+  message.error(error);
 }
 
-function* loginSuccessSaga({ history }) {
+export function* loginSuccessSaga({ history }) {
   history.replace({ from: { pathname: '/' } });
 }
 
 export default function* loginPageSaga() {
   yield all([
     takeLatest(LOGIN, loginSaga),
-    takeLatest(LOGIN_FAILED, loginFailedSaga),
     takeLatest(LOGIN_SUCCESS, loginSuccessSaga),
     takeLatest(UPDATE_USER, updateUserTask),
     takeLatest(UPDATE_USER_SUCCESS, updateUserSuccessTask),
-    takeLatest([UPDATE_USER_FAILED], failedTask),
+    takeLatest([UPDATE_USER_FAILED, LOGIN_FAILED], failedTask),
   ]);
 }
