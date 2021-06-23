@@ -37,7 +37,6 @@ const searchRooms = catchAsync(async (req, res) => {
   let options = pick(req.query, ['sortBy', 'limit', 'page']);
   const fields = 'name maximumGuests price photos';
   options = { ...options, fields }
-  console.log(options)
   const result = await roomService.searchRooms(filter, options);
   res.send(result);
 });

@@ -111,7 +111,7 @@ const TopNav = ({ user, handleLogout, role }) => {
           <button className="btn btn-outline btn-sm md:btn-md lg:btn-lg xl:btn-sm w-28 border-none hover:text-white p-0">
             <Link
               to="/login"
-              className="text-black hover:text-white w-full h-full"
+              className="text-black flex justify-center items-center hover:text-white w-full h-full"
             >
               Login
             </Link>

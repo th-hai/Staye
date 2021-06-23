@@ -17,7 +17,6 @@ import {
 export function* getRoomTask({ id }) {
   try {
     const { data } = yield call(services.getRoom, id);
-    console.log(data)
     yield put(getRoomSuccess(data));
   } catch (error) {
     yield put(getRoomFail(getErrorMessage(error)));
