@@ -89,7 +89,7 @@ const TopNav = ({ user, handleLogout, role }) => {
                 ''
               )}
               <li>
-                <Link to="/" className="uppercase">
+                <Link to={`/profile/${user?.id}`} className="uppercase">
                   {' '}
                   <FontAwesomeIcon icon={faEdit} size="lg" className="mr-2" />
                   Edit profile
