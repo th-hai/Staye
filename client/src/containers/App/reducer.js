@@ -45,6 +45,7 @@ const globalReducer = (state = initialState, action) =>
         draftState.pending = false;
         draftState.jwt = undefined;
         draftState.user = undefined;
+        draftState.error = action.error;
         removeJwt();
         removeUser();
         break;

@@ -1,11 +1,12 @@
 module.exports = {
-  purge: [],
-  darkMode: false, // or 'media' or 'class'
-  theme: {
-    extend: {},
+  purge: {
+    content: ['yourfiles/**/*.html'],
+    options: {
+      safelist: [/data-theme$/],
+    },
   },
-  variants: {
-    extend: {},
+  plugins: [require('daisyui')],
+  daisyui: {
+    themes: true,
   },
-  plugins: [],
-}
+};

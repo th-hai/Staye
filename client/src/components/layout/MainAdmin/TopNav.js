@@ -17,12 +17,6 @@ const TopNav = ({ user, handleLogout, showRoomModal, updateUser }) => {
   const menu = (
     <Menu className="">
       <Menu.Item>
-        <Link to={`/profile/${user?.id}`} className="text-base">
-          <FontAwesomeIcon icon={faUser} className="mr-2" />
-          Profile
-        </Link>
-      </Menu.Item>
-      <Menu.Item>
         <Link to="/" onClick={handleLogout} className="text-base">
           <FontAwesomeIcon icon={faSignOutAlt} className="mr-2" />
           Log out

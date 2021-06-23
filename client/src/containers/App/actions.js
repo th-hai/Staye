@@ -26,13 +26,10 @@ export function loginSuccess(jwt, user, history) {
   };
 }
 
-export function loginFailed(email, message) {
-  return {
-    type: LOGIN_FAILED,
-    email,
-    message,
-  };
-}
+export const loginFailed = (error) => ({
+  type: LOGIN_FAILED,
+  error,
+});
 
 export function logout() {
   return {
