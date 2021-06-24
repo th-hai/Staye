@@ -58,7 +58,7 @@ const getRoomById = async (id) => {
  * @returns {Promise<QueryResult>}
  */
 const getRoomsByLocation = async (location) => {
-  const rooms = await Room.find({ location: location }, 'name');
+  const rooms = await Room.find({ location: location }, 'name').sort({ name:1 });
   return rooms;
 }
 

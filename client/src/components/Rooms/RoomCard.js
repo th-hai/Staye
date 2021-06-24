@@ -1,24 +1,31 @@
 import React from 'react';
+import { Link } from 'react-router-dom';
 
-const RoomCard = (room) => {
+const RoomCard = ({ room }) => {
+
+    const formatCurrency = price => {
+        const x = price.toLocaleString('it-IT');
+        return x;
+    }
+
     return (
-        <div className="max-w-6xl">
-        <div className="flex items-center justify-center">
-            <div className="max-w-sm w-full sm:w-full lg:w-full py-6 px-3">
+        <div className=" py-6 px-3">
+            <Link to={`/rooms/${room.id}`}>
                 <div className="bg-white shadow-xl rounded-lg overflow-hidden">
-                    <div className="bg-cover bg-center h-56 p-4" style={{ backgroundImage: `url(${room.photos ? room.photos[0] : 'https://via.placeholder.com/450x450)'}`}}>
-                        <div className="flex justify-end">
+                    <div className="bg-cover bg-center h-56 p-4" style={{ backgroundImage: `url(${room.photos ? room.photos[0] : 'https://via.placeholder.com/450x450)'}` }}>
+                        {/* <div className="flex justify-end">
                             <svg className="h-6 w-6 text-white fill-current" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24">
                                 <path d="M12.76 3.76a6 6 0 0 1 8.48 8.48l-8.53 8.54a1 1 0 0 1-1.42 0l-8.53-8.54a6 6 0 0 1 8.48-8.48l.76.75.76-.75zm7.07 7.07a4 4 0 1 0-5.66-5.66l-1.46 1.47a1 1 0 0 1-1.42 0L9.83 5.17a4 4 0 1 0-5.66 5.66L12 18.66l7.83-7.83z"></path>
                             </svg>
-                        </div>
+                        </div> */}
                     </div>
-                    <div className="p-4">
-                        <p className="uppercase tracking-wide text-sm font-bold text-gray-700">{room.name}</p>
-                        <p className="text-3xl text-gray-900">{room.price}</p>
-                        <p className="text-gray-700">742 Evergreen Terrace</p>
+                    <div className="p-4 h-32">
+                        <div className="tracking-wide text-lg font-bold text-gray-700 truncate h-30">{room.name}</div>
+                        <div className="text-gray-600">Phòng {room.maximumGuests} người</div>
+                        <div className="text-lg font-bold text-gray-900">{formatCurrency(room.price)}đ/đêm</div>
+                        <div className="text-gray-700">{room.address}</div>
                     </div>
-                    <div className="flex p-4 border-t border-gray-300 text-gray-700">
+                    {/* <div className="flex p-4 border-t border-gray-300 text-gray-700">
                         <div className="flex-1 inline-flex items-center">
                             <svg className="h-6 w-6 text-gray-600 fill-current mr-3" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24">
                                 <path d="M0 16L3 5V1a1 1 0 0 1 1-1h16a1 1 0 0 1 1 1v4l3 11v5a1 1 0 0 1-1 1v2h-1v-2H2v2H1v-2a1 1 0 0 1-1-1v-5zM19 5h1V1H4v4h1V4a1 1 0 0 1 1-1h4a1 1 0 0 1 1 1v1h2V4a1 1 0 0 1 1-1h4a1 1 0 0 1 1 1v1zm0 1v2a1 1 0 0 1-1 1h-4a1 1 0 0 1-1-1V6h-2v2a1 1 0 0 1-1 1H6a1 1 0 0 1-1-1V6H3.76L1.04 16h21.92L20.24 6H19zM1 17v4h22v-4H1zM6 4v4h4V4H6zm8 0v4h4V4h-4z"></path>
@@ -31,12 +38,10 @@ const RoomCard = (room) => {
                             </svg>
                             <p><span className="text-gray-900 font-bold">2</span> Bathrooms</p>
                         </div>
-                    </div>
-                    
+                    </div> */}
                 </div>
-            </div>
+            </Link>
         </div>
-    </div>
     )
 }
 
