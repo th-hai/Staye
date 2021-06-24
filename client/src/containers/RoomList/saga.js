@@ -87,7 +87,6 @@ export function* getUsersTask() {
   try {
     const { data } = yield call(services.getUsers);
     yield put(getUsersSuccess(data.results));
-    console.log('data results', data.results);
   } catch (error) {
     yield put(getUsersFailed(getErrorMessage(error)));
   }

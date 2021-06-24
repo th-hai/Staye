@@ -99,7 +99,6 @@ const UserModal = ({
   };
 
   useEffect(() => {
-    console.log(user);
     form.setFieldsValue(user);
     const avatarUrl = user?.avatar?.map((item, index) => ({
       status: 'done',
@@ -110,7 +109,6 @@ const UserModal = ({
   }, [form, user]);
 
   const onCancelHandler = useCallback(() => {
-    console.log('aaa');
     setFilelist([]);
     showRoomModal(false);
     setModalState({ visible: false, user: null });
@@ -141,10 +139,7 @@ const UserModal = ({
             .concat(urls),
         };
       });
-      console.log(newValues);
-      console.log(user);
       updateUser(user?.id, newValues);
-      console.log('xong');
     },
     [updateUser, user, fileList]
   );

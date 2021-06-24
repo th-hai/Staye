@@ -8,7 +8,6 @@ import { searchRoomsSuccess, searchRoomsFail, } from './actions';
 export function* searchRoomsTask({params}) {
   try {
     const { data } = yield call(services.searchRooms, params);
-    console.log(data.results)
     yield put(searchRoomsSuccess(data.results));
   } catch (error) {
     yield put(searchRoomsFail(getErrorMessage(error)));

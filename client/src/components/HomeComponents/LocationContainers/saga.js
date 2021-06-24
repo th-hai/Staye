@@ -37,7 +37,6 @@ export function* getAmenitiesTask() {
 export function* getLocationsCountRoomsTask() {
   try {
     const { data } = yield call(services.getLocationsCountRooms)
-    console.log(data)
     yield put(getLocationsCountRoomsSuccess(data))
   } catch (error) {
     yield put(getLocationsFail(getErrorMessage(error)))

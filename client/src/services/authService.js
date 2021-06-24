@@ -8,15 +8,18 @@ function login(email, password) {
 }
 
 export const sendEmailResetPassword = email =>
-  request.post('/auth/forgot-password', { email });
+  request.post('v1/auth/forgot-password', { email });
 
-export const resetPasswordRequest = input =>
-  request.post('/auth/reset-password', input);
+export const resetPassword = (password, token) => {
+  return request.post('v1/auth/reset-password', password, token);
+}
 
 export function resetPasswordByAdmin(username) {
-  return request.patch(`/auth/generate-forgot-password/${username}`);
+  return request.patch(`v1/auth/generate-forgot-password/${username}`);
 }
 
 export default {
   login,
+  sendEmailResetPassword,
+  resetPassword
 };

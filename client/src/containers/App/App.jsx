@@ -24,6 +24,9 @@ import AdminUsers from 'containers/AdminUsers';
 import About from 'containers/PageAbout';
 import NotFound from 'containers/Page404';
 import UserProfile from 'containers/UserProfile';
+import ForgotPassword from 'containers/ForgotPassword';
+import ResetPassword from 'containers/ResetPassword';
+
 const App = ({ user, role }) => {
   useInjectReducer({ key: 'global', reducer: globalReducer, mode: DAEMON });
 
@@ -52,6 +55,8 @@ const App = ({ user, role }) => {
                 <Route path="/roomlist" component={RoomList} />
                 <Route path="/login" component={SignIn} />
                 <Route path="/register" component={Register} />
+                <Route path="/forgot-password" component={ForgotPassword}/>
+                <Route path="/reset-password" component={ResetPassword}/>
                 <Route path="/profile/:id"component={UserProfile} />
                 <Route path="/rooms/:id" component={RoomDetail} />
                 <Route path="/search" component={SearchRooms} />

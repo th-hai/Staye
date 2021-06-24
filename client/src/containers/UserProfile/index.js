@@ -109,7 +109,6 @@ const UserProfile = ({ user, updateUser }) => {
       } else {
         newValues = values;
       }
-      console.log("hihi")
       updateUser(user?.id, newValues);
     },
     [updateUser, user, avatarFile]
