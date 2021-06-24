@@ -8,15 +8,14 @@ import { searchRoomsSuccess, searchRoomsFail, } from './actions';
 export function* searchRoomsTask({params}) {
   try {
     const { data } = yield call(services.searchRooms, params);
-    console.log(data.results)
-    yield put(searchRoomsSuccess(data.results));
+    yield put(searchRoomsSuccess(data));
   } catch (error) {
     yield put(searchRoomsFail(getErrorMessage(error)));
   }
 }
 
 export function* failedTask({ error }) {
-  message.error(error);
+  yield message.error(error);
 }
 
 export default function* searchRoomsSaga() {

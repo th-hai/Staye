@@ -16,11 +16,11 @@ const makeSelectSearchRoomsDomain = createSelector(
   (state) => state
 );
 
-const makeSelectRooms = createSelector(
+const makeSelectSearchRoomsResult = createSelector(
     makeSelectSearchRoomsDomain,
-  (state) => state.rooms
+  (state) => state.roomsResult
 );
 
 export {
-  makeSelectRooms,
+  makeSelectSearchRoomsResult,
 };

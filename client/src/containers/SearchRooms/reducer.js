@@ -2,7 +2,13 @@ import produce from 'immer';
 import { SEARCH_ROOMS, SEARCH_ROOMS_FAIL, SEARCH_ROOMS_SUCCESS } from './constants';
 
 export const initialState = {
-    rooms: [],
+    roomsResult: {
+        results: [],
+        limit: 20,
+        page: 1,
+        totalResults: 0,
+        totalPages: 0
+    },
     loading: false,
     error: '',
 };
@@ -15,7 +21,7 @@ const searchRoomsReducer = (state = initialState, action) =>
                 break;
             case SEARCH_ROOMS_SUCCESS:
                 draftState.loading = false;
-                draftState.rooms = action.payload;
+                draftState.roomsResult = action.payload;
                 draftState.error = null;
                 break;
             case SEARCH_ROOMS_FAIL:
