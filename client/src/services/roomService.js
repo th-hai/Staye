@@ -14,6 +14,9 @@ export function getRoomsByLocation(location) {
 }
 
 export function searchRooms(params) {
+  if (!params.limit) {
+      params = { ...params, limit:20}
+  }
   return request.get(`/v1/rooms/search?${createURLSearchParams(params)}`)
 }
 

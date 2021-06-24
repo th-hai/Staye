@@ -68,7 +68,7 @@ const FilterRooms = ({ getLocations, locations, getRooms, rooms }) => {
       clearDate();
     }
     else if (toDate == null) {
-      setToDate(fromDate.add(1, 'd'))
+      setToDate(fromDate.clone().add(1, 'd'))
     }
     else if (fromDate.month() === toDate?.month()) {
       if (fromDate.date() === toDate.date()) {

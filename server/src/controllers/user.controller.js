@@ -35,7 +35,7 @@ const deleteUser = catchAsync(async (req, res) => {
 });
 
 const getUserBookings = catchAsync(async (req, res) => {
-  if(req?.user._id != req.params.userId) {
+  if(req.user._id != req.params.userId) {
     throw new ApiError(httpStatus.UNAUTHORIZED, 'Unauthorized user');
   }
   const result = await userService.getUserBookings(req.params.userId);
