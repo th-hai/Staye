@@ -12,7 +12,6 @@ const Sidebar = ({ user }) => {
   };
 
   useEffect(() => {
-    console.log(user);
   }, [user]);
   return (
     <div className="flex flex-col w-64 py-8 bg-white border-r min-h-screen">
