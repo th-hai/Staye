@@ -13,7 +13,7 @@ export const MENU_ITEMS = [
     },
     {
         id: 'users',
-        link: '/users',
+        link: '/admin/users',
         label: 'Users'
     }
 ]

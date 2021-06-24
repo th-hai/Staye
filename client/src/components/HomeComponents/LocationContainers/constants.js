@@ -18,4 +18,6 @@
  export const GET_AMENITIES = `${scope}/GET_AMENITIES`;
  export const GET_AMENITIES_SUCCESS = `${scope}/GET_AMENITIES_SUCCESS`;
  export const GET_AMENITIES_FAIL = `${scope}/GET_AMENITIES_FAIL`;
+
+ 
  export const reducerKey = 'locationList'

@@ -16,3 +16,7 @@ export const LOGIN = 'app/LOGIN';
 export const LOGIN_SUCCESS = 'app/LOGIN_SUCCESS';
 export const LOGIN_FAILED = 'app/LOGIN_FAILED';
 export const LOGOUT = 'app/LOGOUT';
+
+export const UPDATE_USER = 'app/UPDATE_USER';
+export const UPDATE_USER_SUCCESS = 'app/UPDATE_USER_SUCCESS';
+export const UPDATE_USER_FAILED = 'app/UPDATE_USER_FAILED';

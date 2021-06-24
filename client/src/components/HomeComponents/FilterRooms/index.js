@@ -160,7 +160,7 @@ const FilterRooms = ({ getLocations, locations, getRooms, rooms }) => {
 
   const autoCompleteOptions = options.map(item => (
     <Option key={item.id} value={item.name}>
-      <Link to={`/rooms/${item.id}`}>{item.name}</Link>
+      <Link replace to={`/rooms/${item.id}`}>{item.name}</Link>
     </Option>
   ))
 

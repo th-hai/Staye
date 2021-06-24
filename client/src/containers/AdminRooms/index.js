@@ -33,6 +33,7 @@ import {
 const AdminRoom = ({
   getRooms,
   getOwners,
+  getUsers,
   rooms,
   deleteRoom,
   showRoomModal,
@@ -60,6 +61,7 @@ const AdminRoom = ({
     getLocations();
     getAmenities();
     getOwners();
+    getUsers()
   }, []);
   const [modalState, setModalState] = useState({
     visible: false,
@@ -204,6 +206,7 @@ const mapStateToProps = createStructuredSelector({
 AdminRoom.propTypes = {
   getRoom: PropTypes.func,
   getOwners: PropTypes.func,
+  getUsers: PropTypes.func,
   deleteRoom: PropTypes.func,
   updateRoom: PropTypes.func,
   addRoom: PropTypes.func,
@@ -227,6 +230,7 @@ const mapDispatchToProps = (dispatch) =>
       updateRoom: roomsActions.updateRoom,
       getLocations: locationActions.getLocations,
       getAmenities: locationActions.getAmenities,
+      getUsers: roomsActions.getUsers,
     },
     dispatch
   );

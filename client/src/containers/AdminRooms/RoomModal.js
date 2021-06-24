@@ -194,7 +194,7 @@ const RoomModal = ({
       afterClose={afterCloseHandler}
       width={1200}
     >
-      <StyledForm
+      <StyledForm 
         form={form}
         {...formItemLayout}
         onFinish={onFinishHandler}
@@ -294,7 +294,7 @@ const RoomModal = ({
             optionFilterProp="children"
             placeholder="Select multiple amenities"
             listHeight={100}
-            // disabled={isAddRoom ? false : true}
+            disabled={isAddRoom ? false : true}
           >
             {locations.map((location) => (
               <Option key={location.id} value={location.id}>

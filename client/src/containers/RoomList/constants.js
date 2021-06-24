@@ -20,6 +20,10 @@ export const GET_OWNERS = `${scope}/GET_OWNERS`;
 export const GET_OWNERS_SUCCESS = `${scope}/GET_OWNERS_SUCCESS`;
 export const GET_OWNERS_FAILED = `${scope}/GET_OWNERS_FAILED`;
 
+export const GET_USERS = `${scope}/GET_USERS`;
+export const GET_USERS_SUCCESS = `${scope}/GET_USERS_SUCCESS`;
+export const GET_USERS_FAILED = `${scope}/GET_USERS_FAILED`;
+
 export const CREATE_ROOM = `${scope}/CREATE_ROOM`;
 export const CREATE_ROOM_SUCCESS = `${scope}/CREATE_ROOM_SUCCESS`;
 export const CREATE_ROOM_FAILED = `${scope}/CREATE_ROOM_FAILED`;
@@ -31,6 +35,10 @@ export const UPDATE_ROOM_FAILED = `${scope}/UPDATE_ROOM_FAILED`;
 export const DELETE_ROOM = `${scope}/DELETE_ROOM`;
 export const DELETE_ROOM_SUCCESS = `${scope}/DELETE_ROOM_SUCCESS`;
 export const DELETE_ROOM_FAILED = `${scope}/DELETE_ROOM_FAILED`;
+
+export const DELETE_USER = `${scope}/DELETE_USER`;
+export const DELETE_USER_SUCCESS = `${scope}/DELETE_USER_SUCCESS`;
+export const DELETE_USER_FAILED = `${scope}/DELETE_USER_FAILED`;
 
 export const UPLOAD_PHOTOS = `${scope}/UPLOAD_PHOTOS`;
 export const UPLOAD_PHOTOS_SUCCESS = `${scope}/UPLOAD_PHOTOS_SUCCESS`;

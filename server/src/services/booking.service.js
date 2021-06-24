@@ -80,10 +80,21 @@ const deleteBookingById = async (bookingId) => {
   return booking;
 };
 
+/**
+ * Get booking by user id
+ * @param {ObjectId} userId
+ * @returns {Promise<Booking>}
+ */
+ const getBookingsByUserId = async (userId) => {
+  const booking = await Booking.find({customer: userId});
+  return booking;
+};
+
 module.exports = {
   createBooking,
   queryBookings,
   getBookingById,
+  getBookingsByUserId,
   updateBookingById,
   deleteBookingById,
   cancelBookingById

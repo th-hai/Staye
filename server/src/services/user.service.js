@@ -1,6 +1,7 @@
 const httpStatus = require('http-status');
 const { User } = require('../models');
 const ApiError = require('../utils/ApiError');
+const bookingService = require('./booking.service');
 
 /**
  * Create a user
@@ -80,6 +81,19 @@ const deleteUserById = async (userId) => {
   return user;
 };
 
+/**
+ * Get booking by user id
+ * @param {ObjectId} userId
+ * @returns {Promise<User>}
+ */
+const getUserBookings = async (userId) => {
+  const booking = await bookingService.getBookingsByUserId(userId);
+  if (!booking) {
+    throw new ApiError(httpStatus.NOT_FOUND, 'No booking were found with that user');
+  }
+  return booking;
+};
+
 module.exports = {
   createUser,
   queryUsers,
@@ -87,4 +101,5 @@ module.exports = {
   getUserByEmail,
   updateUserById,
   deleteUserById,
+  getUserBookings
 };

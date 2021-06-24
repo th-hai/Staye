@@ -1,7 +1,22 @@
 /* eslint-disable default-case, no-param-reassign */
 import produce from 'immer';
-import { LOGIN, LOGIN_FAILED, LOGIN_SUCCESS, LOGOUT } from './constants';
-import { getJwt, getUser, removeJwt, removeUser, storeJwt, storeUser } from '../../utils/authUtils';
+import {
+  LOGIN,
+  LOGIN_FAILED,
+  LOGIN_SUCCESS,
+  LOGOUT,
+  UPDATE_USER,
+  UPDATE_USER_FAILED,
+  UPDATE_USER_SUCCESS,
+} from './constants';
+import {
+  getJwt,
+  getUser,
+  removeJwt,
+  removeUser,
+  storeJwt,
+  storeUser,
+} from '../../utils/authUtils';
 
 const initialState = {
   pending: false,
@@ -10,35 +25,49 @@ const initialState = {
 };
 
 const globalReducer = (state = initialState, action) =>
-  produce(state, draft => {
+  produce(state, (draftState) => {
     switch (action.type) {
       case LOGIN:
-        draft.pending = true;
-        draft.jwt = undefined;
-        draft.user = undefined;
+        draftState.pending = true;
+        draftState.jwt = undefined;
+        draftState.user = undefined;
         removeJwt();
         removeUser();
         break;
       case LOGIN_SUCCESS:
-        draft.pending = false;
-        draft.jwt = action.jwt;
-        draft.user = action.user;
+        draftState.pending = false;
+        draftState.jwt = action.jwt;
+        draftState.user = action.user;
         storeJwt(action.jwt);
         storeUser(action.user);
         break;
       case LOGIN_FAILED:
-        draft.pending = false;
-        draft.jwt = undefined;
-        draft.user = undefined;
+        draftState.pending = false;
+        draftState.jwt = undefined;
+        draftState.user = undefined;
+        draftState.error = action.error;
         removeJwt();
         removeUser();
         break;
       case LOGOUT:
-        draft.pending = false;
-        draft.jwt = undefined;
-        draft.user = undefined;
+        draftState.pending = false;
+        draftState.jwt = undefined;
+        draftState.user = undefined;
         removeJwt();
         removeUser();
+        break;
+      case UPDATE_USER:
+        draftState.pending = true;
+        break;
+      case UPDATE_USER_SUCCESS:
+        draftState.pending = false;
+        draftState.user = action.user
+        draftState.error = null;
+        storeUser(action.user)
+        break;
+      case UPDATE_USER_FAILED:
+        draftState.pending = false;
+        draftState.error = action.error;
         break;
     }
   });

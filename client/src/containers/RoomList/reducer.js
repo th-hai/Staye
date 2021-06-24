@@ -9,9 +9,12 @@ import {
   GET_OWNERS,
   GET_OWNERS_FAILED,
   GET_OWNERS_SUCCESS,
+  GET_USERS,
+  GET_USERS_FAILED,
+  GET_USERS_SUCCESS,
   GET_ROOMS_BY_LOCATION,
   GET_ROOMS_BY_LOCATION_FAIL,
-  GET_ROOMS_BY_LOCATION_SUCCESS
+  GET_ROOMS_BY_LOCATION_SUCCESS,
 } from './constants';
 
 export const initialState = {
@@ -23,6 +26,7 @@ export const initialState = {
   },
   photoUrls: [],
   owners: [],
+  users: []
 };
 
 const roomListReducer = (state = initialState, action) =>
@@ -40,7 +44,7 @@ const roomListReducer = (state = initialState, action) =>
         draftState.loading = false;
         draftState.error = action.error;
         break;
-        case GET_ROOMS_BY_LOCATION:
+      case GET_ROOMS_BY_LOCATION:
         draftState.loading = true;
         break;
       case GET_ROOMS_BY_LOCATION_SUCCESS:
@@ -61,6 +65,18 @@ const roomListReducer = (state = initialState, action) =>
         draftState.error = null;
         break;
       case GET_OWNERS_FAILED:
+        draftState.loading = false;
+        draftState.error = action.error;
+        break;
+      case GET_USERS:
+        draftState.loading = true;
+        break;
+      case GET_USERS_SUCCESS:
+        draftState.loading = false;
+        draftState.users = action.payload;
+        draftState.error = null;
+        break;
+      case GET_USERS_FAILED:
         draftState.loading = false;
         draftState.error = action.error;
         break;
