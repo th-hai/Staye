@@ -22,6 +22,20 @@ components:
         role: user
         avatar: https://i.pravatar.cc/300
 
+    Location:
+      type: object
+      properties:
+        name:
+          type: string
+        description:
+          type: string
+        photo:
+          type: string
+      example:
+        name: Ha Noi
+        description: Thu do Viet Nam
+        photo: https://i.pravatar.cc/300
+
     Room:
       type: object
       properties:
@@ -152,34 +166,23 @@ components:
           format: date-time
           description: Must greater than from date
         price:
-          type: object
-          properties: 
-            currency:
-              type: string
-            total:
-              type: int
+          type: number
+        total:
+          type: int
         payment:
-          type: object
-          properties:
-            type: 
-              type: string
-              enum: [Manual Bank Transfer, Pay In Cash]
-            amount:
-              type: int
+          type: string
+          enum: [Manual Bank Transfer, Pay In Cash]
 
       example:
         id: 5ebac534954b54139806c113
         room: 60b4bea26501ed4da2594795
         customer: 60b4beaf289ac03d1bb981eb
         status: Pending
-        from: 2021-05-31T10:47:42+0000
-        to: 2021-06-1T10:47:42+0000
-        price:
-          currency: VND
-          total: 2000000
-        payment:
-          type: Pay In Cash
-          amount: 1500000
+        from: 2021-05-31T12:00:00+0000
+        to: 2021-06-2T11:59:00+0000
+        price: 2000000
+        total: 4000000
+        payment: Pay In Cash
     
     Upload:
       type: object

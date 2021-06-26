@@ -8,6 +8,11 @@ const ApiError = require('../utils/ApiError');
  * @returns {Promise<Booking>}
  */
 const createBooking = async (bookingBody) => {
+
+  if (await !Booking.isDateValid(bookingBody.from, bookingBody.to)) {
+    throw new ApiError(httpStatus.BAD_REQUEST, 'The booking duration must be at least 1 day');
+  }
+
   const booking = await Booking.create(bookingBody);
   return booking;
 };

@@ -69,30 +69,17 @@ module.exports = router;
  *                 type: string
  *                 format: date-time
  *               price:
- *                 type: object
- *                 currency: 
- *                   type: string
- *                 total: 
- *                   type: integer
+ *                 type: string
  *               payment:
- *                 type: object
- *                 amount: 
- *                   type: integer
- *                 method:
- *                   type: string
- *                   enum: [Manual Bank Transfer, Pay In Cash]
+ *                 type: string
+ *                 enum: [Manual Bank Transfer, Pay In Cash]
  *             example:
- *               room: 60b4b0d5209f55c67dc298dc
- *               customer: 60b4ce7ceacc24bf7b347754
- *               from: 1622462098
- *               to: 1622462099
+ *               room: 60d78b8e174add2d204e57d6
+ *               customer: 60d788e2174add2d204e57d3
+ *               from: 1990-05-25T15:54:49.119Z
+ *               to: 1990-05-28T15:55:49.119Z
  *               status: Pending
- *               price:
- *                 currency: VND
- *                 total: 2000000
- *               payment:
- *                 method: Pay In Cash
- *                 amount: 1500000
+ *               price: 200000
  *     responses:
  *       "201":
  *         description: Created
@@ -252,30 +239,17 @@ module.exports = router;
  *                 type: string
  *                 format: date-time
  *               price:
- *                 type: object
- *                 currency: 
- *                   type: string
- *                 total: 
- *                   type: integer
+ *                 type: string
  *               payment:
- *                 type: object
- *                 amount: 
- *                   type: integer
- *                 method:
- *                   type: string
- *                   enum: [Manual Bank Transfer, Pay In Cash]
+ *                 type: string
+ *                 enum: [Manual Bank Transfer, Pay In Cash]
  *             example:
- *               room: 60b4b0d5209f55c67dc298dc
- *               customer: 60b4ce7ceacc24bf7b347754
- *               from: 1622462098
- *               to: 1622462099
+ *               room: 60d78b8e174add2d204e57d6
+ *               customer: 60d788e2174add2d204e57d3
+ *               from: 1990-05-25T15:54:49.119Z
+ *               to: 1990-05-28T15:55:49.119Z
  *               status: Pending
- *               price:
- *                 currency: VND
- *                 total: 2000000
- *               payment:
- *                 method: Pay In Cash
- *                 amount: 1500000
+ *               price: 200000
  *     responses:
  *       "200":
  *         description: OK

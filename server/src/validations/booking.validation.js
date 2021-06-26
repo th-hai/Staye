@@ -8,14 +8,8 @@ const createBooking = {
     status: Joi.string(),
     from: Joi.date(),
     to: Joi.date().greater(Joi.ref("from")).required(),
-    price: Joi.object({
-      currency: Joi.string(),
-      total: Joi.number()
-    }).required(),
-    payment: Joi.object({
-      method: Joi.string(),
-      amount: Joi.number()
-    }).required()
+    price: Joi.number().integer().required(),
+    payment: Joi.string()
   }),
 };
 
@@ -49,14 +43,8 @@ const updateBooking = {
       status: Joi.string(),
       from: Joi.date(),
       to: Joi.date(),
-      price: Joi.object({
-        currency: Joi.string(),
-        total: Joi.number()
-      }),
-      payment: Joi.object({
-        method: Joi.string(),
-        amount: Joi.number()
-      })
+      price: Joi.number().integer().required(),
+      payment: Joi.string()
     })
     .min(1),
 };

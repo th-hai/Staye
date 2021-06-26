@@ -11,7 +11,15 @@ const createBooking = catchAsync(async (req, res) => {
 
 const getBookings = catchAsync(async (req, res) => {
   const filter = pick(req.query, ['room', 'customer', 'status', 'from', 'to']);
-  const options = pick(req.query, ['sortBy', 'limit', 'page']);
+  let options = pick(req.query, ['sortBy', 'limit', 'page']);
+  const populates = { 
+    path: 'room customer',
+    populate: {
+      path: 'owner',
+      model: 'User'
+    } 
+  };
+  options = { ...options, populates }
   const result = await bookingService.queryBookings(filter, options);
   res.send(result);
 });
