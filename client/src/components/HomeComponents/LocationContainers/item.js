@@ -3,7 +3,7 @@ import { Link } from 'react-router-dom'
 
 const Item = ({ location }) => {
     return (
-      <Link to={`/s?location=${location.id}`} target="_blank" >
+      <Link to={`/search?location=${location.id}`} target="_blank" >
         <div
           className="bg-cover bg-center w-full h-80 text-white  object-fill relative rounded-xl"
          style={{
