@@ -1,12 +1,17 @@
-import React from 'react'
+import React from 'react';
 
 const Footer = () => {
   return (
-    <div className="flex items-end w-full bg-white">
-      <footer className="w-full text-gray-700 bg-gray-100 body-font">
+    <div
+      className="flex w-full bg-white items-center justify-center"
+    >
+      <footer className="w-full text-gray-700 bg-gray-100 body-font h-24 flex items-center">
         <div className="container flex flex-col flex-wrap px-5 py-10 mx-auto md:items-center lg:items-start md:flex-row md:flex-no-wrap">
           <div className="flex-shrink-0 w-64 mx-auto text-center md:mx-0 md:text-left">
-            <a href="/" className="flex items-center justify-center font-medium text-gray-900 title-font md:justify-start">
+            <a
+              href="/"
+              className="flex items-center justify-center font-medium text-gray-900 title-font md:justify-start"
+            >
               <svg
                 className="w-auto h-5 text-gray-900 fill-current"
                 viewBox="0 0 202 69"
@@ -31,7 +36,7 @@ const Footer = () => {
                 Terms & Privacy
               </a> */}
             </div>
-            
+
             <div className="w-full px-4 lg:w-1/4 md:w-1/4 lg:text-right">
               <div className="mt-4">
                 <span className="inline-flex justify-center mt-2 sm:ml-auto sm:mt-0 sm:justify-start">
@@ -69,7 +74,14 @@ const Footer = () => {
                       className="w-5 h-5"
                       viewBox="0 0 24 24"
                     >
-                      <rect width="20" height="20" x="2" y="2" rx="5" ry="5"></rect>
+                      <rect
+                        width="20"
+                        height="20"
+                        x="2"
+                        y="2"
+                        rx="5"
+                        ry="5"
+                      ></rect>
                       <path d="M16 11.37A4 4 0 1112.63 8 4 4 0 0116 11.37zm1.5-4.87h.01"></path>
                     </svg>
                   </a>
@@ -97,7 +109,7 @@ const Footer = () => {
         </div>
       </footer>
     </div>
-  )
-}
+  );
+};
 
-export default Footer
+export default Footer;

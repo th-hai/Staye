@@ -46,7 +46,7 @@ const TopNav = ({ user, handleLogout, role }) => {
       </div>
       <div class="px-2 mx-2 lg:flex-none flex-1">
         {user ? (
-          <div class="dropdown dropdown-end dropdown-hover text-primary-content">
+          <div class="dropdown dropdown-hover text-primary-content">
             <div tabindex="0" class="flex text-primary-content text-lg">
               {isAdmin ? (
                 <>
@@ -74,13 +74,13 @@ const TopNav = ({ user, handleLogout, role }) => {
             </div>
             <ul class="shadow menu dropdown-content bg-base-100 rounded-box w-42">
               {isAdmin ? (
-                <li>
-                  <Link to="/admin/dashboard" className="uppercase">
+                <li className="w-44">
+                  <Link to="/admin/dashboard" className="">
                     {' '}
                     <FontAwesomeIcon
                       icon={faClipboard}
                       size="lg"
-                      className="mr-2"
+                      className="w-8 -ml-2 mr-2"
                     />
                     Dashboard
                   </Link>
@@ -89,20 +89,20 @@ const TopNav = ({ user, handleLogout, role }) => {
                 ''
               )}
               <li>
-                <Link to={`/profile/${user?.id}`} className="uppercase">
+                <Link to={`/profile/${user?.id}`} className="">
                   {' '}
-                  <FontAwesomeIcon icon={faEdit} size="lg" className="mr-2" />
-                  Edit profile
+                  <FontAwesomeIcon icon={faEdit} size="lg" className="w-8 -ml-1 mr-1" />
+                  Edit Profile
                 </Link>
               </li>
               <li>
-                <Link to="/" onClick={handleLogout} className="uppercase">
+                <Link to="/" onClick={handleLogout} className="">
                   <FontAwesomeIcon
                     icon={faSignOutAlt}
                     size="lg"
-                    className="mr-2"
+                    className="w-8 -ml-1 mr-1"
                   />
-                  Log out
+                  Log Out
                 </Link>
               </li>
             </ul>
