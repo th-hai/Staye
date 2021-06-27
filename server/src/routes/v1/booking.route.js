@@ -52,6 +52,7 @@ module.exports = router;
  *             required:
  *               - room
  *               - customer
+ *               - totalGuest
  *               - from
  *               - to
  *               - price
@@ -62,6 +63,9 @@ module.exports = router;
  *               customer:
  *                 type: string
  *                 description: ObjectId to refer
+ *               totalGuest:
+ *                 type: int
+ *                 description: Total guests
  *               status:
  *                 type: string
  *                 enum: [Cancelled, Hold, Confirmed, Pending]
@@ -79,6 +83,7 @@ module.exports = router;
  *             example:
  *               room: 60d78b8e174add2d204e57d6
  *               customer: 60d788e2174add2d204e57d3
+ *               totalGuests: 4
  *               from: 1990-05-25T15:54:49.119Z
  *               to: 1990-05-28T15:55:49.119Z
  *               status: Pending
@@ -112,6 +117,11 @@ module.exports = router;
  *         schema:
  *           type: string
  *         description: Customer Id
+ *       - in: query
+ *         name: totalGuests
+ *         schema:
+ *           type: int
+ *         description: Total guests
  *       - in: query
  *         name: status
  *         schema:
@@ -232,6 +242,9 @@ module.exports = router;
  *               customer:
  *                 type: string
  *                 description: ObjectId to refer
+ *               totalGuests:
+ *                 type: int
+ *                 description: Total guests
  *               status:
  *                 type: string
  *                 enum: [Cancelled, Hold, Confirmed, Pending]
@@ -249,6 +262,7 @@ module.exports = router;
  *             example:
  *               room: 60d78b8e174add2d204e57d6
  *               customer: 60d788e2174add2d204e57d3
+ *               totalGuests: 4
  *               from: 1990-05-25T15:54:49.119Z
  *               to: 1990-05-28T15:55:49.119Z
  *               status: Pending

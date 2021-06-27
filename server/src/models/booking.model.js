@@ -31,6 +31,10 @@ const bookingSchema = mongoose.Schema(
       type: Date,
       required: true
     },
+    totalGuests: {
+      type: Number,
+      required: true
+    },
     totalDays: {
       type: Number,
       default: 1

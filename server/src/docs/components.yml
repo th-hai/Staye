@@ -170,6 +170,8 @@ components:
           description: Must greater than from date
         price:
           type: number
+        totalGuest:
+          type: int
         total:
           type: int
         payment:
@@ -184,6 +186,7 @@ components:
         status: Pending
         from: 2021-05-31T12:00:00+0000
         to: 2021-06-2T11:59:00+0000
+        totalGuests: 4
         price: 2000000
         total: 4000000
         payment: Pay In Cash

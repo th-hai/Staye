@@ -11,14 +11,15 @@ const createBooking = catchAsync(async (req, res) => {
   let body = req.body
   const owner = await roomService.getOwnerByRoom(req.body.room)
   if (owner[0]) {
-    body = {...req.body, owner: owner[0] }
+    const value = owner[0]
+    body = {...req.body, owner: value.owner }
   }
   const booking = await bookingService.createBooking(body);
   res.status(httpStatus.CREATED).send(booking);
 });
 
 const getBookings = catchAsync(async (req, res) => {
-  const filter = pick(req.query, ['room', 'customer', 'status', 'from', 'to']);
+  const filter = pick(req.query, ['room', 'customer', 'totalGuests', 'status', 'from', 'to']);
   let options = pick(req.query, ['sortBy', 'limit', 'page']);
   const populates = { 
     path: 'room customer',
@@ -44,7 +45,8 @@ const updateBooking = catchAsync(async (req, res) => {
   let body = req.body
   const owner = await roomService.getOwnerByRoom(req.body.room)
   if (owner[0]) {
-    body = {...req.body, owner: owner[0] }
+    const value = owner[0]
+    body = {...req.body, owner: value.owner }
   }
   const booking = await bookingService.updateBookingById(req.params.bookingId, body);
   res.send(booking);
