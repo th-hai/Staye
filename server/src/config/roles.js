@@ -15,6 +15,7 @@ const adminRights = [
 const ownerRights = [
   'getOwnerRooms',
   'manageOwnerRooms',
+  'getBookingAsOwner',
   'uploadImages'
 ]
 

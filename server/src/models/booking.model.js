@@ -1,5 +1,5 @@
 const mongoose = require('mongoose');
-const moment = require('moment');
+const moment = require('moment-timezone');
 const { toJSON, paginate } = require('./plugins');
 
 const bookingSchema = mongoose.Schema(
@@ -9,6 +9,10 @@ const bookingSchema = mongoose.Schema(
       ref: 'Room'
     },
     customer: {
+      type: mongoose.SchemaTypes.ObjectId,
+      ref: 'User'
+    },
+    owner: {
       type: mongoose.SchemaTypes.ObjectId,
       ref: 'User'
     },
@@ -64,11 +68,11 @@ bookingSchema.plugin(paginate);
 bookingSchema.pre('save', async function (next) {
   const booking = this;
   if (booking) {
-    const from = moment(booking.from).utcOffset("+07:00").set({"hour": 12, "minute": 0, "second": 0, "millisecond": "0"})
-    const to = moment(booking.to).utcOffset("+07:00").set({"hour": 12, "minute": 0, "second": 0, "millisecond": "0"})
-    const totalDays = to.diff(from, 'day')
-    booking.from = from,
-    booking.to = to,
+    const start = moment.tz(booking.from, 'Asia/Ho_Chi_Minh').set({ hour: 12, minute: 0, second: 0, millisecond: 0})
+    const end = moment.tz(booking.to, 'Asia/Ho_Chi_Minh').set({ hour: 12, minute: 0, second: 0, millisecond: 0})
+    const totalDays = end.diff(start, 'day')
+    booking.from = start
+    booking.to = end
     booking.totalDays = totalDays
     booking.total = totalDays > 0 ? totalDays * booking.price : booking.price
   }

@@ -2,10 +2,18 @@ const httpStatus = require('http-status');
 const pick = require('../utils/pick');
 const ApiError = require('../utils/ApiError');
 const catchAsync = require('../utils/catchAsync');
-const { bookingService } = require('../services');
+const { bookingService, roomService } = require('../services');
 
 const createBooking = catchAsync(async (req, res) => {
-  const booking = await bookingService.createBooking(req.body);
+  if (req.user._id != req.body.customer) {
+    throw new ApiError(httpStatus.UNAUTHORIZED, 'Unauthorized user');
+  }
+  let body = req.body
+  const owner = await roomService.getOwnerByRoom(req.body.room)
+  if (owner[0]) {
+    body = {...req.body, owner: owner[0] }
+  }
+  const booking = await bookingService.createBooking(body);
   res.status(httpStatus.CREATED).send(booking);
 });
 
@@ -17,7 +25,7 @@ const getBookings = catchAsync(async (req, res) => {
     populate: {
       path: 'owner',
       model: 'User'
-    } 
+    }
   };
   options = { ...options, populates }
   const result = await bookingService.queryBookings(filter, options);
@@ -33,7 +41,12 @@ const getBooking = catchAsync(async (req, res) => {
 });
 
 const updateBooking = catchAsync(async (req, res) => {
-  const booking = await bookingService.updateBookingById(req.params.bookingId, req.body);
+  let body = req.body
+  const owner = await roomService.getOwnerByRoom(req.body.room)
+  if (owner[0]) {
+    body = {...req.body, owner: owner[0] }
+  }
+  const booking = await bookingService.updateBookingById(req.params.bookingId, body);
   res.send(booking);
 });
 
@@ -43,7 +56,18 @@ const deleteBooking = catchAsync(async (req, res) => {
 });
 
 const cancelBooking = catchAsync(async (req, res) => {
-  const booking = await bookingService.cancelBookingById(req.params.bookingId);
+  const booking = await bookingService.cancelBookingById(req.user._id, req.params.bookingId);
+  res.send(booking);
+});
+
+const getBookingFromOwnerRooms = catchAsync(async (req, res) => {
+  if (req.user.role != "owner") {
+    throw new ApiError(httpStatus.UNAUTHORIZED, 'Unauthorized user');
+  }
+  const booking = await bookingService.getBookingsByOwnerId(req.params.ownerId);
+  if (!booking) {
+    throw new ApiError(httpStatus.NOT_FOUND, 'Booking not found');
+  }
   res.send(booking);
 });
 
@@ -51,6 +75,7 @@ module.exports = {
   createBooking,
   getBookings,
   getBooking,
+  getBookingFromOwnerRooms,
   updateBooking,
   deleteBooking,
   cancelBooking

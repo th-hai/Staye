@@ -13,13 +13,17 @@ router
 
 router
   .route('/:bookingId')
-  .get(validate(bookingValidation.getBooking), bookingController.getBooking)
+  .get(auth('manageBookings'), validate(bookingValidation.getBooking), bookingController.getBooking)
   .patch(auth('manageBookings'), validate(bookingValidation.updateBooking), bookingController.updateBooking)
   .delete(auth('manageBookings'), validate(bookingValidation.deleteBooking), bookingController.deleteBooking);
 
 router
   .route('/:bookingId/cancel')
   .get(auth('cancelBooking'), validate(bookingValidation.cancelBooking), bookingController.cancelBooking);
+
+router
+  .route('/owners/:ownerId')
+  .get(auth('getBookingAsOwner'), validate(bookingValidation.getBookingAsOwner), bookingController.getBookingFromOwnerRooms)
 
 module.exports = router;
 
@@ -51,7 +55,6 @@ module.exports = router;
  *               - from
  *               - to
  *               - price
- *               - payment
  *             properties:
  *               room:
  *                 type: string
@@ -305,6 +308,37 @@ module.exports = router;
  *         schema:
  *           type: string
  *         description: Booking id
+ *     responses:
+ *       "200":
+ *         description: OK
+ *         content:
+ *           application/json:
+ *             schema:
+ *                $ref: '#/components/schemas/Booking'
+ *       "401":
+ *         $ref: '#/components/responses/Unauthorized'
+ *       "403":
+ *         $ref: '#/components/responses/Forbidden'
+ *       "404":
+ *         $ref: '#/components/responses/NotFound'
+ */
+
+/**
+ * @swagger
+ * /bookings/owners/{ownerId}:
+ *   get:
+ *     summary: Get booking by owner
+ *     description: Only logged in owner can view booking.
+ *     tags: [Bookings]
+ *     security:
+ *       - bearerAuth: []
+ *     parameters:
+ *       - in: path
+ *         name: ownerId
+ *         required: true
+ *         schema:
+ *           type: string
+ *         description: Owner id
  *     responses:
  *       "200":
  *         description: OK

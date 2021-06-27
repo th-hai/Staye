@@ -38,7 +38,7 @@ const updateBooking = {
   }),
   body: Joi.object()
     .keys({
-      room: Joi.string().custom(objectId),
+      room: Joi.string().custom(objectId).required(),
       customer: Joi.string().custom(objectId),
       status: Joi.string(),
       from: Joi.date(),
@@ -61,11 +61,18 @@ const cancelBooking = {
   })
 }
 
+const getBookingAsOwner = {
+  params: Joi.object().keys({
+    ownerId: Joi.required().custom(objectId),
+  })
+}
+
 module.exports = {
   createBooking,
   getBookings,
   getBooking,
   updateBooking,
   deleteBooking,
-  cancelBooking
+  cancelBooking,
+  getBookingAsOwner
 };

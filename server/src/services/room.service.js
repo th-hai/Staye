@@ -53,6 +53,15 @@ const getRoomById = async (id) => {
 };
 
 /**
+ * Get room by id
+ * @param {ObjectId} id
+ * @returns {Promise<Room>}
+ */
+const getOwnerByRoom = async (id) => {
+  return Room.find({_id: id}, 'owner -_id')
+};
+
+/**
  * Query for rooms by location
  * @param {ObjectId} location - Mongo filter
  * @returns {Promise<QueryResult>}
@@ -137,6 +146,7 @@ module.exports = {
   createRoom,
   queryRooms,
   searchRooms,
+  getOwnerByRoom,
   getRoomById,
   getRoomsByLocation,
   getRoomByLocationId,
