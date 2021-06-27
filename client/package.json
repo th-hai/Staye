@@ -17,7 +17,7 @@
     "dayjs": "^1.9.7",
     "dotenv": "^9.0.2",
     "eslint-plugin-redux-saga": "^1.2.1",
-    "history": "^5.0.0",
+    "history": "4.9.0",
     "immer": "^8.0.0",
     "invariant": "^2.2.4",
     "jwt-decode": "^3.1.2",
