@@ -13,13 +13,17 @@ router
 
 router
   .route('/:bookingId')
-  .get(validate(bookingValidation.getBooking), bookingController.getBooking)
+  .get(auth('manageBookings'), validate(bookingValidation.getBooking), bookingController.getBooking)
   .patch(auth('manageBookings'), validate(bookingValidation.updateBooking), bookingController.updateBooking)
   .delete(auth('manageBookings'), validate(bookingValidation.deleteBooking), bookingController.deleteBooking);
 
 router
   .route('/:bookingId/cancel')
   .get(auth('cancelBooking'), validate(bookingValidation.cancelBooking), bookingController.cancelBooking);
+
+router
+  .route('/owners/:ownerId')
+  .get(auth('getBookingAsOwner'), validate(bookingValidation.getBookingAsOwner), bookingController.getBookingFromOwnerRooms)
 
 module.exports = router;
 
@@ -48,10 +52,10 @@ module.exports = router;
  *             required:
  *               - room
  *               - customer
+ *               - totalGuest
  *               - from
  *               - to
  *               - price
- *               - payment
  *             properties:
  *               room:
  *                 type: string
@@ -59,6 +63,9 @@ module.exports = router;
  *               customer:
  *                 type: string
  *                 description: ObjectId to refer
+ *               totalGuest:
+ *                 type: int
+ *                 description: Total guests
  *               status:
  *                 type: string
  *                 enum: [Cancelled, Hold, Confirmed, Pending]
@@ -69,30 +76,18 @@ module.exports = router;
  *                 type: string
  *                 format: date-time
  *               price:
- *                 type: object
- *                 currency: 
- *                   type: string
- *                 total: 
- *                   type: integer
+ *                 type: string
  *               payment:
- *                 type: object
- *                 amount: 
- *                   type: integer
- *                 method:
- *                   type: string
- *                   enum: [Manual Bank Transfer, Pay In Cash]
+ *                 type: string
+ *                 enum: [Manual Bank Transfer, Pay In Cash]
  *             example:
- *               room: 60b4b0d5209f55c67dc298dc
- *               customer: 60b4ce7ceacc24bf7b347754
- *               from: 1622462098
- *               to: 1622462099
+ *               room: 60d78b8e174add2d204e57d6
+ *               customer: 60d788e2174add2d204e57d3
+ *               totalGuests: 4
+ *               from: 1990-05-25T15:54:49.119Z
+ *               to: 1990-05-28T15:55:49.119Z
  *               status: Pending
- *               price:
- *                 currency: VND
- *                 total: 2000000
- *               payment:
- *                 method: Pay In Cash
- *                 amount: 1500000
+ *               price: 200000
  *     responses:
  *       "201":
  *         description: Created
@@ -122,6 +117,11 @@ module.exports = router;
  *         schema:
  *           type: string
  *         description: Customer Id
+ *       - in: query
+ *         name: totalGuests
+ *         schema:
+ *           type: int
+ *         description: Total guests
  *       - in: query
  *         name: status
  *         schema:
@@ -242,6 +242,9 @@ module.exports = router;
  *               customer:
  *                 type: string
  *                 description: ObjectId to refer
+ *               totalGuests:
+ *                 type: int
+ *                 description: Total guests
  *               status:
  *                 type: string
  *                 enum: [Cancelled, Hold, Confirmed, Pending]
@@ -252,30 +255,18 @@ module.exports = router;
  *                 type: string
  *                 format: date-time
  *               price:
- *                 type: object
- *                 currency: 
- *                   type: string
- *                 total: 
- *                   type: integer
+ *                 type: string
  *               payment:
- *                 type: object
- *                 amount: 
- *                   type: integer
- *                 method:
- *                   type: string
- *                   enum: [Manual Bank Transfer, Pay In Cash]
+ *                 type: string
+ *                 enum: [Manual Bank Transfer, Pay In Cash]
  *             example:
- *               room: 60b4b0d5209f55c67dc298dc
- *               customer: 60b4ce7ceacc24bf7b347754
- *               from: 1622462098
- *               to: 1622462099
+ *               room: 60d78b8e174add2d204e57d6
+ *               customer: 60d788e2174add2d204e57d3
+ *               totalGuests: 4
+ *               from: 1990-05-25T15:54:49.119Z
+ *               to: 1990-05-28T15:55:49.119Z
  *               status: Pending
- *               price:
- *                 currency: VND
- *                 total: 2000000
- *               payment:
- *                 method: Pay In Cash
- *                 amount: 1500000
+ *               price: 200000
  *     responses:
  *       "200":
  *         description: OK
@@ -331,6 +322,37 @@ module.exports = router;
  *         schema:
  *           type: string
  *         description: Booking id
+ *     responses:
+ *       "200":
+ *         description: OK
+ *         content:
+ *           application/json:
+ *             schema:
+ *                $ref: '#/components/schemas/Booking'
+ *       "401":
+ *         $ref: '#/components/responses/Unauthorized'
+ *       "403":
+ *         $ref: '#/components/responses/Forbidden'
+ *       "404":
+ *         $ref: '#/components/responses/NotFound'
+ */
+
+/**
+ * @swagger
+ * /bookings/owners/{ownerId}:
+ *   get:
+ *     summary: Get booking by owner
+ *     description: Only logged in owner can view booking.
+ *     tags: [Bookings]
+ *     security:
+ *       - bearerAuth: []
+ *     parameters:
+ *       - in: path
+ *         name: ownerId
+ *         required: true
+ *         schema:
+ *           type: string
+ *         description: Owner id
  *     responses:
  *       "200":
  *         description: OK

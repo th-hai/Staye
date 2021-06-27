@@ -23,7 +23,7 @@ const RoomContent = (props) => {
             <div className="text-2xl font-semibold">{room.name}</div>
             <div>
               <FontAwesomeIcon icon={faMapMarkerAlt} />
-              <span className="ml-2 text-base">{room.address?.fullAddress}</span>
+              <span className="ml-2 text-base">{room?.address}</span>
             </div>
           </div>
           <div className="flex flex-col sm:flex-row mt-10">

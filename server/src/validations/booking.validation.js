@@ -5,17 +5,12 @@ const createBooking = {
   body: Joi.object().keys({
     room: Joi.string().custom(objectId).required(),
     customer: Joi.string().custom(objectId).required(),
+    totalGuests: Joi.number().integer().required(),
     status: Joi.string(),
     from: Joi.date(),
     to: Joi.date().greater(Joi.ref("from")).required(),
-    price: Joi.object({
-      currency: Joi.string(),
-      total: Joi.number()
-    }).required(),
-    payment: Joi.object({
-      method: Joi.string(),
-      amount: Joi.number()
-    }).required()
+    price: Joi.number().integer().required(),
+    payment: Joi.string()
   }),
 };
 
@@ -23,6 +18,7 @@ const getBookings = {
   query: Joi.object().keys({
     room: Joi.string(),
     customer: Joi.string(),
+    totalGuests: Joi.number().integer(),
     status: Joi.string(),
     from: Joi.date(),
     to: Joi.date(),
@@ -44,19 +40,14 @@ const updateBooking = {
   }),
   body: Joi.object()
     .keys({
-      room: Joi.string().custom(objectId),
+      room: Joi.string().custom(objectId).required(),
       customer: Joi.string().custom(objectId),
+      totalGuests: Joi.number().integer().required(),
       status: Joi.string(),
       from: Joi.date(),
       to: Joi.date(),
-      price: Joi.object({
-        currency: Joi.string(),
-        total: Joi.number()
-      }),
-      payment: Joi.object({
-        method: Joi.string(),
-        amount: Joi.number()
-      })
+      price: Joi.number().integer().required(),
+      payment: Joi.string()
     })
     .min(1),
 };
@@ -73,11 +64,18 @@ const cancelBooking = {
   })
 }
 
+const getBookingAsOwner = {
+  params: Joi.object().keys({
+    ownerId: Joi.required().custom(objectId),
+  })
+}
+
 module.exports = {
   createBooking,
   getBookings,
   getBooking,
   updateBooking,
   deleteBooking,
-  cancelBooking
+  cancelBooking,
+  getBookingAsOwner
 };
