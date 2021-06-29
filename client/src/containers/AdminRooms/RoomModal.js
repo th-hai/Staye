@@ -165,6 +165,7 @@ const RoomModal = ({
       } else {
         updateRoom(room.id, newValues);
       }
+      setFilelist([]);
     },
     [isAddRoom, addRoom, updateRoom, room, fileList]
   );

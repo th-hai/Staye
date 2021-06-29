@@ -3,7 +3,7 @@ import PropTypes from 'prop-types';
 import { Menu, Dropdown, Button } from 'antd';
 import logo from 'assets/Logo.svg';
 import { Link, useLocation } from 'react-router-dom';
-import { faSignOutAlt} from '@fortawesome/free-solid-svg-icons';
+import { faSignOutAlt } from '@fortawesome/free-solid-svg-icons';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { connect } from 'react-redux';
 import { logout } from 'containers/App/actions';

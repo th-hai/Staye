@@ -3,10 +3,10 @@ import React from 'react';
 const Footer = () => {
   return (
     <div
-      className="flex w-full bg-white items-center justify-center"
+      className="flex w-full bg-white items-center justify-center bottom-0"
     >
       <footer className="w-full text-gray-700 bg-gray-100 body-font h-24 flex items-center">
-        <div className="container flex flex-col flex-wrap px-5 py-10 mx-auto md:items-center lg:items-start md:flex-row md:flex-no-wrap">
+        <div className="container flex flex-col flex-wrap px-5 mx-auto md:items-center lg:items-start md:flex-row md:flex-no-wrap">
           <div className="flex-shrink-0 w-64 mx-auto text-center md:mx-0 md:text-left">
             <a
               href="/"
