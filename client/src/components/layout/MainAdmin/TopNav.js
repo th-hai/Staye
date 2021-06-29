@@ -3,13 +3,12 @@ import PropTypes from 'prop-types';
 import { Menu, Dropdown, Button } from 'antd';
 import logo from 'assets/Logo.svg';
 import { Link, useLocation } from 'react-router-dom';
-import { faUser, faSignOutAlt, fas } from '@fortawesome/free-solid-svg-icons';
+import { faSignOutAlt} from '@fortawesome/free-solid-svg-icons';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { connect } from 'react-redux';
 import { logout } from 'containers/App/actions';
-import { createStructuredSelector } from 'reselect';
-import { compose, bindActionCreators } from 'redux';
-import { showRoomModal, uploadPhotos } from 'containers/RoomList/actions';
+import { bindActionCreators } from 'redux';
+import { showRoomModal } from 'containers/RoomList/actions';
 import ConfirmDialog from 'components/Modal/ConfirmDialog';
 import UserModal from './UserModal';
 const TopNav = ({ user, handleLogout, showRoomModal, updateUser }) => {
@@ -29,7 +28,7 @@ const TopNav = ({ user, handleLogout, showRoomModal, updateUser }) => {
     mode: undefined,
     myError: null,
   });
-  const [confirmState, setConfirmState] = useState({
+  const [confirmState] = useState({
     visible: false,
   });
   useEffect(() => {

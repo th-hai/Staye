@@ -41,7 +41,7 @@ const FilterRooms = ({ getLocations, locations, getRooms, rooms }) => {
   const [searchText, setSearchText] = useState('');
   const [fromDate, setFromDate] = useState(null);
   const [toDate, setToDate] = useState(null);
-  const [inputDate, setInputDate] = useState('Ngày');
+  const [inputDate, setInputDate] = useState('Date');
   const [numberGuests, setNumberGuests] = useState();
 
   useInjectReducer({ key: reducerKey, reducer });
@@ -79,7 +79,7 @@ const FilterRooms = ({ getLocations, locations, getRooms, rooms }) => {
 
   useEffect(() => {
     if (fromDate == null && toDate == null) {
-      setInputDate('Ngày');
+      setInputDate('Date');
     }
     else if (fromDate == null || toDate == null) {
       const date = fromDate || toDate;
@@ -131,7 +131,7 @@ const FilterRooms = ({ getLocations, locations, getRooms, rooms }) => {
     setOpenDate(false);
     setFromDate(null);
     setToDate(null);
-    setInputDate('Ngày');
+    setInputDate('Date');
   }
 
   const closeAll = () => {

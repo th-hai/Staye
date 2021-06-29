@@ -1,7 +1,7 @@
-import React, { useEffect, useCallback } from 'react';
+import React, { useCallback } from 'react';
 import PropTypes from 'prop-types';
 import { Redirect, Link } from 'react-router-dom';
-import { Form, Input, InputNumber, Button, Spin } from 'antd';
+import { Form, Input, Button } from 'antd';
 import { Password } from './styles';
 import { useInjectSaga } from 'utils/injectSaga';
 import registerUserSaga from './saga';
@@ -11,7 +11,7 @@ import * as actions from './actions';
 import { useInjectReducer } from 'utils/injectReducer';
 import registerReducer from './reducer';
 import { createStructuredSelector } from 'reselect';
-import { makeSelectIsPending, makeSelectIsSuccessful } from './selectors';
+import { makeSelectIsSuccessful } from './selectors';
 import { REDIRECT } from './constants'
 const layout = {
   labelCol: { span: 0 },
@@ -43,13 +43,13 @@ const Register = ({ registerUser, isPending, isSuccessful }) => {
           <div class="flex w-full rounded-lg xl:w-3/4 lg:w-11/12 lg:shadow-xl ">
             <div class="relative hidden w-full h-auto bg-white bg-cover border-r rounded-l-lg lg:block lg:w-6/12">
               <div class="relative z-10 m-12 text-left ">
-                <a class="flex items-center w-32 mb-4 font-medium text-blueGray-900 title-font md:mb-10">
+                <Link to="/" class="flex items-center w-32 mb-4 font-medium text-blueGray-900 title-font md:mb-10">
                   <div class="w-2 h-2 p-2 mr-2 rounded-full bg-gradient-to-tr from-blue-300 to-blue-600"></div>
                   <h2 class="text-lg font-bold tracking-tighter text-black uppercase transition duration-500 ease-in-out transform hover:text-lightBlack-500 dark:text-lightBlue-400">
                     {' '}
                     Staye
                   </h2>
-                </a>
+                </Link>
                 <h2 class="mt-12 mb-2 text-2xl font-semibold tracking-tighter text-black sm:text-3xl title-font">
                   {' '}
                   Create an account.{' '}
@@ -100,13 +100,6 @@ const Register = ({ registerUser, isPending, isSuccessful }) => {
                     <label class="block text-base font-medium leading-relaxed text-blueGray-700">
                       User Name
                     </label>
-                    {/* <input
-                      type="text"
-                      name=""
-                      id=""
-                      placeholder="Your User Name "
-                      class="w-full px-4 py-2 mt-2 text-base transition duration-500 ease-in-out transform border-transparent rounded-lg bg-gray-100 focus:outline-none focus:shadow-outline focus:ring-2 ring-offset-current ring-offset-2 ext-black focus:border-blueGray-500"
-                    /> */}
                     <Form.Item
                       name="name"
                       rules={[
@@ -123,15 +116,6 @@ const Register = ({ registerUser, isPending, isSuccessful }) => {
                     <label class="block text-base font-medium leading-relaxed text-blueGray-700">
                       Email Address
                     </label>
-                    {/* <input
-                      type="email"
-                      name=""
-                      id=""
-                      placeholder="Your Email "
-                      class="w-full px-4 py-2 mt-2 text-base transition duration-500 ease-in-out transform border-transparent rounded-lg bg-gray-100 focus:outline-none focus:shadow-outline focus:ring-2 ring-offset-current ring-offset-2 ext-black focus:border-blueGray-500"
-                      autocomplete=""
-                      required=""
-                    /> */}
                     <Form.Item
                       name="email"
                       rules={[
@@ -158,12 +142,6 @@ const Register = ({ registerUser, isPending, isSuccessful }) => {
                         {' '}
                         Password{' '}
                       </label>
-                      {/* <input
-                        class="block w-full px-4 py-2 mt-2 text-base text-black transition duration-500 ease-in-out transform border-transparent rounded-lg bg-gray-100 focus:outline-none focus:shadow-outline focus:ring-2 ring-offset-current ring-offset-2 ext-black focus:border-blueGray-500"
-                        id="password"
-                        type="text"
-                        placeholder="Your Password"
-                      /> */}
                       <Form.Item
                         name="password"
                         rules={[
@@ -180,9 +158,6 @@ const Register = ({ registerUser, isPending, isSuccessful }) => {
                       >
                         <Password className="w-full px-4 py-2 my-2 text-base transition duration-500 ease-in-out transform border-transparent rounded-lg bg-gray-100 focus:outline-none focus:shadow-outline focus:ring-2 ring-offset-current ring-offset-2 ext-black focus:border-blueGray-500" />
                       </Form.Item>
-                      {/* <p class="mt-1 text-xs italic text-black">
-                        Please fill out this field.
-                      </p> */}
                     </div>
                     <div class="w-full px-3 md:w-1/2">
                       <label
@@ -192,12 +167,6 @@ const Register = ({ registerUser, isPending, isSuccessful }) => {
                         {' '}
                         Confirm{' '}
                       </label>
-                      {/* <input
-                        class="block w-full px-4 py-2 mt-2 text-base text-black transition duration-500 ease-in-out transform border-transparent rounded-lg bg-gray-100 focus:outline-none focus:shadow-outline focus:ring-2 ring-offset-current ring-offset-2 ext-black focus:border-blueGray-500 "
-                        id="confirm"
-                        type="text"
-                        placeholder="Confirm"
-                      /> */}
                       <Form.Item
                         name="confirm"
                         dependencies={['password']}
@@ -228,12 +197,6 @@ const Register = ({ registerUser, isPending, isSuccessful }) => {
                       </Form.Item>
                     </div>
                   </div>
-                  {/* <button
-                    type="submit"
-                    class="block w-full px-4 py-3 mt-6 font-semibold text-white transition duration-500 ease-in-out transform rounded-lg bg-gradient-to-r from-black hover:from-black to-black focus:outline-none focus:shadow-outline focus:ring-2 ring-offset-current ring-offset-2 hover:to-black"
-                  >
-                    Submit
-                  </button> */}
 
                   <Button
                     htmlType="submit"
@@ -244,9 +207,9 @@ const Register = ({ registerUser, isPending, isSuccessful }) => {
                 </Form>
                 <p class="mt-8 text-center">
                   Already have an account?{' '}
-                  <a href="#" class="font-semibold text-black hover:text-black">
+                  <Link to="/login" class="font-semibold text-black hover:text-black">
                     Sign In
-                  </a>
+                  </Link>
                 </p>
               </div>
             </div>

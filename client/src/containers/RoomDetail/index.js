@@ -14,8 +14,12 @@ import * as actions from './actions';
 import CarouselSlider from 'components/Carousel';
 import RoomContent from 'components/Rooms/RoomContent'
 import NotFound from 'containers/Page404'
+import globalReducer from 'containers/App/reducer';
+import { makeSelectUser } from 'containers/App/selectors';
+import { DAEMON } from 'utils/constants';
 
-export function RoomDetail({ getRoom, room }) {
+export function RoomDetail({ getRoom, room, user }) {
+  useInjectReducer({ key: 'global', reducer: globalReducer, mode: DAEMON });
   const { id } = useParams();
 
   useInjectReducer({ key: reducerKey, reducer });
@@ -29,7 +33,7 @@ export function RoomDetail({ getRoom, room }) {
     {room && room.id ? (
       <div className="mt-8 mx-24">
         <CarouselSlider photos={room.photos} />
-        <RoomContent room={room} />
+        <RoomContent room={room} user={user}/>
       </div>
     ) : (<NotFound/>) }
   </>;
@@ -38,10 +42,12 @@ export function RoomDetail({ getRoom, room }) {
 RoomDetail.propTypes = {
   getRoom: PropTypes.func,
   room: PropTypes.object,
+  user: PropTypes.object
 };
 
 const mapStateToProps = createStructuredSelector({
   room: makeSelectRoom,
+  user: makeSelectUser(),
 });
 
 const mapDispatchToProps = (dispatch) =>

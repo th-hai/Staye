@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from 'react';
+import React, { useEffect } from 'react';
 import PropTypes from 'prop-types';
 import { connect } from 'react-redux';
 import { createStructuredSelector } from 'reselect';
@@ -44,7 +44,7 @@ const HomeContainers = ({ getRoom, rooms }) => {
       </h1>
     </div>
     <div class="flex items-center justify-start md:justify-center">
-      <div class="avatar w-24 h-24 rounded"><img className="rounded-lg" src="https://scontent-sin6-4.xx.fbcdn.net/v/t1.6435-9/164915337_3603755649752905_4424169673399860630_n.jpg?_nc_cat=103&ccb=1-3&_nc_sid=09cbfe&_nc_ohc=K_I2OGkYN7kAX9uJ5Q5&_nc_ht=scontent-sin6-4.xx&oh=c10fa673fbfbe8c6e7432a26d221a734&oe=60D4C813" alt="Photo of Praveen Juge" /></div>
+      <div class="avatar w-24 h-24 rounded"><img className="rounded-lg" src="https://scontent-sin6-4.xx.fbcdn.net/v/t1.6435-9/164915337_3603755649752905_4424169673399860630_n.jpg?_nc_cat=103&ccb=1-3&_nc_sid=09cbfe&_nc_ohc=K_I2OGkYN7kAX9uJ5Q5&_nc_ht=scontent-sin6-4.xx&oh=c10fa673fbfbe8c6e7432a26d221a734&oe=60D4C813" alt="Praveen Juge" /></div>
       <div class="ml-4">
         <p class="mb-1 text-xs font-semibold tracking-widest text-gray-800 uppercase">Quang Le</p>
         <p class="text-xs font-semibold tracking-widest text-gray-500 uppercase">CEO, Staye</p>

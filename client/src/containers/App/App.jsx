@@ -1,7 +1,7 @@
-import React, { useEffect } from 'react';
+import React from 'react';
 import PropTypes from 'prop-types';
 import { connect } from 'react-redux';
-import { Switch, Route, Redirect, BrowserRouter } from 'react-router-dom';
+import { Switch, Route, BrowserRouter } from 'react-router-dom';
 import { createStructuredSelector } from 'reselect';
 import { makeSelectRole, makeSelectUser } from './selectors';
 import { useInjectReducer } from 'utils/injectReducer';
