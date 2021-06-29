@@ -1,7 +1,7 @@
 import React, { memo, useCallback, useEffect, useState } from 'react';
 import PropTypes from 'prop-types';
 import BaseModal from 'components/Modal/BaseModal';
-import { Input, Select, Upload, Modal, InputNumber, AutoComplete } from 'antd';
+import { Input, Upload, Modal } from 'antd';
 import { PlusOutlined } from '@ant-design/icons';
 import flow from 'lodash/fp/flow';
 import { connect } from 'react-redux';
@@ -9,11 +9,10 @@ import { bindActionCreators } from 'redux';
 import { createStructuredSelector } from 'reselect';
 import * as uploadServices from 'services/uploadService';
 import {
-  makeSelectOwners,
-  makeSelectPhotoUrls,
+  // makeSelectOwners,
+  // makeSelectPhotoUrls,
   makeSelectRoomModal,
 } from 'containers/RoomList/selectors';
-import isNil from 'lodash/fp/isNil';
 import {
   showRoomModal,
   uploadPhotos,
@@ -26,10 +25,10 @@ const DEFAULT_USER = {
   avatar: '',
   isEmailVerified: false,
 };
-const { Option } = AutoComplete;
+// const { Option } = AutoComplete;
 
 const { Item } = StyledForm;
-const { TextArea } = Input;
+// const { TextArea } = Input;
 const formItemLayout = {
   labelCol: {
     xs: { span: 24 },
@@ -66,7 +65,7 @@ const UserModal = ({
   const [previewTitle, setPreviewTitle] = useState('');
   const [previewImage, setPreviewImage] = useState('');
   const [fileList, setFilelist] = useState([]);
-  const [openSelect, setOpenSelect] = useState(false);
+  // const [openSelect, setOpenSelect] = useState(false);
   const handleCancel = () => setPreviewvisible(false);
 
   const handlePreview = async (file) => {

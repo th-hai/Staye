@@ -1,4 +1,5 @@
 const httpStatus = require('http-status');
+const moment = require('moment');
 const { Booking } = require('../models');
 const ApiError = require('../utils/ApiError');
 
@@ -8,8 +9,37 @@ const ApiError = require('../utils/ApiError');
  * @returns {Promise<Booking>}
  */
 const createBooking = async (bookingBody) => {
+
+  if (await !Booking.isDateValid(bookingBody.from, bookingBody.to)) {
+    throw new ApiError(httpStatus.BAD_REQUEST, 'The booking duration must be at least 1 day');
+  }
+
+  if (await roomIsNotAvailable(bookingBody.room ,bookingBody.from, bookingBody.to)) {
+    throw new ApiError(httpStatus.BAD_REQUEST, 'The room is not available at that time');
+  }
+
   const booking = await Booking.create(bookingBody);
   return booking;
+};
+
+/**
+ * Check if a room is available for booking
+ * @param {String} roomId
+ * @param {String} from
+ * @param {String} to
+ * @returns {Promise<Boolean>}
+ */
+const roomIsNotAvailable = async (roomId, from, to) => {
+  const start = moment(from).startOf('day');
+  const end = moment(to).endOf("day");
+
+  const room = await Booking.find({
+    room: roomId, 
+    from: { $gte: start },
+    to: { $lte: end }
+  })
+  
+  return room.length > 0  // Gia su room bang 1 tuc la tra ve false con neu bang 0 thi la true
 };
 
 /**
@@ -67,13 +97,17 @@ const deleteBookingById = async (bookingId) => {
 
 /**
  * Cancel booking by id
+ * @param {ObjectId} userId
  * @param {ObjectId} bookingId
  * @returns {Promise<Booking>}
  */
- const cancelBookingById = async (bookingId) => {
+ const cancelBookingById = async (userId, bookingId) => {
   const booking = await getBookingById(bookingId);
   if (!booking) {
     throw new ApiError(httpStatus.NOT_FOUND, 'Booking not found');
+  }
+  if (userId.toString() !== booking.customer.toString()) {
+    throw new ApiError(httpStatus.UNAUTHORIZED, 'This user is unauthorized')
   }
   Object.assign(booking, {status: 'Cancelled'});
   await booking.save();
@@ -86,7 +120,31 @@ const deleteBookingById = async (bookingId) => {
  * @returns {Promise<Booking>}
  */
  const getBookingsByUserId = async (userId) => {
-  const booking = await Booking.find({customer: userId});
+  const populates = { 
+    path: 'room customer',
+    populate: {
+      path: 'owner',
+      model: 'User'
+    } 
+  }
+  const booking = await Booking.find({customer: userId}).populate(populates);
+  return booking;
+};
+
+/**
+ * Get booking by owner id
+ * @param {ObjectId} ownerId
+ * @returns {Promise<Booking>}
+ */
+ const getBookingsByOwnerId = async (ownerId) => {
+  const populates = { 
+    path: 'room customer',
+    populate: {
+      path: 'owner',
+      model: 'User'
+    }
+  }
+  const booking = await Booking.find({owner: ownerId}).populate(populates);
   return booking;
 };
 
@@ -95,6 +153,7 @@ module.exports = {
   queryBookings,
   getBookingById,
   getBookingsByUserId,
+  getBookingsByOwnerId,
   updateBookingById,
   deleteBookingById,
   cancelBookingById

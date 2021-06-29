@@ -1,6 +1,5 @@
-import styled, { css } from 'styled-components';
+import styled from 'styled-components';
 import { Form } from 'antd';
-import { EditOutlined } from '@ant-design/icons';
 
 export const TableHeader = styled.div`
   display: flex;

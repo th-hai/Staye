@@ -1,34 +1,22 @@
 import React, { useEffect, useState } from 'react';
 import PropTypes from 'prop-types';
-import { faPlus } from '@fortawesome/free-solid-svg-icons';
-import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { connect } from 'react-redux';
-import get from 'lodash/fp/get';
 import { createStructuredSelector } from 'reselect';
 import { compose, bindActionCreators } from 'redux';
-import { PageHeader, Form, Input, Select, Table, Row, Col, Space } from 'antd';
-import { DeleteOutlined, EditOutlined } from '@ant-design/icons';
+import { Table, Space } from 'antd';
+import { DeleteOutlined } from '@ant-design/icons';
 import { useInjectSaga } from 'utils/injectSaga';
 import { useInjectReducer } from 'utils/injectReducer';
 import { reducerKey } from '../RoomList/constants';
-import { reducerKey as locationList } from 'components/HomeComponents/LocationContainers/constants';
-import locationSaga from 'components/HomeComponents/LocationContainers/saga';
-import locationReducer from 'components/HomeComponents/LocationContainers/reducer';
 import roomsReducer from 'containers/RoomList/reducer';
 import roomsSaga from 'containers/RoomList/saga';
 import * as roomsActions from 'containers/RoomList/actions';
-import * as locationActions from 'components/HomeComponents/LocationContainers/actions';
 import {
-  makeSelectOwners,
-  makeSelectRooms,
   makeSelectUsers,
 } from 'containers/RoomList/selectors';
 import ConfirmDialog from 'components/Modal/ConfirmDialog';
 
-import {
-  makeSelectLocations,
-  makeSelectAmenities,
-} from 'components/HomeComponents/LocationContainers/selectors';
+
 const AdminUsers = ({ users, getUsers, deleteUser }) => {
   useInjectReducer({
     key: reducerKey,

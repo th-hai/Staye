@@ -19,10 +19,11 @@ const RoomCarousel = (props) => {
   return (
     <div class="">
       <Slider {...settings} >
-        {photos && photos.map(item =>
+        {photos && photos.map((item, index) =>
         <>
           <div
           className="bg-cover bg-center w-full h-96 text-white object-fill relative rounded-xl"
+          key={index}
           style={{
             backgroundImage: `url(${item})`,
           }}>

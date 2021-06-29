@@ -1,5 +1,3 @@
-import React from 'react';
-
 export const MENU_ITEMS = [
     {
         id: 'rooms',

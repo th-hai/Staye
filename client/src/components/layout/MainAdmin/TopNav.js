@@ -28,7 +28,7 @@ const TopNav = ({ user, handleLogout, showRoomModal, updateUser }) => {
     mode: undefined,
     myError: null,
   });
-  const [confirmState, setConfirmState] = useState({
+  const [confirmState] = useState({
     visible: false,
   });
   useEffect(() => {

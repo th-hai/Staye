@@ -9,7 +9,6 @@ import { bindActionCreators } from 'redux';
 import { createStructuredSelector } from 'reselect';
 import * as uploadServices from 'services/uploadService';
 import {
-  makeSelectOwners,
   makeSelectPhotoUrls,
   makeSelectRoomModal,
 } from 'containers/RoomList/selectors';
@@ -72,7 +71,6 @@ const RoomModal = ({
   const [previewTitle, setPreviewTitle] = useState('');
   const [previewImage, setPreviewImage] = useState('');
   const [fileList, setFilelist] = useState([]);
-  const [openSelect, setOpenSelect] = useState(false);
   const handleCancel = () => setPreviewvisible(false);
   const status = [
     { id: 1, state: 'Available' },

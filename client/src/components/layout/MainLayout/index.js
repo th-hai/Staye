@@ -1,7 +1,6 @@
-import React, { useState } from 'react'
+import React from 'react'
 import PropTypes from 'prop-types'
 import TopNav from '../TopNav'
-import { Layout } from 'antd'
 
 import Footer from '../Footer'
 
