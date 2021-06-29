@@ -15,7 +15,7 @@ const TopNav = ({ user, handleLogout, role }) => {
   const isAdmin = role === 'admin' ? true : false;
   const handleClickLogin = () => {
     return <Redirect to="/login" />;
-  };
+  }
   return (
     // <div className="w-full text-gray-700 bg-white border-t border-gray-100 shadow-sm body-font sticky top-0 z-50">
     //   <div className="container flex flex-col items-center justify-between px-6 mx-auto md:flex-row h-16">
