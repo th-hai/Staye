@@ -27,6 +27,7 @@ import UserProfile from 'containers/UserProfile';
 import ForgotPassword from 'containers/ForgotPassword';
 import ResetPassword from 'containers/ResetPassword';
 import Checkout from 'containers/Checkout';
+import PermissiontoAdmin from 'containers/PermissiontoAdmin';
 
 const App = ({ user, role }) => {
   useInjectReducer({ key: 'global', reducer: globalReducer, mode: DAEMON });
@@ -63,6 +64,7 @@ const App = ({ user, role }) => {
                 <Route path="/search" component={SearchRooms} />
                 <Route path="/about" component={About} />
                 <Route path="/checkout" component={Checkout}/>
+                <Route path="/accessadmin" component={PermissiontoAdmin}/>
                 <Route path="*" component={NotFound} />
               </Switch>
             </MainLayout>
