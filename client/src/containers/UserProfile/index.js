@@ -116,6 +116,7 @@ const UserProfile = ({ user, updateUser }) => {
 
   return (
     <div className="flex flex-col h-screen justify-center">
+      <div className="flex mt-16 justify-center">
       <h1
         className="mb-3 text-4xl font-bold text-gray-900 md:leading-tight md:text-5xl flex justify-center"
         itemprop="headline"
@@ -123,7 +124,6 @@ const UserProfile = ({ user, updateUser }) => {
       >
         Update your profile
       </h1>
-      <div className="flex mt-16 justify-center">
         <Form
           form={form}
           {...layout}
@@ -178,7 +178,7 @@ const UserProfile = ({ user, updateUser }) => {
             </Button>
           </Form.Item>
         </Form>
-        <div className="flex flex-col items-center justify-center w-3/12">
+        <div className="flex flex-col items-center justify-center w-3/12 upload-image">
           <Upload
             name="avatar"
             action="https://www.mocky.io/v2/5cc8019d300000980a055e76"

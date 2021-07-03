@@ -86,4 +86,5 @@ async function executeRequest2(url, config) {
   return axios.request(finalConfig).then(response => response);
 }
 
-export default { get, post, post2, patch, put, del };
+const exported = { get, post, post2, patch, put, del };
+export default exported;

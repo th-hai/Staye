@@ -40,7 +40,6 @@ export function* updateUserSuccessTask() {
 }
 
 export function* failedTask({ error }) {
-  console.log("failedtask")
   message.error(error);
 }
 

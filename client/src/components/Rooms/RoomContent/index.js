@@ -14,6 +14,7 @@ const RoomContent = (props) => {
   const [fromDate, setFromDate] = useState(null);
   const [toDate, setToDate] = useState(null);
   const [openDate, setOpenDate] = useState(false);
+  const [isError, setIsError] = useState(false);
   const [inputDate, setInputDate] = useState('Select date')
   const [totalGuests, setTotalGuests] = useState(1);
   const [bookingBody, setBookingBody] = useState({});
@@ -107,7 +108,6 @@ const RoomContent = (props) => {
 
   useEffect(() => {
     updateBody();
-    console.log(bookingBody)
   }, [room, user, fromDate, toDate, totalGuests]);
 
   const onGuestsChange = (value) => {
@@ -115,11 +115,16 @@ const RoomContent = (props) => {
   }
 
   const handleBooking = () => {
-    if (!user && user.role !== 'user') {
+    if ( !fromDate || !toDate || !totalGuests) {
+      setIsError(true)
+    }
+    else if (!user && user.role !== 'user') {
       history.push('/login')
     } else {
-      console.log('AAA', bookingBody )
+      setIsError(false)
       localStorage.setItem('bookingBody', JSON.stringify(bookingBody))
+      localStorage.setItem('selectedRoom', JSON.stringify(room))
+      localStorage.setItem('currentUser', JSON.stringify(user))
       history.push('/checkout');
     }
   };
@@ -161,6 +166,16 @@ const RoomContent = (props) => {
                 </p>
                 <div className="w-12 h-1 bg-indigo-500 rounded mt-2 mb-4"></div>
                 <Divider orientation="center">Pick your date</Divider>
+                {isError && (
+                  <div className="alert alert-error mt-2 w-full">
+                  <div className="flex-1">
+                    <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" className="w-6 h-6 mx-2 stroke-current">    
+                      <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M18.364 18.364A9 9 0 005.636 5.636m12.728 12.728A9 9 0 015.636 5.636m12.728 12.728L5.636 5.636"></path>                      
+                    </svg> 
+                    <label>Date is empty</label>
+                  </div>
+                  </div>
+                )}
                 <RangePicker 
                   open={openDate}
                   allowClear
