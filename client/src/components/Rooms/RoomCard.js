@@ -26,7 +26,7 @@ const RoomCard = ({ room }) => {
             <div className="text-lg font-bold text-gray-900">
               {formatCurrency(room.price)}đ/đêm
             </div>
-            <div className="text-gray-700">{room.address}</div>
+            <div className="text-gray-700 truncate">{room.address}</div>
           </div>
         </div>
       </Link>

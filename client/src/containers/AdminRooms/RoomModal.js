@@ -182,7 +182,7 @@ const RoomModal = ({
   const afterCloseHandler = useCallback(() => {
     form.resetFields();
   }, [photoUrls]);
-
+ 
   return (
     <BaseModal
       visible={roomModal.visible}

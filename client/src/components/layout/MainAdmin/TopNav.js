@@ -75,19 +75,19 @@ const TopNav = ({ user, handleLogout, showRoomModal, updateUser }) => {
             <div className="flex-1 md:flex md:items-center md:justify-between">
               <div className="flex flex-col -mx-4 md:flex-row md:items-center md:mx-8">
                 <div
-                  href="#"
+                  href="/"
                   className="px-2 py-1 mx-2 mt-2 text-sm font-medium  transition-colors duration-200 transform rounded-md md:mt-0 text-gray-200 hover:bg-gray-700"
                 ></div>
                 <div
-                  href="#"
+                  href="/"
                   className="px-2 py-1 mx-2 mt-2 text-sm font-medium  transition-colors duration-200 transform rounded-md md:mt-0 text-gray-200 hover:bg-gray-700"
                 ></div>
                 <div
-                  href="#"
+                  href="/"
                   className="px-2 py-1 mx-2 mt-2 text-sm font-medium  transition-colors duration-200 transform rounded-md md:mt-0 text-gray-200 hover:bg-gray-700"
                 ></div>
                 <div
-                  href="#"
+                  href="/"
                   className="px-2 py-1 mx-2 mt-2 text-sm font-medium  transition-colors duration-200 transform rounded-md md:mt-0 text-gray-200 hover:bg-gray-700"
                 ></div>
               </div>
@@ -121,7 +121,7 @@ const TopNav = ({ user, handleLogout, showRoomModal, updateUser }) => {
                     <Button className="focus:border-none focus:outline-none border-none outline-none">
                       <div className="w-8 h-8 overflow-hidden border-2 border-gray-400 rounded-full">
                         <img
-                          src={user?.avatar}
+                          src={user?.avatar || 'https://vnn-imgs-a1.vgcloud.vn/image1.ictnews.vn/_Files/2020/03/17/trend-avatar-1.jpg'}
                           className="object-cover w-full h-full"
                           alt="avatar"
                         />
