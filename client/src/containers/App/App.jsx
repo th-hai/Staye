@@ -28,6 +28,7 @@ import ForgotPassword from 'containers/ForgotPassword';
 import ResetPassword from 'containers/ResetPassword';
 import Checkout from 'containers/Checkout';
 import BookingSuccess from 'containers/BookingSuccess';
+import AdminLocations from 'containers/AdminLocations';
 
 const App = ({ user, role }) => {
   useInjectReducer({ key: 'global', reducer: globalReducer, mode: DAEMON });
@@ -37,19 +38,23 @@ const App = ({ user, role }) => {
       <BrowserRouter>
         <Switch>
           <Route path="/admin/:path?">
-            <MainAdmin user={user}>
-              <Switch>
-                <Route
-                  path="/admin/dashboard"
-                  exact
-                  component={AdminDashboard}
-                />
-                <Route path="/admin/rooms/" exact component={AdminRooms} />
-                <Route path="/admin/users/" exact component={AdminUsers} />
-              </Switch>
-            </MainAdmin>
+            {role === 'admin' ? (
+              <MainAdmin user={user}>
+                <Switch>
+                  <Route
+                    path="/admin/dashboard"
+                    exact
+                    component={AdminDashboard}
+                  />
+                  <Route path="/admin/rooms/" exact component={AdminRooms} />
+                  <Route path="/admin/users/" exact component={AdminUsers} />
+                  <Route path="/admin/locations" exact component={AdminLocations} />
+                </Switch>
+              </MainAdmin>
+            ) : (
+              <NotFound />
+            )}
           </Route>
-
           <Route path="/">
             <MainLayout user={user} role={role}>
               <Switch>
@@ -60,13 +65,10 @@ const App = ({ user, role }) => {
                 <Route path="/forgot-password" component={ForgotPassword}/>
                 <Route path="/reset-password" component={ResetPassword}/>
                 <Route path="/profile/:id"component={UserProfile} />
-                <Route path="/booking-success"component={BookingSuccess} />
                 <Route path="/rooms/:id" component={RoomDetail} />
                 <Route path="/search" component={SearchRooms} />
                 <Route path="/about" component={About} />
-                {role === 'user' && 
-                  <Route path="/checkout" component={Checkout}/>
-                }
+                <Route path="/checkout" component={Checkout}/>
                 <Route path="*" component={NotFound} />
               </Switch>
             </MainLayout>

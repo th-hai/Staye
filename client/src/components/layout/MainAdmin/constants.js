@@ -5,6 +5,11 @@ export const MENU_ITEMS = [
         label: 'Rooms'
     },
     {
+        id: 'locations',
+        link: '/admin/locations',
+        label: 'Locations'
+    },
+    {
         id: 'bookings',
         link: '/admin/quang',
         label: 'Bookings'

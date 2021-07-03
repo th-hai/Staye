@@ -112,12 +112,12 @@ const AdminRoom = ({
       <div className="flex justify-between items-center mx-8 py-8">
         <Title />
         <button
-          className="bg-green-500 text-white p-2 rounded text-xl font-bold h-12 w-40"
+          className="btn btn-success"
           onClick={() => {
             showRoomModal(true);
           }}
         >
-          <FontAwesomeIcon icon={faPlus} /> New room
+          <FontAwesomeIcon className="mr-2" icon={faPlus} /> New room
         </button>
       </div>
 

@@ -1,12 +1,13 @@
 import React, { useEffect } from 'react';
 import PropTypes from 'prop-types';
-import { faHome, faUser, faBook } from '@fortawesome/free-solid-svg-icons';
+import { faHome, faUser, faBook, faLocationArrow } from '@fortawesome/free-solid-svg-icons';
 import { MENU_ITEMS } from './constants';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { Link } from 'react-router-dom';
 const Sidebar = ({ user }) => {
   const mapTitleToIcon = {
     rooms: faHome,
+    locations: faLocationArrow,
     bookings: faBook,
     users: faUser,
   };
@@ -18,7 +19,7 @@ const Sidebar = ({ user }) => {
       <div className="flex flex-col items-center mt-6 -mx-2">
         <img
           className="object-cover w-24 h-24 mx-2 rounded-full"
-          src={user?.avatar}
+          src={user?.avatar || 'https://vnn-imgs-a1.vgcloud.vn/image1.ictnews.vn/_Files/2020/03/17/trend-avatar-1.jpg'}
           alt="avatar"
         />
         <h4 className="mx-2 mt-2 font-medium text-gray-800 dark:text-gray-200 hover:underline">

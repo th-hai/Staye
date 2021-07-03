@@ -72,7 +72,7 @@ const TopNav = ({ user, handleLogout, role }) => {
             <ul class="shadow menu dropdown-content bg-base-100 rounded-box w-42">
               {isAdmin ? (
                 <li className="w-44">
-                  <Link to="/admin/dashboard" className="">
+                  <Link to="/admin/rooms" className="">
                     {' '}
                     <FontAwesomeIcon
                       icon={faClipboard}
