@@ -1,32 +1,20 @@
 import React, { memo, useCallback, useEffect, useState } from 'react';
 import PropTypes from 'prop-types';
-import BaseModal from 'components/Modal/BaseModal';
 import {
   Form,
   Input,
-  InputNumber,
   Button,
-  Upload,
-  Modal,
-  Row,
-  Col,
-  Card,
+  Upload
 } from 'antd';
 import { PlusOutlined, LoadingOutlined } from '@ant-design/icons';
 import flow from 'lodash/fp/flow';
 import isEmpty from 'lodash/fp/isEmpty';
 import { connect } from 'react-redux';
-import { bindActionCreators, compose } from 'redux';
+import { bindActionCreators } from 'redux';
 import { createStructuredSelector } from 'reselect';
 import * as uploadServices from 'services/uploadService';
 import * as userActions from 'containers/App/actions';
 import { DAEMON } from 'utils/constants';
-import {
-  makeSelectOwners,
-  makeSelectPhotoUrls,
-  makeSelectRoomModal,
-} from 'containers/RoomList/selectors';
-import isNil from 'lodash/fp/isNil';
 import { uploadPhotos } from 'containers/RoomList/actions';
 import { reducerKey } from './constants';
 import { makeSelectUser } from 'containers/App/selectors';
@@ -36,15 +24,7 @@ import saga from 'containers/SignIn/saga';
 import globalReducer from 'containers/App/reducer';
 import { useParams } from 'react-router-dom';
 import './style.css';
-const DEFAULT_USER = {
-  name: '',
-  email: '',
-  role: '',
-  avatar: '',
-  isEmailVerified: false,
-};
 
-const { TextArea } = Input;
 const layout = {
   labelCol: { span: 8 },
   wrapperCol: { span: 16 },
@@ -83,7 +63,6 @@ const UserProfile = ({ user, updateUser }) => {
       onSuccess('ok');
     }, 0);
   };
-  const { id } = useParams();
   useEffect(() => {
     form.setFieldsValue(user);
     setAvatar(user?.avatar);

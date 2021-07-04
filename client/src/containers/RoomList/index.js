@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from 'react';
+import React, { useEffect } from 'react';
 import PropTypes from 'prop-types';
 import { connect } from 'react-redux';
 import { createStructuredSelector } from 'reselect';
@@ -10,7 +10,6 @@ import saga from './saga';
 import * as actions from './actions';
 import { reducerKey } from './constants';
 import { makeSelectRooms } from './selectors';
-import { routerActions } from 'connected-react-router';
 import { Link} from "react-router-dom";
 export function RoomList({ getRoom, rooms }) {
   useInjectReducer({ key: reducerKey, reducer });

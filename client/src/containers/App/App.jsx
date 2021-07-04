@@ -27,7 +27,6 @@ import UserProfile from 'containers/UserProfile';
 import ForgotPassword from 'containers/ForgotPassword';
 import ResetPassword from 'containers/ResetPassword';
 import Checkout from 'containers/Checkout';
-import BookingSuccess from 'containers/BookingSuccess';
 import AdminLocations from 'containers/AdminLocations';
 
 const App = ({ user, role }) => {

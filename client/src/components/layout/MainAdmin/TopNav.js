@@ -2,7 +2,7 @@ import React, { useEffect, useState } from 'react';
 import PropTypes from 'prop-types';
 import { Menu, Dropdown, Button } from 'antd';
 import logo from 'assets/Logo.svg';
-import { Link, useLocation } from 'react-router-dom';
+import { Link } from 'react-router-dom';
 import { faSignOutAlt } from '@fortawesome/free-solid-svg-icons';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { connect } from 'react-redux';
@@ -12,9 +12,8 @@ import { showRoomModal } from 'containers/RoomList/actions';
 import ConfirmDialog from 'components/Modal/ConfirmDialog';
 import UserModal from './UserModal';
 const TopNav = ({ user, handleLogout, showRoomModal, updateUser }) => {
-  const location = useLocation();
   const menu = (
-    <Menu className="">
+    <Menu>
       <Menu.Item>
         <Link to="/" onClick={handleLogout} className="text-base">
           <FontAwesomeIcon icon={faSignOutAlt} className="mr-2" />
@@ -32,7 +31,6 @@ const TopNav = ({ user, handleLogout, showRoomModal, updateUser }) => {
     visible: false,
   });
   useEffect(() => {
-    console.log(location.search);
   }, [user]);
   return (
     <>

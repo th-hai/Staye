@@ -1,13 +1,12 @@
-import { takeLatest, put, call, all, take } from 'redux-saga/effects';
+import { takeLatest, put, call, all } from 'redux-saga/effects';
 import * as services from '../../services/roomService';
-import { uploadMultiple, uploadSingle } from 'services/uploadService';
+import { uploadMultiple } from 'services/uploadService';
 import { message } from 'antd';
 import { getErrorMessage } from '../../utils/responseUtils';
 import {
   GET_ROOM,
   GET_ROOM_FAIL,
   GET_ROOMS_BY_LOCATION,
-  GET_ROOMS_BY_LOCATION_FAIL,
   DELETE_ROOM,
   DELETE_ROOM_SUCCESS,
   DELETE_ROOM_FAILED,
@@ -32,22 +31,17 @@ import {
   getRoom,
   getRoomSuccess,
   getRoomFail,
-  getRoomsByLocation,
   getRoomsByLocationSuccess,
   getRoomsByLocationFail,
-  deleteRoom,
   deleteRoomSuccess,
   deleteRoomFailed,
-  updateRoom,
   updateRoomFailed,
   updateRoomSuccess,
   showRoomModal,
-  createRoom,
   createRoomFailed,
   createRoomSuccess,
   uploadPhotosSuccess,
   uploadPhotosFailed,
-  getOwners,
   getOwnersFailed,
   getOwnersSuccess,
   getUsersSuccess,

@@ -24,7 +24,7 @@ const HomeCarousel = () => {
     <div className="w-full mt-8">
       <Slider {...settings} >
         {sliderList.map(item =>
-          <img className="w-full rounded-3xl" src={item} alt="Home page slide"/>
+          <img key={item} className="w-full rounded-3xl" src={item} alt="Home page slide"/>
         )}
       </Slider>
     </div>

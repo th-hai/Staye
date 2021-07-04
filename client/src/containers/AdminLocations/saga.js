@@ -1,4 +1,4 @@
-import { takeLatest, put, call, all, take } from 'redux-saga/effects';
+import { takeLatest, put, call, all } from 'redux-saga/effects';
 import * as services from 'services/locationService';
 import { message } from 'antd';
 import { getErrorMessage } from '../../utils/responseUtils';
@@ -6,8 +6,6 @@ import { getErrorMessage } from '../../utils/responseUtils';
 import {
   GET_LOCATIONS,
   GET_LOCATIONS_FAIL,
-  GET_LOCATIONS_SUCCESS,
-  SHOW_MODAL,
   CREATE_LOCATIONS,
   CREATE_LOCATIONS_SUCCESS,
   CREATE_LOCATIONS_FAILED,
@@ -26,10 +24,8 @@ import {
   getLocationsFail,
   getLocationsSuccess,
   showLocationModal,
-  deleteLocation,
   deleteLocationFailed,
   deleteLocationSuccess,
-  updateLocation,
   updateLocationFailed,
   updateLocationSuccess,
 } from './actions';

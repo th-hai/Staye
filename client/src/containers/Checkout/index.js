@@ -89,7 +89,7 @@ const Checkout = ({ createBooking, isSuccessful }) => {
 
           <section className="text-gray-600 body-font">
             <div className="container py-16 mx-auto">
-              <Row className="">
+              <Row>
                 <Col xs={20} md={12} lg={12} className="py-4 pr-2">
                   <div className="border-2 rounded-lg border-gray-200 border-opacity-50 p-4 w-full">
                     <div className="space-y-2">

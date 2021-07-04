@@ -15,7 +15,6 @@ import {
   GET_ROOMS_BY_LOCATION,
   GET_ROOMS_BY_LOCATION_FAIL,
   GET_ROOMS_BY_LOCATION_SUCCESS,
-  SHOW_LOCATION_MODAL,
 } from './constants';
 
 export const initialState = {

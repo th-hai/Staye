@@ -33,10 +33,6 @@ import {
   DELETE_USER,
   DELETE_USER_FAILED,
   DELETE_USER_SUCCESS,
-  EDIT_USER,
-  EDIT_USER_FAILED,
-  EDIT_USER_SUCCESS,
-  SHOW_LOCATION_MODAL,
 } from './constants';
 
 export const getRoom = () => ({

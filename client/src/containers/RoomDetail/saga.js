@@ -1,4 +1,4 @@
-import { takeLatest, put, call, all, take } from 'redux-saga/effects';
+import { takeLatest, put, call, all } from 'redux-saga/effects';
 import * as services from '../../services/roomService';
 import { message } from 'antd';
 import { getErrorMessage } from '../../utils/responseUtils';
@@ -9,7 +9,6 @@ import {
 } from './constants';
 
 import {
-  getRoom,
   getRoomSuccess,
   getRoomFail,
 } from './actions';

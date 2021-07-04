@@ -4,9 +4,6 @@ import {
   GET_LOCATIONS_FAIL,
   GET_LOCATIONS_SUCCESS,
   SHOW_MODAL,
-  UPLOAD_PHOTOS,
-  UPLOAD_PHOTOS_FAILED,
-  UPLOAD_PHOTOS_SUCCESS,
 } from './constants';
 
 export const initialState = {

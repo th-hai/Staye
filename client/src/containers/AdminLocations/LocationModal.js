@@ -1,7 +1,7 @@
 import React, { memo, useCallback, useEffect, useState } from 'react';
 import PropTypes from 'prop-types';
 import BaseModal from 'components/Modal/BaseModal';
-import { Input, Select, Upload, Modal, InputNumber, AutoComplete } from 'antd';
+import { Input, Upload } from 'antd';
 import { PlusOutlined, LoadingOutlined } from '@ant-design/icons';
 import flow from 'lodash/fp/flow';
 import { connect } from 'react-redux';
@@ -9,12 +9,8 @@ import isEmpty from 'lodash/fp/isEmpty';
 import { bindActionCreators } from 'redux';
 import { createStructuredSelector } from 'reselect';
 import * as uploadServices from 'services/uploadService';
-import {
-  makeSelectPhotoUrls,
-  makeSelectRoomModal,
-} from 'containers/RoomList/selectors';
 import isNil from 'lodash/fp/isNil';
-import { showRoomModal, uploadPhotos } from 'containers/RoomList/actions';
+import { showRoomModal } from 'containers/RoomList/actions';
 import { StyledForm } from './styles';
 import { makeSelectLocationModal } from './selectors';
 const DEFAULT_LOCATION = {
@@ -22,8 +18,6 @@ const DEFAULT_LOCATION = {
   description: '',
   photo: '',
 };
-
-const { Option } = AutoComplete;
 
 const { Item } = StyledForm;
 const { TextArea } = Input;

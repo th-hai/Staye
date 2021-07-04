@@ -230,7 +230,7 @@ const FilterRooms = ({ getLocations, locations, getRooms, rooms }) => {
       </Button>
       <Divider type="vertical" className="bg-gray-300 m-0" style={{ height: '30px' }} />
 
-      <div className>
+      <div>
         <Select
           open={openGuest}
           onSelect={(value) => {

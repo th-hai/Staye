@@ -17,13 +17,13 @@ const settings = {
 const RoomCarousel = (props) => {
   const { photos } = props
   return (
-    <div class="">
+    <div>
       <Slider {...settings} >
         {photos && photos.map((item, index) =>
         <>
           <div
+          key={item}
           className="bg-cover bg-center w-full h-96 text-white object-fill relative rounded-xl"
-          key={index}
           style={{
             backgroundImage: `url(${item})`,
           }}>

@@ -14,37 +14,22 @@ import logo from 'assets/Logo.svg';
 const TopNav = ({ user, handleLogout, role }) => {
   const isAdmin = role === 'admin' ? true : false;
   return (
-    // <div className="w-full text-gray-700 bg-white border-t border-gray-100 shadow-sm body-font sticky top-0 z-50">
-    //   <div className="container flex flex-col items-center justify-between px-6 mx-auto md:flex-row h-16">
-    //     <Link to="/"
-    //       className="flex items-center mb-4 font-medium text-gray-900 title-font md:mb-0 mr-4">
-    //        <img alt="" src={logo} className="w-24 mr-12" />
-    //     </Link>
 
-    //     <div className="flex flex-wrap items-center border-gray-700 md:mr-auto">
-    //       <FilterRooms />
-    //     </div>
-    //     <div className="flex items-center h-full">
-
-    //     </div>
-    //   </div>
-    // </div>
-
-    <div class="navbar mb-2 shadow-lg bg-base-200 text-base-content sticky top-0 z-50">
-      <div class="px-2 mx-2 lg:flex-none flex-1">
+    <div className="navbar mb-2 shadow-lg bg-base-200 text-base-content sticky top-0 z-50">
+      <div className="px-2 mx-2 lg:flex-none flex-1">
         <Link className="flex items-center" to="/">
           <img alt="" src={logo} className="w-24 mr-12 " />
         </Link>
 
         <FilterRooms />
       </div>
-      <div class="justify-center hidden px-2 mx-2 lg:flex flex-1">
-        <div class="flex items-stretch"></div>
+      <div className="justify-center hidden px-2 mx-2 lg:flex flex-1">
+        <div className="flex items-stretch"></div>
       </div>
-      <div class="px-2 mx-2 lg:flex-none flex-1">
+      <div className="px-2 mx-2 lg:flex-none flex-1">
         {user ? (
-          <div class="dropdown dropdown-hover text-primary-content">
-            <div tabindex="0" class="flex text-primary-content text-lg">
+          <div className="dropdown dropdown-hover text-primary-content">
+            <div tabIndex="0" className="flex text-primary-content text-lg">
               {isAdmin ? (
                 <>
                   <div className="capitalize flex">
@@ -53,7 +38,7 @@ const TopNav = ({ user, handleLogout, role }) => {
                       {user.name}
                       {'!'}
                     </div>
-                    <div class="badge badge-warning  uppercase ml-2">admin</div>{' '}
+                    <div className="badge badge-warning  uppercase ml-2">admin</div>{' '}
                   </div>
                 </>
               ) : (
@@ -64,15 +49,15 @@ const TopNav = ({ user, handleLogout, role }) => {
                       {user.name}
                       {'!'}
                     </div>
-                    <div class="badge badge-success  uppercase ml-2">user</div>{' '}
+                    <div className="badge badge-success  uppercase ml-2">user</div>{' '}
                   </div>
                 </>
               )}{' '}
             </div>
-            <ul class="shadow menu dropdown-content bg-base-100 rounded-box w-42">
+            <ul className="shadow menu dropdown-content bg-base-100 rounded-box w-42">
               {isAdmin ? (
                 <li className="w-44">
-                  <Link to="/admin/rooms" className="">
+                  <Link to="/admin/rooms">
                     {' '}
                     <FontAwesomeIcon
                       icon={faClipboard}
@@ -86,14 +71,14 @@ const TopNav = ({ user, handleLogout, role }) => {
                 ''
               )}
               <li>
-                <Link to={`/profile/${user?.id}`} className="">
+                <Link to={`/profile/${user?.id}`} >
                   {' '}
                   <FontAwesomeIcon icon={faEdit} size="lg" className="w-8 -ml-1 mr-1" />
                   Edit Profile
                 </Link>
               </li>
               <li>
-                <Link to="/" onClick={handleLogout} className="">
+                <Link to="/" onClick={handleLogout}>
                   <FontAwesomeIcon
                     icon={faSignOutAlt}
                     size="lg"
@@ -123,48 +108,6 @@ const TopNav = ({ user, handleLogout, role }) => {
             </Link>
           </button>
         )}
-      </div>
-
-      <div class="">
-        {/* {user ? (
-          isAdmin ? (
-            <Link
-              to="/admin/dashboard"
-              className="mr-5 font-medium text-gray-600 hover:text-gray-900 text-black  no-underline"
-            >
-              Hello {user.name} - Admin!
-            </Link>
-          ) : (
-            <Link
-              to="/profile"
-              className="mr-5 font-medium text-gray-600 hover:text-gray-900 text-black  no-underline"
-            >
-              Hello {user.name}!
-            </Link>
-          )
-        ) : (
-          <Link
-            to="/login"
-            className="mr-5 font-medium text-gray-600 hover:text-gray-900 text-black  no-underline"
-          >
-            Login
-          </Link>
-        )}
-        {user ? (
-          <Link
-            onClick={handleLogout}
-            className="btn btn-success btn-xs md:btn-sm lg:btn-sm xl:btn-sm"
-          >
-            Log out
-          </Link>
-        ) : (
-          <Link
-            to="/register"
-            className="px-4 py-2 text-xs font-bold text-white uppercase transition-all duration-150 bg-green-400 rounded shadow outline-none active:bg-teal-600 hover:shadow-md focus:outline-none ease no-underline"
-          >
-            Sign Up
-          </Link>
-        )} */}
       </div>
     </div>
   );
