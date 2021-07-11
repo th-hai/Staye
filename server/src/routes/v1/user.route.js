@@ -12,6 +12,10 @@ router
   .get(auth('getUsers'), validate(userValidation.getUsers), userController.getUsers);
 
 router
+  .route('/owner')
+  .post(auth('manageUsers'), validate(userValidation.createOwner), userController.createOwner)
+
+router
   .route('/:userId')
   .get(auth('getUsers'), validate(userValidation.getUser), userController.getUser)
   .patch(auth('manageUsers'), validate(userValidation.updateUser), userController.updateUser)
@@ -151,6 +155,60 @@ module.exports = router;
  *         $ref: '#/components/responses/Unauthorized'
  *       "403":
  *         $ref: '#/components/responses/Forbidden'
+ */
+
+/**
+ * @swagger
+ * /users/owner:
+ *   post:
+ *     summary: Create an owner
+ *     description: Only admins can create other owner.
+ *     tags: [Users]
+ *     security:
+ *       - bearerAuth: []
+ *     requestBody:
+ *       required: true
+ *       content:
+ *         application/json:
+ *           schema:
+ *             type: object
+ *             required:
+ *               - name
+ *               - email
+ *               - password
+ *             properties:
+ *               name:
+ *                 type: string
+ *               email:
+ *                 type: string
+ *                 format: email
+ *                 description: must be unique
+ *               password:
+ *                 type: string
+ *                 format: password
+ *                 minLength: 8
+ *                 description: At least one number and one letter
+ *               avatar:
+ *                  type: string
+ *             example:
+ *               name: fake name
+ *               email: fake@example.com
+ *               password: password1
+ *               avatar: https://i.pravatar.cc/300
+ *     responses:
+ *       "201":
+ *         description: Created
+ *         content:
+ *           application/json:
+ *             schema:
+ *                $ref: '#/components/schemas/User'
+ *       "400":
+ *         $ref: '#/components/responses/DuplicateEmail'
+ *       "401":
+ *         $ref: '#/components/responses/Unauthorized'
+ *       "403":
+ *         $ref: '#/components/responses/Forbidden'
+ *
  */
 
 /**

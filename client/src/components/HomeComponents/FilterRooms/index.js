@@ -165,7 +165,7 @@ const FilterRooms = ({ getLocations, locations, getRooms, rooms }) => {
   ))
 
   return (
-    <div className="flex p-2 h-full box-border border-2 shadow-md items-center rounded-lg">
+    <div className="flex p-2 h-full border-2 items-center rounded-lg">
       <>
         <Select
           open={openLocation}

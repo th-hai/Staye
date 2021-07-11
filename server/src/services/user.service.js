@@ -94,8 +94,24 @@ const getUserBookings = async (userId) => {
   return booking;
 };
 
+/**
+ * Create an owner
+ * @param {Object} ownerBody
+ * @returns {Promise<User>}
+ */
+ const createOwner = async (ownerBody) => {
+  if (await User.isEmailTaken(ownerBody.email)) {
+    throw new ApiError(httpStatus.BAD_REQUEST, 'Email already taken');
+  }
+  const role = 'owner';
+  const body = {...ownerBody, role}
+  const user = await User.create(body);
+  return user;
+};
+
 module.exports = {
   createUser,
+  createOwner,
   queryUsers,
   getUserById,
   getUserByEmail,

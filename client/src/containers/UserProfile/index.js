@@ -95,7 +95,6 @@ const UserProfile = ({ user, updateUser }) => {
 
   return (
     <div className="flex flex-col h-screen justify-center">
-      <div className="flex mt-16 justify-center">
       <h1
         className="mb-3 text-4xl font-bold text-gray-900 md:leading-tight md:text-5xl flex justify-center"
         itemprop="headline"
@@ -103,6 +102,7 @@ const UserProfile = ({ user, updateUser }) => {
       >
         Update your profile
       </h1>
+      <div className="flex mt-16 justify-center">
         <Form
           form={form}
           {...layout}

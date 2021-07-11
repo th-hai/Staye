@@ -11,6 +11,16 @@ const createUser = {
   }),
 };
 
+const createOwner = {
+  body: Joi.object().keys({
+    email: Joi.string().required().email(),
+    password: Joi.string().required().custom(password),
+    name: Joi.string().required(),
+    role: Joi.string().valid('owner'),
+    avatar: Joi.string()
+  }),
+};
+
 const getUsers = {
   query: Joi.object().keys({
     name: Joi.string(),
@@ -51,6 +61,7 @@ const deleteUser = {
 
 module.exports = {
   createUser,
+  createOwner,
   getUsers,
   getUser,
   updateUser,
