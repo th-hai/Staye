@@ -30,7 +30,7 @@ export function renderButton(button, index) {
 function FooterButton({ datasource }) {
   return (
     <StyledFooterButton>
-      {datasource.map((button, index) => renderButton(button, index))}
+      {datasource?.map((button, index) => renderButton(button, index))}
     </StyledFooterButton>
   );
 }

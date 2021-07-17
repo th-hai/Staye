@@ -175,7 +175,7 @@ const FilterRooms = ({ getLocations, locations, getRooms, rooms }) => {
           }}
           placeholder="Khu vực"
           className="absolute w-28 h-0 invisible">
-          {locations.map(item => (
+          {locations && locations.map(item => (
             <Select.Option key={item.id} value={item.id}>{item.name}</Select.Option>
           ))}
         </Select>
@@ -187,7 +187,7 @@ const FilterRooms = ({ getLocations, locations, getRooms, rooms }) => {
             setOpenGuest(false);
           }}
         >
-          {locations.find(item => item.id === location)?.name || 'Khu vực'}
+          {locations && locations.find(item => item.id === location)?.name || 'Khu vực'}
         </Button>
       </>
 

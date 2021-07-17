@@ -110,7 +110,7 @@ const RoomModal = ({
   useEffect(() => {
     if (!isAddRoom) {
       form.setFieldsValue(room);
-      const listPhotos = room.photos.map((item, index) => ({
+      const listPhotos = room?.photos?.map((item, index) => ({
         status: 'done',
         url: item,
       }));
@@ -144,7 +144,7 @@ const RoomModal = ({
       }
       // }
       await uploadServices.uploadMultiple(formData).then((res) => {
-        const urls = res.data.map((item) => item.url);
+        const urls = res?.data?.map((item) => item.url);
         if (isAddRoom) {
           newValues = {
             ...values,
@@ -279,7 +279,7 @@ const RoomModal = ({
             placeholder="Select status"
             listHeight={100}
           >
-            {status.map((item) => (
+            {status?.map((item) => (
               <Option key={item.id} value={item.state}>
                 <div>{item.state}</div>
               </Option>
@@ -295,7 +295,7 @@ const RoomModal = ({
             listHeight={100}
             disabled={isAddRoom ? false : true}
           >
-            {locations.map((location) => (
+            {locations && locations.map((location) => (
               <Option key={location.id} value={location.id}>
                 <div>{location.name}</div>
               </Option>
@@ -310,7 +310,7 @@ const RoomModal = ({
             placeholder="Select multiple amenities"
             listHeight={100}
           >
-            {amenities?.map((amenity) => (
+            {amenities && amenities?.map((amenity) => (
               <Option key={amenity.id} value={amenity.id}>
                 <div style={{ overflow: 'visible', whiteSpace: 'pre-wrap' }}>
                   {amenity.name}
@@ -327,7 +327,7 @@ const RoomModal = ({
             placeholder="Select owner"
             listHeight={100}
           >
-            {owners.map((owner) => (
+            {owners && owners.map((owner) => (
               <Option key={owner.id} value={owner.id}>
                 <div>{owner.email}</div>
               </Option>

@@ -40,15 +40,8 @@ const HomeContainers = ({ getRoom, rooms }) => {
     <div className="text-left md:text-center">
       <p className="mb-8 text-xs font-bold tracking-widest text-purple-800 uppercase">Why Companies Love Us</p>
       <h1 className="mb-10 font-serif text-xl italic font-thin text-gray-800 md:leading-snug md:text-3xl">
-        “Xã hội này, có làm thì mới có ăn”
+        “Where cozy memory lasts”
       </h1>
-    </div>
-    <div className="flex items-center justify-start md:justify-center">
-      <div className="avatar w-24 h-24 rounded"><img className="rounded-lg" src="https://scontent-sin6-4.xx.fbcdn.net/v/t1.6435-9/164915337_3603755649752905_4424169673399860630_n.jpg?_nc_cat=103&ccb=1-3&_nc_sid=09cbfe&_nc_ohc=K_I2OGkYN7kAX9uJ5Q5&_nc_ht=scontent-sin6-4.xx&oh=c10fa673fbfbe8c6e7432a26d221a734&oe=60D4C813" alt="Praveen Juge" /></div>
-      <div className="ml-4">
-        <p className="mb-1 text-xs font-semibold tracking-widest text-gray-800 uppercase">Quang Le</p>
-        <p className="text-xs font-semibold tracking-widest text-gray-500 uppercase">CEO, Staye</p>
-      </div>
     </div>
   </div>
 </section>

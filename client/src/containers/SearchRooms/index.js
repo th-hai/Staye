@@ -56,7 +56,7 @@ const SearchRooms = ({ searchRoomsResult, searchRooms }) => {
                         </div>
                     </div>
                     <Row>
-                        {searchRoomsResult.results.map(item =>
+                        {searchRoomsResult?.results && searchRoomsResult.results.map(item =>
                             <Col xs={22} sm={16} md={8} lg={6} xxl={4}>
                                 <RoomCard room={item} />
                             </Col>
