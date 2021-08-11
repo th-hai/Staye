@@ -237,7 +237,7 @@ const FilterRooms = ({ getLocations, locations, getRooms, rooms }) => {
             setNumberGuests(value)
             setOpenGuest(false)
           }}
-          placeholder="Số khách"
+          placeholder="Guests"
           className="absolute w-20 h-0 invisible">
           {[1, 2, 3, 4, 5, 6, 7, 8, 9, 10].map(item => (
             <Select.Option key={item} value={item}>{item}</Select.Option>
@@ -251,7 +251,7 @@ const FilterRooms = ({ getLocations, locations, getRooms, rooms }) => {
             setOpenDate(false);
           }}
         >
-          {numberGuests > 0 ? numberGuests : 'Số'} khách
+          {numberGuests > 0 ? numberGuests : ''} Guests
         </Button>
       </div>
 

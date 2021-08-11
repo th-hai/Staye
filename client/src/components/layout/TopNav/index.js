@@ -15,7 +15,7 @@ const TopNav = ({ user, handleLogout, role }) => {
   const isAdmin = role === 'admin' ? true : false;
   return (
 
-    <div className="navbar mb-2 shadow-lg bg-base-200 text-base-content sticky top-0 z-50">
+    <div className="navbar shadow-2xl bg-base-200 text-base-content sticky top-0 z-50">
       <div className="px-2 mx-2 lg:flex-none flex-1">
         <Link className="flex items-center" to="/">
           <img alt="" src={logo} className="w-24 mr-12 " />

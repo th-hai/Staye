@@ -27,7 +27,11 @@ import UserProfile from 'containers/UserProfile';
 import ForgotPassword from 'containers/ForgotPassword';
 import ResetPassword from 'containers/ResetPassword';
 import Checkout from 'containers/Checkout';
+import BookingSuccess from 'containers/BookingSuccess';
+import Feedback from 'containers/Feedback';
+import Blogs from 'containers/Blogs';
 import AdminLocations from 'containers/AdminLocations';
+import Team from 'components/Team';
 
 const App = ({ user, role }) => {
   useInjectReducer({ key: 'global', reducer: globalReducer, mode: DAEMON });
@@ -68,6 +72,10 @@ const App = ({ user, role }) => {
                 <Route path="/search" component={SearchRooms} />
                 <Route path="/about" component={About} />
                 <Route path="/checkout" component={Checkout}/>
+                <Route path="/booking-success" component={BookingSuccess}/>
+                <Route path="/contact" component={Feedback}/>
+                <Route path="/team" component={Team}/>
+                <Route path="/blogs" component={Blogs}/>
                 <Route path="*" component={NotFound} />
               </Switch>
             </MainLayout>

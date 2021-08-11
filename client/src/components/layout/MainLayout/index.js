@@ -10,7 +10,9 @@ const MainLayout = ({ children, user, role }) => {
       <>
         <TopNav user={user} role={role} />
       </>
-      <div className="content-area bg-white ">{children}</div>
+      <div className="content-area bg-white ">
+        {children}
+        </div>
       <>
         <Footer />
       </>

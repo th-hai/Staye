@@ -21,10 +21,10 @@ const RoomCard = ({ room }) => {
               {room.name}
             </div>
             <div className="text-gray-600">
-              Phòng {room.maximumGuests} người
+              {room.maximumGuests} people
             </div>
             <div className="text-lg font-bold text-gray-900">
-              {formatCurrency(room.price)}đ/đêm
+              {formatCurrency(room.price)}đ/night
             </div>
             <div className="text-gray-700 truncate">{room.address}</div>
           </div>
