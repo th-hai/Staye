@@ -1,7 +1,7 @@
 import { React, useEffect, useState } from 'react';
 import { useHistory } from "react-router-dom";
-import { Button, DatePicker, InputNumber } from 'antd';
-import { faMapMarkerAlt } from '@fortawesome/free-solid-svg-icons';
+import { Button, DatePicker, InputNumber, Card } from 'antd';
+import { faMapMarkerAlt, faWifi, faTv, faFan, faBolt, faBox, faCity, faBed, faStopwatch, faWindowMaximize, faBacon, faPuzzlePiece } from '@fortawesome/free-solid-svg-icons';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { List, Typography, Divider } from 'antd';
 import SmartText from 'components/Text/SmartText';
@@ -18,6 +18,19 @@ const RoomContent = (props) => {
   const [inputDate, setInputDate] = useState('Select date')
   const [totalGuests, setTotalGuests] = useState(1);
   const [bookingBody, setBookingBody] = useState({});
+  const amenityMap = {
+    'Wifi': faWifi,
+    'TV': faTv,
+    'Hairdryer': faFan,
+    'Electric stove': faBolt,
+    'Fridge': faBox,
+    'Balcony': faCity,
+    'Extra cushion': faBed,
+    'Microwave': faStopwatch,
+    'Windows': faWindowMaximize,
+    'BBQ': faBacon,
+    'Lego toys': faPuzzlePiece
+  };
 
   const onCalendarChangeHandler = (value) => {
     const from = value[0];
@@ -78,7 +91,7 @@ const RoomContent = (props) => {
 
   useEffect(() => {
     if (fromDate == null && toDate == null) {
-      setInputDate('Date');
+      setInputDate('Check In - Check Out');
     }
     else if (fromDate == null || toDate == null) {
       const date = fromDate || toDate;
@@ -115,7 +128,7 @@ const RoomContent = (props) => {
   }
 
   const handleBooking = () => {
-    if ( !fromDate || !toDate || !totalGuests) {
+    if (!fromDate || !toDate || !totalGuests) {
       setIsError(true)
     }
     else if (!user && user.role !== 'user') {
@@ -131,8 +144,8 @@ const RoomContent = (props) => {
 
   return (
     <>
-      <div className="container px-5 py-24 mx-auto flex flex-col">
-        <div className="lg:w-4/6 mx-auto">
+      <div className="container py-5 mx-auto flex flex-col">
+        <div className="lg:w-4/6">
           <div className="rounded-lg overflow-hidden">
             <div className="text-2xl font-semibold">{room.name}</div>
             <div>
@@ -140,91 +153,66 @@ const RoomContent = (props) => {
               <span className="ml-2 text-base">{room?.address}</span>
             </div>
           </div>
-          <div className="flex flex-col sm:flex-row mt-10">
-            <div className="sm:w-1/3 text-center sm:pr-8 sm:py-8">
-              <div className="w-20 h-20 rounded-full inline-flex items-center justify-center bg-gray-200 text-gray-400">
-                <img alt="" className="w-32 rounded-full" src={room?.owner?.avatar} />
-              </div>
-              <div className="flex flex-col items-center text-center justify-center">
-                <div className="py-3 ml-2 text-xs font-semibold">
-                  <span
-                    className={`px-2 mb-2 mr-2 rounded-lg ${room?.status === 'Available'
-                        ? 'text-green-900 bg-green-300 border border-green-500'
-                        : 'text-red-900 bg-red-300 border border-red-500'
-                      }`}
-                  >
-                    {room?.status}
-                  </span>
-                </div>
-                <div className="w-12 h-1 bg-indigo-500 rounded mt-2 mb-4"></div>
-                <p className="text-lg font-bold">
-                  {room?.price?.toLocaleString('it-IT', {
-                    style: 'currency',
-                    currency: 'VND',
-                  })}{' '}
-                  / night
-                </p>
-                <div className="w-12 h-1 bg-indigo-500 rounded mt-2 mb-4"></div>
-                <Divider orientation="center">Pick your date</Divider>
-                {isError && (
-                  <div className="alert alert-error mt-2 w-full">
+          <div className="flex flex-col sm:flex-row mt-2">
+            <Card title={`${room?.price?.toLocaleString()}₫ / night`} className="mr-2 shadow-xl fixed right-48 bottom-28" style={{ width: 300 }}>
+              {isError && (
+                <div className="alert alert-error w-full">
                   <div className="flex-1">
-                    <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" className="w-6 h-6 mx-2 stroke-current">    
-                      <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M18.364 18.364A9 9 0 005.636 5.636m12.728 12.728A9 9 0 015.636 5.636m12.728 12.728L5.636 5.636"></path>                      
-                    </svg> 
+                    <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" className="w-6 h-6 mx-2 stroke-current">
+                      <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M18.364 18.364A9 9 0 005.636 5.636m12.728 12.728A9 9 0 015.636 5.636m12.728 12.728L5.636 5.636"></path>
+                    </svg>
                     <label>Date is empty</label>
                   </div>
-                  </div>
-                )}
-                <RangePicker 
-                  open={openDate}
-                  allowClear
-                  disabledDate={disabledDate}
-                  value={[fromDate, toDate]}
-                  style={{ visibility: 'collapse', width: 0, padding: 0 }}
-                  onOpenChange={handleOpenPickerChange}
-                  onCalendarChange={onCalendarChangeHandler}
-                  renderExtraFooter={() => {
-                    return <div className="flex justify-between p-2">
-                      <Button className="border-0 font-bold text-lg" onClick={clearDate}>Clear</Button>
-                      <Button className="border-0 font-bold text-lg text-blue-700" onClick={applyDate}>Apply</Button>
-                    </div>
-                  }}/>
-                  <Button
-                    className="w-full border-2"
-                    onClick={() => {
-                      setOpenDate(!openDate);
-                    }}>
-                    {inputDate}
-                  </Button>
-                <div className="my-4">
-                  <InputNumber
-                    inline
-                    defaultValue={1}
-                    min={1}
-                    max={room?.maximumGuests}
-                    onChange={onGuestsChange}
-                  />
-                  <span className="text-md font-bold"> Guests</span>
                 </div>
-                <Button type="primary" block className="my-4" onClick={handleBooking}>
-                  Book now
-                </Button>
-                <Divider orientation="center">Amenities</Divider>
-                <List
-                  className="w-100/100"
-                  bordered
-                  dataSource={room?.amenities?.map((item) => item.name)}
-                  renderItem={(item) => (
-                    <List.Item>
-                      <Typography.Text>{item}</Typography.Text>
-                    </List.Item>
-                  )}
+              )}
+              <RangePicker
+                open={openDate}
+                allowClear
+                disabledDate={disabledDate}
+                value={[fromDate, toDate]}
+                style={{ visibility: 'collapse', width: 0, padding: 0 }}
+                onOpenChange={handleOpenPickerChange}
+                onCalendarChange={onCalendarChangeHandler}
+                renderExtraFooter={() => {
+                  return <div className="flex justify-between p-2">
+                    <Button className="border-0 font-bold text-lg" onClick={clearDate}>Clear</Button>
+                    <Button className="border-0 font-bold text-lg text-blue-700" onClick={applyDate}>Apply</Button>
+                  </div>
+                }} />
+              <Button
+                className="w-full border-2"
+                onClick={() => {
+                  setOpenDate(!openDate);
+                }}>
+                {inputDate}
+              </Button>
+              <div className="my-4">
+                <p className="text-md font-bold"> Guests:</p>
+                <InputNumber
+                  inline
+                  defaultValue={1}
+                  min={1}
+                  max={room?.maximumGuests}
+                  onChange={onGuestsChange}
+                  className="w-full"
                 />
               </div>
-            </div>
-            <div className=" sm:w-2/3 sm:pl-8 sm:py-8 sm:border-l border-gray-200 sm:border-t-0 border-t mt-4 pt-4 sm:mt-0 text-center sm:text-left">
+              <Button type="primary" block className="my-4 bg-green-500 border-0 hover:bg-green-600" onClick={handleBooking}>
+                Book now
+              </Button>
+            </Card>
+            <div className="mt-2 sm:mt-0 sm:text-left sm:w-2/3 text-center flex-grow max-w-7xl">
+              <Divider orientation="center">Description</Divider>
               <SmartText text={room?.description} />
+              <Divider orientation="center">Amenities</Divider>
+              <div class="flex flex-row w-full">
+                {room && room?.amenities ? room?.amenities?.map(item =>
+                  <div className="flex flex-col p-5 bg-gray-100 w-60 items-center justify-center mr-2">
+                    <FontAwesomeIcon className="text-green-300 text-6xl" icon={amenityMap[`${item.name}`]} />
+                    <span className="mt-2 text-gray-600">{item.name}</span>
+                  </div>
+                ) : (<p>No amenities available</p>)}
+              </div>
             </div>
           </div>
         </div>

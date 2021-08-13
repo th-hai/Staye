@@ -17,6 +17,7 @@ import NotFound from 'containers/Page404'
 import globalReducer from 'containers/App/reducer';
 import { makeSelectUser } from 'containers/App/selectors';
 import { DAEMON } from 'utils/constants';
+import { Divider } from 'antd';
 
 export function RoomDetail({ getRoom, room, user }) {
   useInjectReducer({ key: 'global', reducer: globalReducer, mode: DAEMON });
@@ -33,6 +34,7 @@ export function RoomDetail({ getRoom, room, user }) {
     {room && room.id ? (
       <div className="mt-8 mx-24">
         <CarouselSlider photos={room.photos} />
+        <Divider />
         <RoomContent room={room} user={user}/>
       </div>
     ) : (<NotFound/>) }

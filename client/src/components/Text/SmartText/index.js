@@ -9,7 +9,7 @@ const SmartText = ({ text, length = 1000 }) => {
   
     return (
       <div>
-        <p className="leading-relaxed text-lg inline mb-4">{ showLess ? `${text?.slice(0, length)}...` : text }</p>
+        <p className="leading-relaxed text-xl mb-4">{ showLess ? `${text?.slice(0, length)}...` : text }</p>
         <a
           href="# "
           style={{ color: "blue", cursor: "pointer", fontSize: "16px" }}
