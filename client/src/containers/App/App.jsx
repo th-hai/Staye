@@ -32,6 +32,7 @@ import Feedback from 'containers/Feedback';
 import Blogs from 'containers/Blogs';
 import AdminLocations from 'containers/AdminLocations';
 import Team from 'components/Team';
+import AdminBookings from 'containers/AdminBookings';
 
 const App = ({ user, role }) => {
   useInjectReducer({ key: 'global', reducer: globalReducer, mode: DAEMON });
@@ -44,14 +45,15 @@ const App = ({ user, role }) => {
             {role === 'admin' ? (
               <MainAdmin user={user}>
                 <Switch>
-                  <Route
+                  {/* <Route
                     path="/admin/dashboard"
                     exact
                     component={AdminDashboard}
-                  />
+                  /> */}
                   <Route path="/admin/rooms/" exact component={AdminRooms} />
                   <Route path="/admin/users/" exact component={AdminUsers} />
                   <Route path="/admin/locations" exact component={AdminLocations} />
+                  <Route path="/admin/bookings" exact component={AdminBookings} />
                 </Switch>
               </MainAdmin>
             ) : (

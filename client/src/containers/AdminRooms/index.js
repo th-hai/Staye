@@ -146,6 +146,7 @@ const AdminRoom = ({
               render: (text) => {
                 return <div className="text-lg overflow-hidden">{text}</div>;
               },
+              width: '30%'
             },
             {
               title: 'Location',

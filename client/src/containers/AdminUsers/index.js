@@ -68,7 +68,7 @@ const AdminUsers = ({ users, getUsers, deleteUser }) => {
               render: (avatar) => {
                 return (
                   <div className="m">
-                    <img className="rounded w-16 h-16" alt="A" src={avatar} />{' '}
+                    <img className="rounded w-16 h-16" alt="A" src={avatar || 'https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcSLn1xzD3cNYSD8u-3mVzWR5_msS5Q096jpy9s1KaHqivV_46-HtlPOabiI2oVHtBYkQjk&usqp=CAU'} />{' '}
                   </div>
                 );
               },

@@ -11,7 +11,7 @@ export const MENU_ITEMS = [
     },
     {
         id: 'bookings',
-        link: '/admin/quang',
+        link: '/admin/bookings',
         label: 'Bookings'
     },
     {

@@ -1,16 +1,16 @@
 import produce from 'immer';
 import {
-  GET_LOCATIONS,
-  GET_LOCATIONS_FAIL,
-  GET_LOCATIONS_SUCCESS,
+  GET_BOOKINGS,
+  GET_BOOKINGS_FAIL,
+  GET_BOOKINGS_SUCCESS,
   SHOW_MODAL,
 } from './constants';
 
 export const initialState = {
-  locations: [],
+  bookings: [],
   loading: false,
   error: '',
-  locationModal: {
+  bookingModal: {
     visible: false,
   },
 };
@@ -18,20 +18,20 @@ export const initialState = {
 const adminLocationsReducer = (state = initialState, action) =>
   produce(state, (draftState) => {
     switch (action.type) {
-      case GET_LOCATIONS:
+      case GET_BOOKINGS:
         draftState.loading = true;
         break;
-      case GET_LOCATIONS_SUCCESS:
+      case GET_BOOKINGS_SUCCESS:
         draftState.loading = false;
-        draftState.locations = action.payload;
+        draftState.bookings = action.payload;
         draftState.error = null;
         break;
-      case GET_LOCATIONS_FAIL:
+      case GET_BOOKINGS_FAIL:
         draftState.loading = false;
         draftState.error = action.error;
         break;
       case SHOW_MODAL:
-        draftState.locationModal.visible = action.visible;
+        draftState.bookingModal.visible = action.visible;
         break;
     }
   });

@@ -33,7 +33,7 @@ const bookingSchema = mongoose.Schema(
     },
     totalGuests: {
       type: Number,
-      required: true
+      // required: true
     },
     totalDays: {
       type: Number,

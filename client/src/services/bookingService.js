@@ -1,7 +1,7 @@
 import request from '../utils/request';
 
 export function getAllBookings() {
-  return request.get('/v1/bookings');
+  return request.get('/v1/bookings?limit=1000');
 }
 
 export function getBooking(id) {

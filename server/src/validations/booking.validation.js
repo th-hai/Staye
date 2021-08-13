@@ -40,13 +40,13 @@ const updateBooking = {
   }),
   body: Joi.object()
     .keys({
-      room: Joi.string().custom(objectId).required(),
+      room: Joi.string().custom(objectId),
       customer: Joi.string().custom(objectId),
-      totalGuests: Joi.number().integer().required(),
+      totalGuests: Joi.number().integer(),
       status: Joi.string(),
       from: Joi.date(),
       to: Joi.date(),
-      price: Joi.number().integer().required(),
+      price: Joi.number().integer(),
       payment: Joi.string()
     })
     .min(1),
