@@ -6,7 +6,7 @@ export const createURLSearchParams = params => {
     if (value && value !== 'undefined')
       standardParams.append(key, value)
   })
-
+  
   return standardParams.toString();
 }
 

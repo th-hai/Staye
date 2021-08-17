@@ -96,7 +96,7 @@ const AdminBookings = ({ getBookings, bookings, showBookingModal, updateBooking 
                     <img
                       className="rounded w-16 h-16"
                       alt="A"
-                      src={room.photos[0]}
+                      src={room?.photos[0]}
                     />{' '}
                   </div>
                 );

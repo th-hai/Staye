@@ -1,4 +1,4 @@
-import React, { useEffect } from 'react'
+import React, { useEffect, useState } from 'react'
 import { useLocation, useHistory } from "react-router-dom";
 import { connect } from 'react-redux';
 import { createStructuredSelector } from 'reselect';
@@ -10,9 +10,9 @@ import { getURLSearchParams, createURLSearchParams } from 'utils/urlUtils'
 import PropTypes from 'prop-types';
 import reducer from './reducer';
 import saga from './saga';
-import { searchRooms } from './actions';
+import { searchRooms,  setSortBy} from './actions';
 import { reducerKey } from './constants';
-import { makeSelectSearchRoomsResult } from './selectors';
+import { makeSelectSearchRoomsResult, makeSelectSortBy } from './selectors';
 import RoomCard from 'components/Rooms/RoomCard';
 
 
@@ -26,8 +26,12 @@ const SearchRooms = ({ searchRoomsResult, searchRooms }) => {
     useInjectReducer({ key: reducerKey, reducer });
     useInjectSaga({ key: reducerKey, saga });
 
+    const [sortBy, setSortBy] = useState('');
+
     useEffect(() => {
-        searchRooms(getURLSearchParams(location.search));
+        let params = getURLSearchParams(location.search);
+        searchRooms(params);
+        setSortBy(params.sortBy)
     }, [location]);
 
     const handleChangePage = (page, pageSize) => {
@@ -39,6 +43,13 @@ const SearchRooms = ({ searchRoomsResult, searchRooms }) => {
         history.push(`/search?${createURLSearchParams(params)}`)
     }
 
+    const handleSortPriceChange = (value) => {
+        setSortBy(value)
+       let params = getURLSearchParams(location.search);
+       params = { ...params, sortBy: value}
+       history.push(`/search?${createURLSearchParams(params)}`)
+    }
+
     return (
         <div className="lg:mx-24 md:my-10 sm:mx-8 xs:mx-4">
             {searchRoomsResult.results.length > 0 ?
@@ -48,10 +59,14 @@ const SearchRooms = ({ searchRoomsResult, searchRooms }) => {
                         <div className="flex flex-wrap border-box justify-end lg:w-1/5 md:w-2/6 sm:w-2/4 ">
                             <Select
                                 size='large'
-                                placeholder="Sắp xếp theo"
-                                className="relative block w-full text-lg">
-                                <Option key="Giá tăng dần" value="Giá tăng dần">Giá tăng dần</Option>
-                                <Option key="Giá giảm dần" value="Giá giảm dần">Giá giảm dần</Option>
+                                placeholder="Sort by"
+                                className="relative block w-full text-lg"
+                                onChange={handleSortPriceChange}
+                                value={sortBy}
+                                >
+                                    
+                                <Option key="0" value="price:asc">Price ascending</Option>
+                                <Option key="1" value="price:desc">Price descending</Option>
                             </Select>
                         </div>
                     </div>
@@ -73,7 +88,7 @@ const SearchRooms = ({ searchRoomsResult, searchRooms }) => {
                 </div>)
                 :
                 (<div className="flex">
-                    <span className="w-full text-center">Không tìm thấy phòng phù hợp</span>
+                    <span className="w-full text-center">No suitable rooms found!</span>
                 </div>)}
         </div>
     )
@@ -86,12 +101,14 @@ SearchRooms.propTypes = {
 
 const mapStateToProps = createStructuredSelector({
     searchRoomsResult: makeSelectSearchRoomsResult,
+ 
 });
 
 const mapDispatchToProps = (dispatch) =>
     bindActionCreators(
         {
             searchRooms: searchRooms,
+          
         },
         dispatch
     );

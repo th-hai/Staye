@@ -131,7 +131,7 @@ const RoomContent = (props) => {
     if (!fromDate || !toDate || !totalGuests) {
       setIsError(true)
     }
-    else if (!user && user.role !== 'user') {
+    else if (!user && user?.role !== 'user') {
       history.push('/login')
     } else {
       setIsError(false)

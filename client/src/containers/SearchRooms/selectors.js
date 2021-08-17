@@ -21,6 +21,11 @@ const makeSelectSearchRoomsResult = createSelector(
   (state) => state.roomsResult
 );
 
+const makeSelectSortBy = createSelector(
+  makeSelectSearchRoomsDomain,
+  (state) => state.sortBy
+)
 export {
   makeSelectSearchRoomsResult,
+  makeSelectSortBy
 };

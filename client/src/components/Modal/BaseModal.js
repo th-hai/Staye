@@ -27,6 +27,7 @@ export function BaseModal(props) {
       centered
       footer={null}
       closable={false}
+      onCancel={onCancel}
       maskClosable={true}
     >
       <StyledContent>{children}</StyledContent>

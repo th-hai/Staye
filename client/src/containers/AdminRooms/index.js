@@ -3,10 +3,11 @@ import PropTypes from 'prop-types';
 import { faPlus } from '@fortawesome/free-solid-svg-icons';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { connect } from 'react-redux';
+import { SearchOutlined } from '@ant-design/icons';
 import get from 'lodash/fp/get';
 import { createStructuredSelector } from 'reselect';
 import { compose, bindActionCreators } from 'redux';
-import {  Table, Space } from 'antd';
+import { Table, Input, Button, Space } from 'antd';
 import { DeleteOutlined, EditOutlined } from '@ant-design/icons';
 import { useInjectSaga } from 'utils/injectSaga';
 import { useInjectReducer } from 'utils/injectReducer';
@@ -96,6 +97,62 @@ const AdminRoom = ({
       />
     </Space>
   );
+  const handleSearch = (selectedKeys, confirm, dataIndex) => {
+    confirm();
+    this.setState({
+      searchText: selectedKeys[0],
+      searchedColumn: dataIndex,
+    });
+  };
+
+  const handleReset = clearFilters => {
+    clearFilters();
+    this.setState({ searchText: '' });
+  };
+
+  const getColumnSearchProps = dataIndex => ({
+    filterDropdown: ({ setSelectedKeys, selectedKeys, confirm, clearFilters }) => (
+      <div style={{ padding: 8 }}>
+        <Input
+          ref={node => {
+            this.searchInput = node;
+          }}
+          placeholder={`Search ${dataIndex}`}
+          value={selectedKeys[0]}
+          onChange={e => setSelectedKeys(e.target.value ? [e.target.value] : [])}
+          onPressEnter={() => handleSearch(selectedKeys, confirm, dataIndex)}
+          style={{ marginBottom: 8, display: 'block' }}
+        />
+        <Space>
+          <Button
+            type="primary"
+            onClick={() => handleSearch(selectedKeys, confirm, dataIndex)}
+            icon={<SearchOutlined />}
+            size="small"
+            style={{ width: 90 }}
+          >
+            Search
+          </Button>
+          <Button onClick={() => handleReset(clearFilters)} size="small" style={{ width: 90 }}>
+            Reset
+          </Button>
+          <Button
+            type="link"
+            size="small"
+            onClick={() => {
+              confirm({ closeDropdown: false });
+              this.setState({
+                searchText: selectedKeys[0],
+                searchedColumn: dataIndex,
+              });
+            }}
+          >
+            Filter
+          </Button>
+        </Space>
+      </div>
+    ) })
+
   return (
     <div>
       <ConfirmDialog {...confirmState} />
@@ -138,6 +195,7 @@ const AdminRoom = ({
                 );
               },
               width: '6rem',
+              
             },
             {
               title: 'Name',
@@ -146,7 +204,9 @@ const AdminRoom = ({
               render: (text) => {
                 return <div className="text-lg overflow-hidden">{text}</div>;
               },
-              width: '30%'
+              width: '30%',
+             
+              
             },
             {
               title: 'Location',
@@ -157,7 +217,8 @@ const AdminRoom = ({
                   'name',
                   locations.find(item => item.id === location)
                 )
-              }
+              },
+           
             },
             {
               title: 'Status',

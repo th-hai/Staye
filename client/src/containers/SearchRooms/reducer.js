@@ -1,5 +1,5 @@
 import produce from 'immer';
-import { SEARCH_ROOMS, SEARCH_ROOMS_FAIL, SEARCH_ROOMS_SUCCESS } from './constants';
+import { SEARCH_ROOMS, SEARCH_ROOMS_FAIL, SEARCH_ROOMS_SUCCESS, SET_SORT_BY } from './constants';
 
 export const initialState = {
     roomsResult: {
@@ -7,7 +7,7 @@ export const initialState = {
         limit: 20,
         page: 1,
         totalResults: 0,
-        totalPages: 0
+        totalPages: 0,
     },
     loading: false,
     error: '',
@@ -28,7 +28,7 @@ const searchRoomsReducer = (state = initialState, action) =>
                 draftState.loading = false;
                 draftState.error = action.error;
                 break;
-            
+         
         }
     });
 export default searchRoomsReducer;

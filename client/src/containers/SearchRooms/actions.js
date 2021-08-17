@@ -1,4 +1,4 @@
-import { SEARCH_ROOMS, SEARCH_ROOMS_FAIL, SEARCH_ROOMS_SUCCESS } from "./constants";
+import { SEARCH_ROOMS, SEARCH_ROOMS_FAIL, SEARCH_ROOMS_SUCCESS, SET_SORT_BY } from "./constants";
 
 
 export const searchRooms = (params) => ({
@@ -15,3 +15,8 @@ export const searchRoomsFail = (error) => ({
     type: SEARCH_ROOMS_FAIL,
     error,
 });
+
+export const setSortBy = (data) => ({
+    type: SET_SORT_BY,
+    payload: data,
+})

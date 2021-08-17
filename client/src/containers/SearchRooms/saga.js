@@ -14,6 +14,10 @@ export function* searchRoomsTask({params}) {
   }
 }
 
+export function* sortRoomsTask({}) {
+  
+}
+
 export function* failedTask({ error }) {
   yield message.error(error);
 }

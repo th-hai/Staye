@@ -115,15 +115,15 @@ const SignIn = ({ isPending, onLogin, isLoggedIn }) => {
 
           <hr className="w-full my-6 border-blueGray-300" />
           <div className="flex justify-enter">
-            <button
+            {/* <button
               type="button"
               className="inline-flex w-full px-4 py-3 font-semibold text-black transition duration-500 ease-in-out transform bg-white border rounded-lg border-blueGray-300 hover:bg-black hover:text-white focus:outline-none focus:shadow-outline focus:ring-2 ring-offset-current ring-offset-2 "
             >
               <div className="flex items-center justify-center">
                 <span className="ml-4"> Log in with Google </span>
               </div>
-            </button>
-            <button
+            </button> */}
+            {/* <button
               type="button"
               className="inline-flex px-4 py-3 ml-8 font-semibold text-black transition duration-500 ease-in-out transform bg-white border rounded-lg border-blueGray-300 focus:outline-none focus:shadow-outline focus:ring-2 ring-offset-current ring-offset-2 hover:bg-black focus:bg-blueGray-100 hover:text-blue-500"
             >
@@ -139,7 +139,7 @@ const SignIn = ({ isPending, onLogin, isLoggedIn }) => {
                   <path d="M23 3a10.9 10.9 0 01-3.14 1.53 4.48 4.48 0 00-7.86 3v1A10.66 10.66 0 013 4s-4 9 5 13a11.64 11.64 0 01-7 2c9 5 20 0 20-11.5a4.5 4.5 0 00-.08-.83A7.72 7.72 0 0023 3z"></path>
                 </svg>
               </div>
-            </button>
+            </button> */}
           </div>
           <p className="mt-8 text-center">
             Need an account?{' '}
