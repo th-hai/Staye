@@ -33,6 +33,7 @@ import Blogs from 'containers/Blogs';
 import AdminLocations from 'containers/AdminLocations';
 import Team from 'components/Team';
 import AdminBookings from 'containers/AdminBookings';
+import UserBookings from 'containers/UserBookings';
 
 const App = ({ user, role }) => {
   useInjectReducer({ key: 'global', reducer: globalReducer, mode: DAEMON });
@@ -69,7 +70,8 @@ const App = ({ user, role }) => {
                 <Route path="/register" component={Register} />
                 <Route path="/forgot-password" component={ForgotPassword}/>
                 <Route path="/reset-password" component={ResetPassword}/>
-                <Route path="/profile/:id"component={UserProfile} />
+                <Route path="/profile/:id" component={UserProfile} />
+                <Route exact path="/user/:id/bookings" component={UserBookings} />
                 <Route path="/rooms/:id" component={RoomDetail} />
                 <Route path="/search" component={SearchRooms} />
                 <Route path="/about" component={About} />

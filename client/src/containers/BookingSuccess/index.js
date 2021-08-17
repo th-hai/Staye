@@ -13,7 +13,7 @@ export const BookingSuccess = () => {
           </h1>
           <h2 className="lg:inline-block">Thanks you for choosing us</h2>
           <div className="flex justify-center mt-5">
-            <Link to={`/profile/${currentUser?.id}/bookings`} className="inline px-4 py-2 text-sm font-medium leading-5 text-white uppercase transition-colors duration-150 bg-green-600 border border-transparent rounded-lg shadow focus:outline-none focus:shadow-outline-blue active:bg-green-600 hover:bg-green-700">View my booking</Link>
+            <Link to={`/user/${currentUser?.id}/bookings`} className="inline px-4 py-2 text-sm font-medium leading-5 text-white uppercase transition-colors duration-150 bg-green-600 border border-transparent rounded-lg shadow focus:outline-none focus:shadow-outline-blue active:bg-green-600 hover:bg-green-700">View my booking</Link>
           </div>
         </div>
       </div>

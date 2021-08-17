@@ -23,7 +23,7 @@ router
 
 router
   .route('/:userId/bookings')
-  .get(auth('manageUserBookings'), validate(userValidation.getUserBookings), userController.getUserBookings)
+  .get(auth('manageUserBookings'), validate(userValidation.getUser), userController.getUserBookings)
 
 module.exports = router;
 

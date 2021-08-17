@@ -207,7 +207,7 @@ const Checkout = ({ createBooking, isSuccessful }) => {
                   </div>
                   <div className="flex border-t border-b mb-6 border-gray-200 py-4">
                     <span className="text-gray-800 font-bold text-lg">
-                      Rental fee for 2 nights
+                      Rental fee for {totalDays} nights
                     </span>
                     <span className="ml-auto text-gray-900 text-lg">
                       {body.price && formatCurrency(body.price * totalDays)} đ

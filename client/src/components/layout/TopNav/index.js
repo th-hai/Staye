@@ -8,6 +8,7 @@ import {
   faSignOutAlt,
   faClipboard,
   faEdit,
+  faLuggageCart
 } from '@fortawesome/free-solid-svg-icons';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import logo from 'assets/Logo.svg';
@@ -34,7 +35,7 @@ const TopNav = ({ user, handleLogout, role }) => {
                 <>
                   <div className="capitalize flex">
                     Hello,
-                    <div className="ml-1 lowercase">
+                    <div className="ml-1">
                       {user.name}
                       {'!'}
                     </div>
@@ -75,6 +76,13 @@ const TopNav = ({ user, handleLogout, role }) => {
                   {' '}
                   <FontAwesomeIcon icon={faEdit} size="lg" className="w-8 -ml-1 mr-1" />
                   Edit Profile
+                </Link>
+              </li>
+              <li>
+                <Link to={`/user/${user?.id}/bookings`} >
+                  {' '}
+                  <FontAwesomeIcon icon={faLuggageCart} size="lg" className="w-8 -ml-1 mr-1" />
+                  My Booking
                 </Link>
               </li>
               <li>

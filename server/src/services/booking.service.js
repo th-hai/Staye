@@ -138,7 +138,7 @@ const deleteBookingById = async (bookingId) => {
  */
  const getBookingsByOwnerId = async (ownerId) => {
   const populates = { 
-    path: 'room customer',
+    path: 'room customer owner',
     populate: {
       path: 'owner',
       model: 'User'
