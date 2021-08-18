@@ -5,7 +5,7 @@ import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { connect } from 'react-redux';
 import { createStructuredSelector } from 'reselect';
 import { compose, bindActionCreators } from 'redux';
-import { Table, Space } from 'antd';
+import { Table, Input, Button, Space } from 'antd';
 import { DeleteOutlined, EditOutlined } from '@ant-design/icons';
 import { useInjectSaga } from 'utils/injectSaga';
 import { useInjectReducer } from 'utils/injectReducer';
@@ -40,6 +40,24 @@ const AdminLocations = ({
   const [confirmState, setConfirmState] = useState({
     visible: false,
   });
+
+  const [dataSource, setDataSource] = useState(locations);
+  const [value, setValue] = useState('');
+
+  const FilterByNameInput = (
+    <Input
+      placeholder="Search Name"
+      value={value}
+      onChange={e => {
+        const currValue = e.target.value;
+        setValue(currValue);
+        const filteredData = locations.filter(entry =>
+          entry.name.toLowerCase().includes(currValue.toLowerCase())
+        );
+        setDataSource(filteredData);
+      }}
+    />
+  );
 
   const renderActions = (text, record) => (
     <Space className="ml-2">
@@ -88,7 +106,7 @@ const AdminLocations = ({
       </div>
       {locations && (
         <Table
-          dataSource={locations}
+          dataSource={dataSource}
           rowKey="id"
           columns={[
             {
@@ -105,7 +123,7 @@ const AdminLocations = ({
               width: '6rem',
             },
             {
-              title: 'Name',
+              title: FilterByNameInput,
               dataIndex: 'name',
               key: 'name',
               render: (text) => {
