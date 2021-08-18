@@ -3,7 +3,7 @@ import { useHistory } from "react-router-dom";
 import { Button, DatePicker, InputNumber, Card } from 'antd';
 import { faMapMarkerAlt, faWifi, faTv, faFan, faBolt, faBox, faCity, faBed, faStopwatch, faWindowMaximize, faBacon, faPuzzlePiece } from '@fortawesome/free-solid-svg-icons';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
-import { List, Typography, Divider } from 'antd';
+import { Badge, Divider } from 'antd';
 import SmartText from 'components/Text/SmartText';
 import moment from 'moment';
 
@@ -197,9 +197,11 @@ const RoomContent = (props) => {
                   className="w-full"
                 />
               </div>
-              <Button type="primary" block className="my-4 bg-green-500 border-0 hover:bg-green-600" onClick={handleBooking}>
-                Book now
-              </Button>
+              <Badge.Ribbon text={room?.status} color={room?.status === 'Available' ? 'cyan' : 'red'}>
+                <Button type="primary" block className="my-4 bg-green-500 border-0 hover:bg-green-600" onClick={handleBooking}>
+                  Book now
+                </Button>
+              </Badge.Ribbon>
             </Card>
             <div className="mt-2 sm:mt-0 sm:text-left sm:w-2/3 text-center flex-grow max-w-7xl">
               <Divider orientation="center">Description</Divider>
@@ -213,6 +215,27 @@ const RoomContent = (props) => {
                   </div>
                 ) : (<p>No amenities available</p>)}
               </div>
+              <Divider orientation="center">Rules and policies on accommodation</Divider>
+              <section class="text-blueGray-700 ">
+                <div class="container flex flex-col items-center px-5 py-2">
+                  <div class="flex flex-col w-full mb-12 text-left ">
+                    <div class="w-full mx-auto ">
+                      <h1 class="mx-auto mb-4 text-xl font-semibold leading-none tracking-tighter text-black lg:text-3xl title-font">Cancellation policy</h1>
+                      <h2 class="mx-auto mb-4 text-xl font-semibold leading-none tracking-tighter text-black title-font">Strict:</h2>
+                      <p className="mx-auto text-base font-medium leading-relaxed text-blueGray-700">Refund 50% of the booking value when customers cancel the room within 48 hours after successful booking and 14 days before the check-in time. Then, cancel the room 14 days before the check-in time, get a 50% refund of the total amount paid (minus the service fee).</p>
+                      <img className="object-cover mx-autoF" src="https://i.ibb.co/F0Pq4jR/image.png" />
+                    </div>
+                  </div>
+                </div>
+                <h2 class="mb-8 text-2xl font-semibold leading-none tracking-tighter text-black lg:text-3xl title-font"> Key notes </h2>
+                <ul class="list-disc">
+                  <li className="text-base font-medium leading-relaxed">Do not use stimulants</li>
+                  <li className="text-base font-medium leading-relaxed">Do not play music after 11 PM (23:00)</li>
+                  <li className="text-base font-medium leading-relaxed">No smoking in the bedroom</li>
+                  <li className="text-base font-medium leading-relaxed">No party allowed</li>
+                  <li className="text-base font-medium leading-relaxed">Please turn off the devices when you leave the room</li>
+                </ul>
+              </section>
             </div>
           </div>
         </div>

@@ -72,6 +72,16 @@ const getRoomsByLocation = async (location) => {
 }
 
 /**
+ * Get favourite rooms
+ * @param {ObjectId} - Mongo filter
+ * @returns {Promise<QueryResult>}
+ */
+const getFavoriteRooms = async () => {
+  const rooms = await Room.find().sort({_id: -1}).limit(12);
+  return rooms;
+}
+
+/**
  * Get room by location id
  * @param {ObjectId} id
  * @returns {Promise<any>}
@@ -151,6 +161,7 @@ module.exports = {
   getRoomsByLocation,
   getRoomByLocationId,
   getRoomByAllLocation,
+  getFavoriteRooms,
   updateRoomById,
   deleteRoomById,
 };

@@ -18,6 +18,7 @@ import Testimonial from 'components/HomeComponents/Testimonial';
 import HomeBlogs from 'components/HomeComponents/HomeBlogs';
 import { LOCATION_CARDS } from './constants';
 import Title from './title';
+import FavouriteRooms from 'components/HomeComponents/FavouriteRooms';
 
 const HomeContainers = ({ getRoom, rooms }) => {
   useInjectReducer({
@@ -43,6 +44,7 @@ const HomeContainers = ({ getRoom, rooms }) => {
         <LocationContainers locations={LOCATION_CARDS}></LocationContainers>
         <Title title="Our advantages" content="You can rely on our experience and the quality of services we provide. Here are other reasons to book tours at ExploreTour."/>
         <Testimonial />
+        <FavouriteRooms/>
         <HomeServices />
         <HomeHero />
         <HomeBlogs />
