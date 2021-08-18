@@ -16,16 +16,12 @@ const BookingCard = (props) => {
 					<div className="bg-cover bg-center h-56 p-4" style={{
 						backgroundImage: `url(${booking?.room?.photos[0]})`,
 					}}>
-						<div className="flex justify-end">
-							<svg className="h-6 w-6 text-white fill-current" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24">
-								<path d="M12.76 3.76a6 6 0 0 1 8.48 8.48l-8.53 8.54a1 1 0 0 1-1.42 0l-8.53-8.54a6 6 0 0 1 8.48-8.48l.76.75.76-.75zm7.07 7.07a4 4 0 1 0-5.66-5.66l-1.46 1.47a1 1 0 0 1-1.42 0L9.83 5.17a4 4 0 1 0-5.66 5.66L12 18.66l7.83-7.83z"></path>
-							</svg>
-						</div>
 					</div>
 					<div className="p-4" style={{ minHeight: 130 }}>
 						<p className="uppercase tracking-wide text-sm font-bold text-gray-700">{booking?.room?.name}</p>
 						<p className="text-3xl text-gray-900">{booking.total.toLocaleString('it-IT')}₫</p>
 						<p className="text-gray-700">{booking?.room?.address}</p>
+						<span className={`inline-flex items-center justify-center px-2 py-1 mt-2 text-xs font-bold leading-none ${booking?.status === 'Pending' ? 'text-yellow-100 bg-yellow-600' : booking?.status === 'Cancelled' ? 'text-red-100 bg-red-700' : 'text-green-100 bg-green-700' } rounded`}>{booking?.status}</span>
 					</div>
 					<div className="flex p-4 border-t border-gray-300 text-gray-700">
 						<div className="flex-1 inline-flex items-center">
