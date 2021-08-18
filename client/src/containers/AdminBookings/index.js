@@ -5,7 +5,7 @@ import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { connect } from 'react-redux';
 import { createStructuredSelector } from 'reselect';
 import { compose, bindActionCreators } from 'redux';
-import { Table, Space } from 'antd';
+import { Table, Input, Button, Space } from 'antd';
 import { DeleteOutlined, EditOutlined } from '@ant-design/icons';
 import { useInjectSaga } from 'utils/injectSaga';
 import { useInjectReducer } from 'utils/injectReducer';
@@ -35,7 +35,24 @@ const AdminBookings = ({ getBookings, bookings, showBookingModal, updateBooking 
   const [confirmState, setConfirmState] = useState({
     visible: false,
   });
+  const [dataSource, setDataSource] = useState(bookings);
+  const [value, setValue] = useState('');
 
+  const FilterByNameInput = (
+    <Input
+      placeholder="Search Name"
+      value={value}
+      onChange={e => {
+        const currValue = e.target.value;
+        setValue(currValue);
+        const filteredData = bookings.filter(entry =>
+          entry.room?.name.toLowerCase().includes(currValue.toLowerCase())
+        );
+        setDataSource(filteredData);
+      }}
+    />
+  );
+  
   const renderActions = (text, record) => (
     <Space className="ml-2">
       <EditOutlined
@@ -83,7 +100,7 @@ const AdminBookings = ({ getBookings, bookings, showBookingModal, updateBooking 
       </div>
       {bookings && (
         <Table
-          dataSource={bookings}
+          dataSource={dataSource}
           rowKey="id"
           columns={[
             {
@@ -103,7 +120,7 @@ const AdminBookings = ({ getBookings, bookings, showBookingModal, updateBooking 
               },
             },
             {
-              title: 'Room',
+              title: FilterByNameInput,
               dataIndex: 'room',
               key: 'room',
               render: (room) => {

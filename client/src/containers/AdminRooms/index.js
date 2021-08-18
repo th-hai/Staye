@@ -5,6 +5,7 @@ import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { connect } from 'react-redux';
 import { SearchOutlined } from '@ant-design/icons';
 import get from 'lodash/fp/get';
+import Highlighter from 'react-highlight-words';
 import { createStructuredSelector } from 'reselect';
 import { compose, bindActionCreators } from 'redux';
 import { Table, Input, Button, Space } from 'antd';
@@ -73,6 +74,24 @@ const AdminRoom = ({
     visible: false,
   });
 
+  const [dataSource, setDataSource] = useState(rooms);
+  const [value, setValue] = useState('');
+
+  const FilterByNameInput = (
+    <Input
+      placeholder="Search Name"
+      value={value}
+      onChange={e => {
+        const currValue = e.target.value;
+        setValue(currValue);
+        const filteredData = rooms.filter(entry =>
+          entry.name.toLowerCase().includes(currValue.toLowerCase())
+        );
+        setDataSource(filteredData);
+      }}
+    />
+  );
+
   const renderActions = (text, record) => (
     <Space className="ml-2">
       <EditOutlined
@@ -97,61 +116,8 @@ const AdminRoom = ({
       />
     </Space>
   );
-  const handleSearch = (selectedKeys, confirm, dataIndex) => {
-    confirm();
-    this.setState({
-      searchText: selectedKeys[0],
-      searchedColumn: dataIndex,
-    });
-  };
 
-  const handleReset = clearFilters => {
-    clearFilters();
-    this.setState({ searchText: '' });
-  };
-
-  const getColumnSearchProps = dataIndex => ({
-    filterDropdown: ({ setSelectedKeys, selectedKeys, confirm, clearFilters }) => (
-      <div style={{ padding: 8 }}>
-        <Input
-          ref={node => {
-            this.searchInput = node;
-          }}
-          placeholder={`Search ${dataIndex}`}
-          value={selectedKeys[0]}
-          onChange={e => setSelectedKeys(e.target.value ? [e.target.value] : [])}
-          onPressEnter={() => handleSearch(selectedKeys, confirm, dataIndex)}
-          style={{ marginBottom: 8, display: 'block' }}
-        />
-        <Space>
-          <Button
-            type="primary"
-            onClick={() => handleSearch(selectedKeys, confirm, dataIndex)}
-            icon={<SearchOutlined />}
-            size="small"
-            style={{ width: 90 }}
-          >
-            Search
-          </Button>
-          <Button onClick={() => handleReset(clearFilters)} size="small" style={{ width: 90 }}>
-            Reset
-          </Button>
-          <Button
-            type="link"
-            size="small"
-            onClick={() => {
-              confirm({ closeDropdown: false });
-              this.setState({
-                searchText: selectedKeys[0],
-                searchedColumn: dataIndex,
-              });
-            }}
-          >
-            Filter
-          </Button>
-        </Space>
-      </div>
-    ) })
+ 
 
   return (
     <div>
@@ -180,7 +146,7 @@ const AdminRoom = ({
 
       {rooms && (
         <Table
-          dataSource={rooms}
+          dataSource={dataSource}
           rowKey="id"
           columns={[
             {
@@ -198,14 +164,13 @@ const AdminRoom = ({
               
             },
             {
-              title: 'Name',
+              title: FilterByNameInput,
               dataIndex: 'name',
               key: 'name',
               render: (text) => {
                 return <div className="text-lg overflow-hidden">{text}</div>;
               },
               width: '30%',
-             
               
             },
             {
