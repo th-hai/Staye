@@ -65,6 +65,10 @@ const AdminRoom = ({
     getOwners();
     getUsers()
   }, []);
+
+  useEffect(() => {
+    setDataSource(rooms);
+  }, [rooms])
   const [modalState, setModalState] = useState({
     visible: false,
     mode: undefined,

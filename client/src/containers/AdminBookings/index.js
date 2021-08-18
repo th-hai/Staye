@@ -27,6 +27,11 @@ const AdminBookings = ({ getBookings, bookings, showBookingModal, updateBooking 
   useEffect(() => {
     getBookings();
   }, []);
+
+  useEffect(() => {
+    setDataSource(bookings);
+  }, [bookings])
+
   const [modalState, setModalState] = useState({
     visible: false,
     mode: undefined,
@@ -52,7 +57,7 @@ const AdminBookings = ({ getBookings, bookings, showBookingModal, updateBooking 
       }}
     />
   );
-  
+
   const renderActions = (text, record) => (
     <Space className="ml-2">
       <EditOutlined

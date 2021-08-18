@@ -29,9 +29,15 @@ const AdminLocations = ({
 }) => {
   useInjectReducer({ key: locationList, reducer });
   useInjectSaga({ key: locationList, saga });
+
   useEffect(() => {
     getLocations();
   }, []);
+
+  useEffect(() => {
+    setDataSource(locations);
+  }, [locations])
+
   const [modalState, setModalState] = useState({
     visible: false,
     mode: undefined,
