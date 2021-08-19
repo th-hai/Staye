@@ -10,11 +10,17 @@ const createBooking = catchAsync(async (req, res) => {
   }
   let body = req.body
   const owner = await roomService.getOwnerByRoom(req.body.room)
+  
   if (owner[0]) {
     const value = owner[0]
     body = {...req.body, owner: value.owner }
   }
+
   const booking = await bookingService.createBooking(body);
+  const bookedDates = { from: booking.from, to: booking.to};
+  // Find booked room and add booked dates
+  const room = await roomService.addBookedDate(booking.roomId, bookedDates);
+  // addBookedDate(roomID ,bookedDate)
   res.status(httpStatus.CREATED).send(booking);
 });
 

@@ -11,6 +11,7 @@ const createRoom = {
     amenities: Joi.array().items(Joi.string()),
     price: Joi.number().required(),
     status: Joi.string().required(),
+    isFavorite: Joi.boolean(),
     owner: Joi.string().required().custom(objectId),
     location: Joi.string().required().custom(objectId)
   }),
@@ -53,6 +54,7 @@ const updateRoom = {
       amenities: Joi.array().items(Joi.string()),
       price: Joi.number(),
       status: Joi.string(),
+      isFavorite: Joi.boolean(),
       owner: Joi.string(),
       location: Joi.string()
     })

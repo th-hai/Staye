@@ -17,7 +17,6 @@ const createBooking = async (bookingBody) => {
   if (await roomIsNotAvailable(bookingBody.room ,bookingBody.from, bookingBody.to)) {
     throw new ApiError(httpStatus.BAD_REQUEST, 'The room is not available at that time');
   }
-
   const booking = await Booking.create(bookingBody);
   return booking;
 };

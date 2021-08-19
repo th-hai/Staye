@@ -38,7 +38,7 @@ const queryRooms = async (filter, options) => {
  * @param {number} [options.page] - Current page (default = 1)
  * @returns {Promise<QueryResult>}
  */
- const searchRooms = async (filter, options) => {
+const searchRooms = async (filter, options) => {
   const rooms = await Room.paginate(filter, options);
   return rooms;
 };
@@ -54,11 +54,27 @@ const getRoomById = async (id) => {
 
 /**
  * Get room by id
+ * @param {ObjectId} roomId
+ * @param {Object} bookedDate
+ * @returns {Promise<Room>}
+ */
+const addBookedDate = async (roomId, bookedDate) => {
+
+  const room = await Room.findOneAndUpdate(
+    roomId,
+    {$push: {"bookedDates": bookedDate}},
+    {new : true}
+  );
+  return room;
+};
+
+/**
+ * Get room by id
  * @param {ObjectId} id
  * @returns {Promise<Room>}
  */
 const getOwnerByRoom = async (id) => {
-  return Room.find({_id: id}, 'owner -_id')
+  return Room.find({ _id: id }, 'owner -_id')
 };
 
 /**
@@ -67,7 +83,7 @@ const getOwnerByRoom = async (id) => {
  * @returns {Promise<QueryResult>}
  */
 const getRoomsByLocation = async (location) => {
-  const rooms = await Room.find({ location: location }, 'name').sort({ name:1 });
+  const rooms = await Room.find({ location: location }, 'name').sort({ name: 1 });
   return rooms;
 }
 
@@ -77,7 +93,7 @@ const getRoomsByLocation = async (location) => {
  * @returns {Promise<QueryResult>}
  */
 const getFavoriteRooms = async () => {
-  const rooms = await Room.find().sort({_id: -1}).limit(12);
+  const rooms = await Room.find({ isFavorite: true }).limit(12);
   return rooms;
 }
 
@@ -164,4 +180,5 @@ module.exports = {
   getFavoriteRooms,
   updateRoomById,
   deleteRoomById,
+  addBookedDate
 };

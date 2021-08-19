@@ -55,6 +55,14 @@ const roomSchema = mongoose.Schema(
     location: {
       type: mongoose.SchemaTypes.ObjectId,
       ref: 'Location'
+    },
+    bookedDates: {
+      type: Array,
+      default: []
+    },
+    isFavorite: {
+      type: Boolean,
+      default: false
     }
   },
   {
