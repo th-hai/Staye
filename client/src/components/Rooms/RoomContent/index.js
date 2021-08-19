@@ -63,8 +63,13 @@ const RoomContent = (props) => {
   }
 
   function disabledDate(current) {
+    const format = 'YYYY-MM-DD'
     // Can not select days before today and today
-    return current && current < moment().endOf('day');
+    const dateBooked = [{start:'2021-08-21', end:'2021-08-25'}, {start:'2021-08-28', end:'2021-08-29'}]
+
+    return ( current && current < moment().endOf('day') ) 
+      || dateBooked.some((date) => current.isBetween(moment(date["start"], format),  moment(date["end"], format)
+    ));
   }
 
   const handleOpenPickerChange = open => {
