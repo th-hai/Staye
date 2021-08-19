@@ -1,7 +1,15 @@
 import React, { memo, useCallback, useEffect, useState } from 'react';
 import PropTypes from 'prop-types';
 import BaseModal from 'components/Modal/BaseModal';
-import { Input, Select, Upload, Modal, InputNumber, AutoComplete } from 'antd';
+import {
+  Input,
+  Select,
+  Upload,
+  Modal,
+  InputNumber,
+  AutoComplete,
+  Checkbox,
+} from 'antd';
 import { PlusOutlined } from '@ant-design/icons';
 import flow from 'lodash/fp/flow';
 import { connect } from 'react-redux';
@@ -71,6 +79,13 @@ const RoomModal = ({
   const [previewTitle, setPreviewTitle] = useState('');
   const [previewImage, setPreviewImage] = useState('');
   const [fileList, setFilelist] = useState([]);
+
+  const [checked, setChecked] = useState(false);
+
+  const options = [
+    { id: 1, name: 'Yes', value: true },
+    { id: 2, name: 'No', value: false },
+  ];
   const handleCancel = () => setPreviewvisible(false);
   const status = [
     { id: 1, state: 'Available' },
@@ -160,6 +175,7 @@ const RoomModal = ({
           };
         }
       });
+      // console.log(newValues);
       if (isAddRoom) {
         addRoom(newValues);
       } else {
@@ -167,7 +183,7 @@ const RoomModal = ({
       }
       setFilelist([]);
     },
-    [isAddRoom, addRoom, updateRoom, room, fileList]
+    [isAddRoom, addRoom, updateRoom, room, fileList, checked]
   );
 
   const onOkHandler = useCallback(() => {
@@ -182,7 +198,7 @@ const RoomModal = ({
   const afterCloseHandler = useCallback(() => {
     form.resetFields();
   }, [photoUrls]);
- 
+
   return (
     <BaseModal
       visible={roomModal.visible}
@@ -193,7 +209,7 @@ const RoomModal = ({
       afterClose={afterCloseHandler}
       width={1200}
     >
-      <StyledForm 
+      <StyledForm
         form={form}
         {...formItemLayout}
         onFinish={onFinishHandler}
@@ -295,11 +311,12 @@ const RoomModal = ({
             listHeight={100}
             disabled={isAddRoom ? false : true}
           >
-            {locations && locations.map((location) => (
-              <Option key={location.id} value={location.id}>
-                <div>{location.name}</div>
-              </Option>
-            ))}
+            {locations &&
+              locations.map((location) => (
+                <Option key={location.id} value={location.id}>
+                  <div>{location.name}</div>
+                </Option>
+              ))}
           </Select>
         </Item>
 
@@ -310,13 +327,14 @@ const RoomModal = ({
             placeholder="Select multiple amenities"
             listHeight={100}
           >
-            {amenities && amenities?.map((amenity) => (
-              <Option key={amenity.id} value={amenity.id}>
-                <div style={{ overflow: 'visible', whiteSpace: 'pre-wrap' }}>
-                  {amenity.name}
-                </div>
-              </Option>
-            ))}
+            {amenities &&
+              amenities?.map((amenity) => (
+                <Option key={amenity.id} value={amenity.id}>
+                  <div style={{ overflow: 'visible', whiteSpace: 'pre-wrap' }}>
+                    {amenity.name}
+                  </div>
+                </Option>
+              ))}
           </Select>
         </Item>
 
@@ -327,11 +345,23 @@ const RoomModal = ({
             placeholder="Select owner"
             listHeight={100}
           >
-            {owners && owners.map((owner) => (
-              <Option key={owner.id} value={owner.id}>
-                <div>{owner.email}</div>
-              </Option>
-            ))}
+            {owners &&
+              owners.map((owner) => (
+                <Option key={owner.id} value={owner.id}>
+                  <div>{owner.email}</div>
+                </Option>
+              ))}
+          </Select>
+        </Item>
+
+        <Item label="Favorite" name="isFavorite">
+          <Select mode="single">
+            {options &&
+              options.map((option) => (
+                <Option key={option.id} value={option.value}>
+                  <div>{option.name}</div>
+                </Option>
+              ))}
           </Select>
         </Item>
 

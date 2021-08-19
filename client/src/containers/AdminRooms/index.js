@@ -1,6 +1,6 @@
 import React, { useEffect, useState } from 'react';
 import PropTypes from 'prop-types';
-import { faPlus } from '@fortawesome/free-solid-svg-icons';
+import { faPlus, faStar } from '@fortawesome/free-solid-svg-icons';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { connect } from 'react-redux';
 import get from 'lodash/fp/get';
@@ -213,6 +213,14 @@ const AdminRoom = ({
               render: (maximumGuests) => (
                 <div className="pl-4">{maximumGuests}</div>
               ),
+            },
+            {
+              title: 'Favorite',
+              key: 'isFavorite',
+              dataIndex: 'isFavorite',
+              render: (isFavorite) => (
+                isFavorite ? <FontAwesomeIcon icon={faStar} color={'#F6D167'} className="ml-4"/> : undefined
+              )
             },
             {
               title: 'Actions',
