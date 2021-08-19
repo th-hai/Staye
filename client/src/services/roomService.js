@@ -2,7 +2,11 @@ import request from '../utils/request';
 import { createURLSearchParams } from 'utils/urlUtils';
 
 export function getRooms() {
-  return request.get('/v1/rooms?limit=100');
+  return request.get('/v1/rooms?limit=1000');
+}
+
+export function getFavouriteRooms() {
+  return request.get('/v1/rooms/favourite');
 }
 
 export function getRoom(id) {

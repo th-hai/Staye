@@ -61,6 +61,15 @@ const getRoomsByLocation = catchAsync(async (req, res) => {
   res.send(rooms);
 });
 
+const getFavoriteRooms = catchAsync(async (req, res) => {
+  const rooms = await roomService.getFavoriteRooms(req.params.locationId);
+
+  if (!rooms) {
+    throw new ApiError(httpStatus.NOT_FOUND, 'No favourite rooms');
+  }
+  res.send(rooms);
+});
+
 const getRoomByLocation = catchAsync(async (req, res) => {
   
   let rooms;
@@ -95,6 +104,7 @@ module.exports = {
   getRoom,
   getRoomsByLocation,
   getRoomByLocation,
+  getFavoriteRooms,
   updateRoom,
   deleteRoom,
 };

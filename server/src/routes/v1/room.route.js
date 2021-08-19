@@ -15,6 +15,10 @@ router
   .route('/search')
   .get(roomController.searchRooms)
 
+  router
+  .route('/favourite')
+  .get(roomController.getFavoriteRooms)
+
 router
   .route('/:roomId')
   .get(validate(roomValidation.getRoom), roomController.getRoom)
@@ -242,6 +246,43 @@ module.exports = router;
  *           minimum: 1
  *           default: 1
  *         description: Page number
+ *     responses:
+ *       "200":
+ *         description: OK
+ *         content:
+ *           application/json:
+ *             schema:
+ *               type: object
+ *               properties:
+ *                 results:
+ *                   type: array
+ *                   items:
+ *                     $ref: '#/components/schemas/SearchRoom'
+ *                 page:
+ *                   type: integer
+ *                   example: 1
+ *                 limit:
+ *                   type: integer
+ *                   example: 10
+ *                 totalPages:
+ *                   type: integer
+ *                   example: 1
+ *                 totalResults:
+ *                   type: integer
+ *                   example: 1
+ *       "401":
+ *         $ref: '#/components/responses/Unauthorized'
+ *       "403":
+ *         $ref: '#/components/responses/Forbidden'
+ */
+
+
+/**
+ * @swagger
+ * /rooms/favourite:
+ *   get:
+ *     summary: Get favourite rooms
+ *     tags: [Rooms]
  *     responses:
  *       "200":
  *         description: OK
