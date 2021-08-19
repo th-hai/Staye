@@ -31,8 +31,8 @@ const searchRooms = catchAsync(async (req, res) => {
     filter = { ...filter, name };
   }
   if(req.query.guests) {
-    const guests = { $gte: req.query.guests };
-    filter = { ...filter, guests };
+    const maximumGuests = { $gte: req.query.guests };
+    filter = { ...filter, maximumGuests };
   }
   let options = pick(req.query, ['sortBy', 'limit', 'page']);
   const fields = 'name maximumGuests price photos address';
