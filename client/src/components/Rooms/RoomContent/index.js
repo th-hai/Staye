@@ -18,6 +18,7 @@ const RoomContent = (props) => {
   const [inputDate, setInputDate] = useState('Select date')
   const [totalGuests, setTotalGuests] = useState(1);
   const [bookingBody, setBookingBody] = useState({});
+  const [disabledDates, setDisabledDates] = useState([]);
   const amenityMap = {
     'Wifi': faWifi,
     'TV': faTv,
@@ -60,11 +61,6 @@ const RoomContent = (props) => {
     setFromDate(null);
     setToDate(null);
     setInputDate('Select date');
-  }
-
-  function disabledDate(current) {
-    // Can not select days before today and today
-    return current && current < moment().endOf('day');
   }
 
   const handleOpenPickerChange = open => {
@@ -121,6 +117,7 @@ const RoomContent = (props) => {
 
   useEffect(() => {
     updateBody();
+    setDisabledDates(room?.bookedDates);
   }, [room, user, fromDate, toDate, totalGuests]);
 
   const onGuestsChange = (value) => {
@@ -168,7 +165,14 @@ const RoomContent = (props) => {
               <RangePicker
                 open={openDate}
                 allowClear
-                disabledDate={disabledDate}
+                disabledDate={current => {
+                  return disabledDates.some(date =>
+                    current.isBetween(
+                      moment(date["from"], "YYYY-MM-DD"),
+                      moment(date["to"], "YYYY-MM-DD")
+                    ) 
+                  ) || current && current < moment().startOf('day');
+                }}
                 value={[fromDate, toDate]}
                 style={{ visibility: 'collapse', width: 0, padding: 0 }}
                 onOpenChange={handleOpenPickerChange}

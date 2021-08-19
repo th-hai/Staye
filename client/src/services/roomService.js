@@ -40,8 +40,6 @@ export function updateRoom(id, room) {
   return request.patch(`/v1/rooms/${id}`, room);
 }
 
-
-
 export function deleteRoom(id) {
   return request.del(`/v1/rooms/${id}`);
 }

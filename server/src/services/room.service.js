@@ -60,11 +60,7 @@ const getRoomById = async (id) => {
  */
 const addBookedDate = async (roomId, bookedDate) => {
 
-  const room = await Room.findOneAndUpdate(
-    roomId,
-    {$push: {"bookedDates": bookedDate}},
-    {new : true}
-  );
+  const room = await Room.updateOne({_id: roomId}, {$push: {"bookedDates": bookedDate}});
   return room;
 };
 

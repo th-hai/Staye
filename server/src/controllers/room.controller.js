@@ -34,6 +34,12 @@ const searchRooms = catchAsync(async (req, res) => {
     const maximumGuests = { $gte: req.query.guests };
     filter = { ...filter, maximumGuests };
   }
+  // const selectedDates = { from: req.query.checkin, to: req.query.checkout }
+  // if(req.query.checkin && req.query.checkout) {
+  //   selectedDates = { from: 2021-08-21, to: 2021-08-23}
+  //   bookingDates = [ { from: 2021-08-20, to: 2021-08-22}, { from: 2021-08-23, to: 2021-08-25} ]
+  //   filter = { ...filter, maximumGuests };
+  // }
   let options = pick(req.query, ['sortBy', 'limit', 'page']);
   const fields = 'name maximumGuests price photos address';
   options = { ...options, fields }
@@ -41,6 +47,10 @@ const searchRooms = catchAsync(async (req, res) => {
     options = { ...options, sortBy: 'name'}
   }
   const result = await roomService.searchRooms(filter, options);
+  // const filterDate = result.filter(room => !room.bookingDates.some(date => {
+  //   return moment(date.from) <= moment(selectedDates.from) && moment(selectedDates.from) < moment(date.to) || 
+  //   moment(selectedDates.from) <= moment(date.from) && moment(date.from) < moment(selectedDates.to);  
+  // }))
   res.send(result);
 });
 
