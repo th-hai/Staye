@@ -18,6 +18,7 @@ const categorySchema = mongoose.Schema(
 );
 
 // add plugin that converts mongoose to json
+// Check if web editor works
 categorySchema.plugin(toJSON);
 categorySchema.plugin(paginate);
 
